@@ -1,51 +1,140 @@
+
 # GraySentinel SOC Analyst Roadmap
 
-**A structured, evidence-first learning path for Security Operations Centre (SOC) fundamentals.**
+**Security Skills. Shown, Not Claimed.**
 
-> Learn the concepts. Practise in authorised labs. Document your evidence. Build a portfolio.
+A practical, evidence-first learning roadmap for aspiring Security Operations Centre (SOC) Analysts.
 
-This public learning repository is an educational resource maintained as part of GraySentinel's open learning initiative. It is designed for beginners and early-career learners, with extension tasks for more experienced practitioners.
+Learn cybersecurity foundations, investigate security events, understand SIEM workflows, practise alert triage, and build a portfolio backed by demonstrable evidence.
 
-## Learning paths
+---
 
-| Path | Audience | Outcome |
+## About This Repository
+
+The GraySentinel SOC Analyst Roadmap is an open educational resource designed to help learners develop practical defensive security knowledge.
+
+This roadmap focuses on:
+
+- Understanding networking and operating systems.
+- Reading and analysing security logs.
+- Understanding SOC operations and alert triage.
+- Learning SIEM concepts and workflows.
+- Investigating security incidents.
+- Developing basic detection engineering skills.
+- Documenting practical work through portfolio projects.
+
+Our learning philosophy:
+
+**Mission → Execute → Evidence → Artifact → Review → Portfolio**
+
+---
+
+## Learning Roadmap
+
+| No. | Module | Learning Area |
 |---|---|---|
-| Foundation | Beginners | Networking, operating systems, logs and security basics |
-| Practitioner | Learners with foundations | Event analysis, SIEM concepts, alert triage and investigation |
-| Builder | Experienced learners | Detection content, automation and repeatable workflows |
+| 01 | Networking Foundations | TCP/IP, DNS, ports, protocols |
+| 02 | Operating Systems | Linux and Windows |
+| 03 | Security Fundamentals | Threats, vulnerabilities, security principles |
+| 04 | Log Analysis | Events, timestamps, investigation |
+| 05 | SOC Operations | Alert triage and escalation |
+| 06 | SIEM Fundamentals | Searches, dashboards and detections |
+| 07 | Incident Response | Investigation and reporting |
+| 08 | Detection Engineering | Detection logic and validation |
 
-## Suggested sequence
+Detailed module content will be maintained in the `modules/` directory.
 
-1. Networking and security foundations
-2. Linux and Windows fundamentals
-3. Logs and event analysis
-4. SOC operations and alert triage
-5. SIEM concepts and lab practice
-6. Incident investigation and reporting
-7. Detection engineering fundamentals
-8. Portfolio projects and review
+---
 
-See [ROADMAP.md](ROADMAP.md), [learning modules](modules/), [practical labs](labs/), and [projects](projects/).
+## Practical Learning
 
-## Safety and scope
+This repository will include:
 
-All practical activity must be performed in systems you own, intentionally vulnerable training environments, or systems for which you have explicit written authorisation. Do not scan, exploit, access, or collect data from third-party systems without permission. Never commit credentials, personal data, customer data, malware samples, or confidential information.
+- Guided practical exercises.
+- Safe lab scenarios.
+- Investigation worksheets.
+- Detection engineering exercises.
+- Portfolio project briefs.
+- Knowledge assessments.
+- Evidence documentation templates.
 
-This repository is educational. It does not guarantee employment, certification, or job readiness.
+All practical activities must take place in authorised environments.
 
-## Continue with GraySentinel
+---
 
-- [Explore GraySentinel programmes](https://cyberdefencelab.co.in/tracks)
-- [Take the free Skill Check](https://form.svhrt.com/69ce8645001e39939d471236)
-- [Join the Talent & Contributor Network](https://surveyheart.com/form/69c44a4912230713173b9ba7)
-- [Explore Proof Score](https://cyberdefencelab.co.in/proof-score)
+## Who Can Use This Roadmap?
 
-Participation in paid programmes or the contributor network is optional. Public learning materials remain independently accessible.
+- Cybersecurity beginners.
+- Students and recent graduates.
+- Aspiring SOC Analysts.
+- IT professionals transitioning into cybersecurity.
+- Cybersecurity learners strengthening defensive security skills.
 
-## Contribute
+---
 
-Read [CONTRIBUTING.md](CONTRIBUTING.md). Contributions are reviewed before acceptance. GCP points, badges or certificates are not automatic and may only be awarded under the applicable approved GOCP policy.
+## Portfolio Projects
 
-## Licence
+Learners will work towards projects such as:
 
-Original repository material is provided under [MIT License](LICENSE). Third-party resources remain subject to their own licences and terms.
+1. Authentication Event Investigation.
+2. Suspicious Process Analysis.
+3. SIEM Detection Rule Development.
+4. Security Incident Timeline.
+5. SOC Investigation Report.
+
+Each project should document its methodology, evidence, findings and limitations.
+
+---
+
+## Learning Resources
+
+Official documentation and reputable educational resources will be organised in the `resources/` directory.
+
+---
+
+## Contributing
+
+We welcome contributions involving:
+
+- Technical documentation.
+- Practical lab development.
+- Detection content.
+- Research.
+- Testing and quality improvements.
+- Learning resources.
+
+Read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting contributions.
+
+---
+
+## Important Notice
+
+This repository is an educational resource.
+
+It does not guarantee employment, placement, certification, internship selection or job readiness.
+
+Only perform security testing on systems you own or have explicit written authorisation to assess.
+
+---
+
+## About GraySentinel
+
+**GraySentinel Cyber Defence Lab**
+
+Philosophy: Proof Over Certificates.
+
+Website: https://cyberdefencelab.co.in
+
+Explore Programmes: https://cyberdefencelab.co.in/tracks
+
+Free Skill Check: https://form.svhrt.com/69ce8645001e39939d471236
+
+Talent & Contributor Network:
+https://surveyheart.com/form/69c44a4912230713173b9ba7
+
+Proof Score:
+https://cyberdefencelab.co.in/proof-score
+
+---
+
+**Learn Together. Build Together. Prove Together.**
