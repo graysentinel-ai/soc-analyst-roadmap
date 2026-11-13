@@ -1,4 +1,231 @@
-.DS_Store
+
+# ==========================================
+# GraySentinel SOC Analyst Roadmap
+# Git Ignore Rules
+# ==========================================
+
+
+# ------------------------------------------
+# Operating System Files
+# ------------------------------------------
+
+# Windows
 Thumbs.db
+Thumbs.db:encryptable
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Linux
+*~
+.directory
+
+
+# ------------------------------------------
+# IDE and Editor Files
+# ------------------------------------------
+
+# Visual Studio Code
+.vscode/
+
+# JetBrains IDEs
+.idea/
+*.iml
+
+# Vim
+*.swp
+*.swo
+*.swn
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+
+# Editor backups
+*.bak
+*.tmp
+*.orig
+
+
+# ------------------------------------------
+# Environment and Secret Files
+# ------------------------------------------
+
 .env
+.env.*
+!.env.example
+
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+
+# Credentials and local configuration
+credentials.json
+secrets.json
+config.local.json
+token.json
+service-account.json
+
+# SSH private keys
+id_rsa
+id_ed25519
+id_ecdsa
+
+# Local certificates
+certificates/private/
+
+
+# ------------------------------------------
+# Python Development
+# ------------------------------------------
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Python packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Testing and coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+
+# Type checking and linting
+.mypy_cache/
+.pyre/
+.ruff_cache/
+
+
+# ------------------------------------------
+# Node.js Development
+# ------------------------------------------
+
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Package manager caches
+.npm/
+.yarn/cache/
+.pnpm-store/
+
+# Build outputs
+.parcel-cache/
+.next/
+.nuxt/
+.cache/
+.turbo/
+
+
+# ------------------------------------------
+# Logs and Runtime Files
+# ------------------------------------------
+
 *.log
+logs/
+log/
+npm-debug.log*
+
+# Runtime files
+*.pid
+*.seed
+*.pid.lock
+
+# Temporary files
+temp/
+tmp/
+.cache/
+
+
+# ------------------------------------------
+# Database and Local Lab Data
+# ------------------------------------------
+
+*.sqlite
+*.sqlite3
+*.db
+
+# Local lab output
+lab-output/
+local-data/
+test-results/
+
+# Packet captures
+*.pcap
+*.pcapng
+
+# Potentially sensitive exported data
+exports/private/
+evidence/private/
+
+
+# ------------------------------------------
+# Test and Coverage Reports
+# ------------------------------------------
+
+coverage/
+reports/generated/
+playwright-report/
+test-results/
+
+
+# ------------------------------------------
+# Generated Documentation
+# ------------------------------------------
+
+_site/
+.sass-cache/
+.jekyll-cache/
+
+# Generated files
+*.min.js.map
+*.min.css.map
+
+
+# ------------------------------------------
+# Backup and Archive Files
+# ------------------------------------------
+
+*.zip
+*.7z
+*.rar
+*.tar
+*.gz
+
+# Backup directories
+backups/
+archive/local/
+
+
+# ------------------------------------------
+# Local Deployment Configuration
+# ------------------------------------------
+
+.vercel/
+.netlify/
+
+# Local hosting configuration
+.local/
+deployment.local.json
