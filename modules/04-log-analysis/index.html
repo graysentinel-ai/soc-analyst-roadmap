@@ -1,0 +1,1232 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Learn practical cybersecurity log analysis, authentication investigation, event correlation, and incident evidence collection with GraySentinel.">
+  <meta name="theme-color" content="#0B1830">
+  <title>Module 04: Log Analysis | GraySentinel</title>
+  <link rel="stylesheet" href="../../assets/css/style.css">
+  <style>
+    :root {
+      --module-bg: #f4f7fb;
+      --module-ink: #14243b;
+      --module-muted: #64748b;
+      --module-border: #dce4ed;
+      --module-navy: #0b1830;
+      --module-cyan: #18c7d8;
+      --module-orange: #f28a38;
+      --module-green: #16865b;
+      --module-red: #c43d4b;
+      --module-code: #101c2e;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--module-bg);
+      color: var(--module-ink);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.65;
+    }
+
+    a { color: #087d9a; }
+
+    .module-shell {
+      width: min(1180px, calc(100% - 36px));
+      margin: auto;
+    }
+
+    .module-topbar {
+      background: var(--module-navy);
+      color: white;
+      padding: 13px 0;
+    }
+
+    .module-topbar-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .module-brand {
+      color: white;
+      text-decoration: none;
+      font-weight: 800;
+      letter-spacing: .3px;
+    }
+
+    .module-brand span { color: var(--module-cyan); }
+
+    .module-topbar a.back-link {
+      color: #d9e7f5;
+      font-size: .9rem;
+      text-decoration: none;
+    }
+
+    .module-hero {
+      background: var(--module-navy);
+      color: white;
+      padding: 58px 0 54px;
+      border-bottom: 5px solid var(--module-cyan);
+    }
+
+    .module-hero .eyebrow {
+      color: var(--module-cyan);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .module-hero h1 {
+      max-width: 800px;
+      margin: 12px 0;
+      font-size: clamp(2.1rem, 5vw, 3.6rem);
+      line-height: 1.1;
+    }
+
+    .module-hero p {
+      max-width: 760px;
+      color: #d2ddec;
+      font-size: 1.08rem;
+    }
+
+    .module-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .module-meta span {
+      border: 1px solid #40516a;
+      border-radius: 5px;
+      padding: 6px 11px;
+      color: #e7eff8;
+      font-size: .84rem;
+    }
+
+    .module-layout {
+      display: grid;
+      grid-template-columns: 245px minmax(0, 1fr);
+      gap: 30px;
+      align-items: start;
+      padding-top: 32px;
+      padding-bottom: 64px;
+    }
+
+    .module-sidebar {
+      position: sticky;
+      top: 20px;
+      background: white;
+      border: 1px solid var(--module-border);
+      border-radius: 9px;
+      padding: 20px;
+    }
+
+    .module-sidebar h2 {
+      margin: 0 0 12px;
+      font-size: .9rem;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+    }
+
+    .module-sidebar a {
+      display: block;
+      padding: 8px 0;
+      color: #42536b;
+      font-size: .9rem;
+      text-decoration: none;
+      border-bottom: 1px solid #edf1f5;
+    }
+
+    .module-sidebar a:hover { color: #087d9a; }
+
+    .module-content { min-width: 0; }
+
+    .content-section {
+      background: white;
+      border: 1px solid var(--module-border);
+      border-radius: 9px;
+      padding: 27px;
+      margin-bottom: 22px;
+      scroll-margin-top: 20px;
+    }
+
+    .content-section h2 {
+      margin: 0 0 14px;
+      color: var(--module-navy);
+      font-size: 1.45rem;
+      line-height: 1.3;
+    }
+
+    .content-section h3 {
+      color: var(--module-navy);
+      margin: 22px 0 8px;
+      font-size: 1.08rem;
+    }
+
+    .content-section p { color: #43536a; }
+
+    .muted { color: var(--module-muted); }
+
+    .callout {
+      border-left: 4px solid var(--module-cyan);
+      background: #edfafd;
+      padding: 14px 17px;
+      border-radius: 0 6px 6px 0;
+      margin: 18px 0;
+      color: #25465a;
+    }
+
+    .warning {
+      border-left-color: var(--module-orange);
+      background: #fff6ed;
+      color: #69421e;
+    }
+
+    .concept-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 13px;
+      margin-top: 17px;
+    }
+
+    .concept-card {
+      border: 1px solid var(--module-border);
+      border-radius: 7px;
+      padding: 16px;
+      background: #fbfcfe;
+    }
+
+    .concept-card strong {
+      display: block;
+      color: var(--module-navy);
+      margin-bottom: 5px;
+    }
+
+    .concept-card p {
+      margin: 0;
+      font-size: .92rem;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin: 16px 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 560px;
+      font-size: .9rem;
+    }
+
+    th, td {
+      border: 1px solid var(--module-border);
+      padding: 11px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #edf2f7;
+      color: var(--module-navy);
+    }
+
+    code {
+      background: #edf2f7;
+      padding: 2px 5px;
+      border-radius: 3px;
+      font-size: .88em;
+    }
+
+    pre {
+      overflow-x: auto;
+      background: var(--module-code);
+      color: #d8e7f5;
+      border-radius: 7px;
+      padding: 17px;
+      font-size: .84rem;
+      line-height: 1.65;
+      white-space: pre;
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+    }
+
+    .exercise {
+      border: 1px solid var(--module-border);
+      border-radius: 8px;
+      margin: 18px 0;
+      overflow: hidden;
+    }
+
+    .exercise-header {
+      background: #edf2f7;
+      padding: 14px 17px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .exercise-header strong { color: var(--module-navy); }
+
+    .exercise-body { padding: 17px; }
+
+    .exercise-body ol, .exercise-body ul { padding-left: 21px; }
+
+    .severity {
+      display: inline-block;
+      border-radius: 4px;
+      padding: 3px 8px;
+      font-size: .75rem;
+      font-weight: 800;
+      background: #fff0d9;
+      color: #8a4b08;
+    }
+
+    .severity.high {
+      background: #fde9e9;
+      color: #a32c36;
+    }
+
+    .log-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 14px 0;
+    }
+
+    .module-button {
+      border: 0;
+      border-radius: 5px;
+      padding: 10px 15px;
+      background: var(--module-navy);
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .module-button.secondary {
+      background: #e8eef5;
+      color: var(--module-navy);
+      border: 1px solid var(--module-border);
+    }
+
+    .module-button:hover { opacity: .88; }
+
+    .filter-input, .answer-input {
+      width: 100%;
+      max-width: 440px;
+      padding: 11px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 5px;
+      font: inherit;
+      background: white;
+      color: var(--module-ink);
+    }
+
+    .log-output {
+      max-height: 340px;
+      overflow: auto;
+      background: var(--module-code);
+      color: #d8e7f5;
+      border-radius: 7px;
+      padding: 13px;
+      font: .8rem/1.7 Consolas, Monaco, monospace;
+    }
+
+    .log-line {
+      display: block;
+      padding: 3px 5px;
+      border-bottom: 1px solid #24364d;
+      overflow-wrap: anywhere;
+    }
+
+    .log-line.suspicious {
+      background: #522d34;
+      color: #ffd9d9;
+    }
+
+    .result-message {
+      min-height: 24px;
+      font-weight: 700;
+      margin-top: 10px;
+    }
+
+    .success { color: var(--module-green); }
+    .error { color: var(--module-red); }
+
+    .quiz-question {
+      padding: 16px 0;
+      border-bottom: 1px solid var(--module-border);
+    }
+
+    .quiz-question:last-child { border-bottom: 0; }
+
+    .quiz-question p {
+      color: var(--module-navy);
+      font-weight: 700;
+    }
+
+    .quiz-question label {
+      display: block;
+      padding: 5px 0;
+      color: #43536a;
+      cursor: pointer;
+    }
+
+    .quiz-question input { margin-right: 8px; }
+
+    .progress-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .progress-list li { margin: 11px 0; }
+
+    .progress-list label {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      cursor: pointer;
+    }
+
+    .progress-list input { margin-top: 6px; }
+
+    .module-progress {
+      height: 9px;
+      background: #e6edf4;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 13px 0;
+    }
+
+    .module-progress-fill {
+      height: 100%;
+      width: 0;
+      background: var(--module-green);
+      transition: width .2s ease;
+    }
+
+    .module-footer {
+      border-top: 1px solid var(--module-border);
+      padding: 24px 0;
+      color: var(--module-muted);
+      font-size: .88rem;
+    }
+
+    .next-module {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .next-module a {
+      display: inline-block;
+      background: var(--module-navy);
+      color: white;
+      text-decoration: none;
+      padding: 11px 16px;
+      border-radius: 5px;
+      font-weight: 700;
+    }
+
+    @media (max-width: 800px) {
+      .module-layout { grid-template-columns: 1fr; }
+      .module-sidebar { position: static; }
+      .module-sidebar nav {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0 15px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .module-shell { width: min(100% - 24px, 1180px); }
+      .module-hero { padding: 42px 0; }
+      .content-section { padding: 19px; }
+      .concept-grid { grid-template-columns: 1fr; }
+      .module-sidebar nav { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="module-topbar">
+  <div class="module-shell module-topbar-inner">
+    <a class="module-brand" href="../../index.html">GRAY<span>SENTINEL</span></a>
+    <a class="back-link" href="../../index.html">← Back to Cybersecurity Roadmap</a>
+  </div>
+</header>
+
+<section class="module-hero">
+  <div class="module-shell">
+    <div class="eyebrow">Cybersecurity Learning Roadmap · Module 04</div>
+    <h1>Log Analysis</h1>
+    <p>
+      Learn how to read system and security logs, recognise unusual activity,
+      connect related events, and turn raw records into an evidence-based
+      investigation.
+    </p>
+    <div class="module-meta">
+      <span>Level: Beginner to Intermediate</span>
+      <span>Focus: Defensive Security</span>
+      <span>Practice: Synthetic Logs</span>
+      <span>Evidence: Investigation Report</span>
+    </div>
+  </div>
+</section>
+
+<main class="module-shell module-layout">
+  <aside class="module-sidebar">
+    <h2>In this module</h2>
+    <nav>
+      <a href="#objectives">Learning objectives</a>
+      <a href="#foundations">Log fundamentals</a>
+      <a href="#sources">Log sources</a>
+      <a href="#investigation">Investigation workflow</a>
+      <a href="#indicators">Suspicious patterns</a>
+      <a href="#lab1">Lab 1: Authentication</a>
+      <a href="#lab2">Lab 2: Event correlation</a>
+      <a href="#lab3">Lab 3: Web logs</a>
+      <a href="#report">Investigation report</a>
+      <a href="#quiz">Knowledge check</a>
+      <a href="#evidence">Evidence checklist</a>
+      <a href="#resources">Resources</a>
+    </nav>
+  </aside>
+
+  <div class="module-content">
+
+    <section class="content-section" id="objectives">
+      <h2>1. Learning objectives</h2>
+      <p>By the end of this module, you should be able to:</p>
+      <ul>
+        <li>Explain what logs are and why security teams investigate them.</li>
+        <li>Identify common operating system, authentication, network and application log sources.</li>
+        <li>Read timestamps, event types, source addresses, usernames and outcomes.</li>
+        <li>Filter records to investigate a defined question.</li>
+        <li>Recognise patterns that may indicate suspicious activity.</li>
+        <li>Correlate multiple events into a defensible timeline.</li>
+        <li>Document findings, limitations and recommended next steps.</li>
+      </ul>
+      <div class="callout">
+        <strong>Core principle:</strong> A log entry is an observation, not a verdict.
+        Investigators need context and corroborating evidence before concluding
+        that an event represents an attack.
+      </div>
+    </section>
+
+    <section class="content-section" id="foundations">
+      <h2>2. Log analysis fundamentals</h2>
+      <p>
+        A log is a time-stamped record generated by a system, application,
+        network device or security tool. Logs help analysts reconstruct what
+        happened and when.
+      </p>
+
+      <div class="concept-grid">
+        <div class="concept-card">
+          <strong>Event</strong>
+          <p>A recorded occurrence, such as a user login or service restart.</p>
+        </div>
+        <div class="concept-card">
+          <strong>Log source</strong>
+          <p>The system or application that generated the record.</p>
+        </div>
+        <div class="concept-card">
+          <strong>Timestamp</strong>
+          <p>The recorded time of an event. Time zone and clock accuracy matter.</p>
+        </div>
+        <div class="concept-card">
+          <strong>Event context</strong>
+          <p>Related details such as user, host, source IP, process or result.</p>
+        </div>
+        <div class="concept-card">
+          <strong>Correlation</strong>
+          <p>Connecting multiple records using time, identity, host or other fields.</p>
+        </div>
+        <div class="concept-card">
+          <strong>Timeline</strong>
+          <p>A chronological sequence of relevant observations and findings.</p>
+        </div>
+      </div>
+
+      <h3>Common log fields</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Field</th><th>Meaning</th><th>Investigation use</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>timestamp</code></td><td>When the event was recorded</td><td>Build a timeline and compare events</td></tr>
+            <tr><td><code>hostname</code></td><td>System that generated the event</td><td>Identify the affected endpoint or server</td></tr>
+            <tr><td><code>username</code></td><td>Account associated with the event</td><td>Trace account activity</td></tr>
+            <tr><td><code>source_ip</code></td><td>Origin address recorded by the source</td><td>Group activity by source</td></tr>
+            <tr><td><code>event_type</code></td><td>Kind of recorded activity</td><td>Filter relevant activity</td></tr>
+            <tr><td><code>status</code></td><td>Outcome such as success or failure</td><td>Compare failed and successful actions</td></tr>
+            <tr><td><code>process</code></td><td>Process associated with the event</td><td>Investigate process execution</td></tr>
+            <tr><td><code>message</code></td><td>Human-readable event details</td><td>Understand the recorded action</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Raw logs and structured logs</h3>
+      <p>
+        Raw logs may be plain text with inconsistent formats. Structured logs
+        organise information into predictable fields, often using JSON or
+        key-value pairs. Structured fields make filtering and correlation easier.
+      </p>
+      <pre><code>{
+  "timestamp": "2026-10-14T09:15:22Z",
+  "hostname": "workstation-07",
+  "username": "analyst01",
+  "event_type": "authentication",
+  "source_ip": "192.0.2.45",
+  "status": "failure",
+  "message": "Invalid password"
+}</code></pre>
+
+      <div class="callout warning">
+        <strong>Time matters:</strong> Do not assume every system uses the same
+        time zone or has a correctly synchronised clock. Record the time zone,
+        source and any known clock offset before building a timeline.
+      </div>
+    </section>
+
+    <section class="content-section" id="sources">
+      <h2>3. Common log sources</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Source</th><th>Examples of recorded activity</th><th>Questions to investigate</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Windows Event Logs</td>
+              <td>Logons, account changes, services, process-related events</td>
+              <td>Which account logged in? Was access successful?</td>
+            </tr>
+            <tr>
+              <td>Linux authentication logs</td>
+              <td>SSH attempts, authentication outcomes, privilege use</td>
+              <td>Were there repeated failures or unexpected access?</td>
+            </tr>
+            <tr>
+              <td>Web server logs</td>
+              <td>HTTP requests, response codes, requested paths, client addresses</td>
+              <td>Were sensitive paths accessed or unusual requests made?</td>
+            </tr>
+            <tr>
+              <td>Firewall logs</td>
+              <td>Allowed or denied connections, source and destination details</td>
+              <td>Was unexpected network traffic recorded?</td>
+            </tr>
+            <tr>
+              <td>DNS logs</td>
+              <td>Domain queries and responses</td>
+              <td>Were unusual domains queried?</td>
+            </tr>
+            <tr>
+              <td>Endpoint security logs</td>
+              <td>Alerts, detections, process and file activity</td>
+              <td>What triggered the alert and what evidence supports it?</td>
+            </tr>
+            <tr>
+              <td>Cloud audit logs</td>
+              <td>Sign-ins, API calls, resource and permission changes</td>
+              <td>Who changed a resource or permission, and when?</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Different products use different event identifiers and field names.
+        Learn to interpret the source documentation rather than assuming one
+        event ID means the same thing everywhere.
+      </p>
+    </section>
+
+    <section class="content-section" id="investigation">
+      <h2>4. A repeatable investigation workflow</h2>
+      <ol>
+        <li><strong>Define the question.</strong> State what you are trying to establish.</li>
+        <li><strong>Identify the source.</strong> Record which systems and log files are available.</li>
+        <li><strong>Preserve the evidence.</strong> Keep original files unchanged and work on copies.</li>
+        <li><strong>Check time context.</strong> Record time zone, clock accuracy and relevant time range.</li>
+        <li><strong>Filter the data.</strong> Narrow by user, host, source, event type or time.</li>
+        <li><strong>Find patterns.</strong> Look for unusual sequences, frequency, timing and outcomes.</li>
+        <li><strong>Correlate events.</strong> Compare relevant records across available sources.</li>
+        <li><strong>Build a timeline.</strong> Put observations in chronological order.</li>
+        <li><strong>State findings carefully.</strong> Separate facts, interpretations and unknowns.</li>
+        <li><strong>Recommend next steps.</strong> Identify what should be checked or contained by an authorised team.</li>
+      </ol>
+
+      <div class="callout">
+        <strong>Evidence discipline:</strong> Preserve the original log, record
+        the file name and collection time, and document any filtering or
+        transformation. Do not silently discard records that contradict an
+        initial theory.
+      </div>
+    </section>
+
+    <section class="content-section" id="indicators">
+      <h2>5. Patterns worth investigating</h2>
+      <p>These patterns can justify further investigation. None proves malicious activity by itself.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Pattern</th><th>What you might observe</th><th>What to validate</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Repeated authentication failures</td>
+              <td>Many failed logins for one or more accounts</td>
+              <td>Source, frequency, affected accounts and normal user behaviour</td>
+            </tr>
+            <tr>
+              <td>Failure followed by success</td>
+              <td>Several failed attempts followed by a successful login</td>
+              <td>Whether the successful session is expected and authorised</td>
+            </tr>
+            <tr>
+              <td>Unusual login time</td>
+              <td>Authentication outside a user's normal pattern</td>
+              <td>Shift schedules, travel, automation and time-zone context</td>
+            </tr>
+            <tr>
+              <td>Unexpected privilege change</td>
+              <td>Account added to a privileged group or role</td>
+              <td>Change request, actor, approval and business reason</td>
+            </tr>
+            <tr>
+              <td>Unusual web requests</td>
+              <td>Repeated requests to sensitive or unexpected paths</td>
+              <td>HTTP status, request context, application behaviour and source</td>
+            </tr>
+            <tr>
+              <td>Unexpected outbound activity</td>
+              <td>Connection to an unusual destination</td>
+              <td>Asset role, approved services, DNS and firewall context</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Useful analysis concepts</h3>
+      <ul>
+        <li><strong>Frequency:</strong> How often does an event occur?</li>
+        <li><strong>Baseline:</strong> What is normal for this user, host or service?</li>
+        <li><strong>Sequence:</strong> What happened immediately before and after?</li>
+        <li><strong>Scope:</strong> How many accounts, systems or services are involved?</li>
+        <li><strong>Confidence:</strong> How strongly does the available evidence support the conclusion?</li>
+      </ul>
+    </section>
+
+    <section class="content-section" id="lab1">
+      <h2>6. Practical Lab 1: Authentication log investigation</h2>
+      <p>
+        <span class="severity high">Investigation exercise</span>
+        Work with the synthetic authentication records below. Identify repeated
+        failures and determine whether a later successful login needs further review.
+      </p>
+
+      <div class="exercise">
+        <div class="exercise-header">
+          <strong>Scenario: Unusual account activity</strong>
+          <span class="muted">Synthetic dataset · UTC</span>
+        </div>
+        <div class="exercise-body">
+          <p>
+            An internal monitoring alert reports repeated failed authentication
+            attempts against the account <code>analyst01</code>. Your task is to
+            inspect the records and describe what they show.
+          </p>
+          <label for="authFilter"><strong>Filter records</strong></label><br>
+          <input class="filter-input" id="authFilter" type="search"
+                 placeholder="Try: analyst01, failure, success, 192.0.2.45">
+          <div class="log-controls">
+            <button class="module-button" id="showAllAuth" type="button">Show all</button>
+            <button class="module-button secondary" id="showFailures" type="button">Show failures</button>
+            <button class="module-button secondary" id="showSuccess" type="button">Show successes</button>
+          </div>
+          <div class="log-output" id="authLogs" aria-live="polite"></div>
+          <h3>Investigation questions</h3>
+          <ol>
+            <li>How many failed attempts are recorded for <code>analyst01</code>?</li>
+            <li>Which source address appears in those failed attempts?</li>
+            <li>Is there a successful login after the failures?</li>
+            <li>What additional evidence would you request before concluding that the account was compromised?</li>
+          </ol>
+          <p class="muted">
+            Hint: Compare timestamps, username, source address and authentication outcome.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section" id="lab2">
+      <h2>7. Practical Lab 2: Event correlation and timeline</h2>
+      <p>
+        A single log source rarely tells the whole story. In this exercise,
+        compare authentication, account-management and endpoint observations.
+      </p>
+
+      <div class="exercise">
+        <div class="exercise-header">
+          <strong>Scenario: Account activity followed by a configuration change</strong>
+          <span class="muted">Synthetic dataset · UTC</span>
+        </div>
+        <div class="exercise-body">
+          <pre><code>2026-10-14T09:14:02Z AUTH host=WS-07 user=analyst01 status=failure src=192.0.2.45
+2026-10-14T09:14:18Z AUTH host=WS-07 user=analyst01 status=failure src=192.0.2.45
+2026-10-14T09:14:41Z AUTH host=WS-07 user=analyst01 status=success src=192.0.2.45
+2026-10-14T09:19:05Z ACCOUNT host=WS-07 actor=analyst01 action=group_change target=ops-admin
+2026-10-14T09:22:10Z ENDPOINT host=WS-07 event=process_start name=admin_tool.exe user=analyst01
+2026-10-14T09:25:33Z AUTH host=WS-07 user=analyst01 status=success src=192.0.2.45</code></pre>
+
+          <h3>Your analysis</h3>
+          <ol>
+            <li>Put the six events in chronological order.</li>
+            <li>Identify the sequence that deserves the highest priority for review.</li>
+            <li>Which event records an account or group change?</li>
+            <li>What would you verify about <code>admin_tool.exe</code>?</li>
+            <li>What evidence is missing before you can confirm unauthorised activity?</li>
+          </ol>
+          <div class="callout warning">
+            The records show a sequence that deserves investigation. They do not
+            establish that the account was compromised or that the tool was malicious.
+            Validate the change approval, process details and session context.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section" id="lab3">
+      <h2>8. Practical Lab 3: Web server log analysis</h2>
+      <p>
+        Review this synthetic access-log sample. Look for repeated requests,
+        unusual paths and response patterns.
+      </p>
+
+      <div class="exercise">
+        <div class="exercise-header">
+          <strong>Scenario: Unexpected web requests</strong>
+          <span class="muted">Synthetic access log</span>
+        </div>
+        <div class="exercise-body">
+          <pre><code>192.0.2.80 - - [14/Oct/2026:10:00:01 +0000] "GET / HTTP/1.1" 200
+192.0.2.80 - - [14/Oct/2026:10:00:04 +0000] "GET /login HTTP/1.1" 200
+192.0.2.80 - - [14/Oct/2026:10:00:08 +0000] "POST /login HTTP/1.1" 401
+192.0.2.80 - - [14/Oct/2026:10:00:11 +0000] "POST /login HTTP/1.1" 401
+192.0.2.80 - - [14/Oct/2026:10:00:15 +0000] "GET /admin HTTP/1.1" 403
+192.0.2.80 - - [14/Oct/2026:10:00:19 +0000] "GET /robots.txt HTTP/1.1" 200
+192.0.2.80 - - [14/Oct/2026:10:00:23 +0000] "GET /dashboard HTTP/1.1" 200</code></pre>
+
+          <h3>Questions</h3>
+          <ol>
+            <li>Which requests returned an authentication or access-related error?</li>
+            <li>What does HTTP 401 generally indicate?</li>
+            <li>What does HTTP 403 generally indicate?</li>
+            <li>Why should the final dashboard request be checked in context?</li>
+            <li>What application-side logs would help confirm what happened?</li>
+          </ol>
+          <p>
+            Remember: an HTTP status code describes the server's response.
+            It does not independently establish the intent of the requester.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section" id="report">
+      <h2>9. Build an investigation report</h2>
+      <p>
+        Your report should allow another analyst to understand what you checked,
+        what you found and what remains unknown.
+      </p>
+
+      <h3>Recommended report structure</h3>
+      <ol>
+        <li><strong>Case summary:</strong> A short description of the investigation question.</li>
+        <li><strong>Scope:</strong> Systems, accounts, data sources and time range reviewed.</li>
+        <li><strong>Method:</strong> Filters, queries and analysis steps used.</li>
+        <li><strong>Observations:</strong> Facts directly supported by the records.</li>
+        <li><strong>Timeline:</strong> Relevant events in chronological order.</li>
+        <li><strong>Assessment:</strong> Your interpretation and confidence level.</li>
+        <li><strong>Limitations:</strong> Missing logs, clock uncertainty or unavailable context.</li>
+        <li><strong>Recommendations:</strong> Specific next checks or authorised response actions.</li>
+        <li><strong>Evidence references:</strong> File names, record identifiers and supporting extracts.</li>
+      </ol>
+
+      <div class="callout">
+        <strong>Writing rule:</strong> Use phrases such as “the logs show” for
+        observations and “this may indicate” for interpretations. Avoid declaring
+        an account compromised unless the evidence supports that conclusion.
+      </div>
+
+      <h3>Example finding</h3>
+      <pre><code>Observation:
+Three failed authentication attempts were recorded for analyst01
+from 192.0.2.45, followed by a successful authentication.
+
+Interpretation:
+The sequence may indicate repeated password guessing or a user
+entering an incorrect password. The available records do not
+establish which explanation is correct.
+
+Next checks:
+Review session details, MFA records, endpoint telemetry, account
+owner confirmation and any related access events.</code></pre>
+
+      <h3>Suggested portfolio structure</h3>
+      <pre><code>log-analysis-investigation/
+├── README.md
+├── evidence/
+│   ├── source-log-sample.txt
+│   ├── filtered-events.txt
+│   └── timeline.csv
+├── analysis/
+│   ├── investigation-notes.md
+│   └── queries-or-filters.md
+└── report/
+    └── investigation-report.md</code></pre>
+      <p class="muted">
+        Use synthetic or properly authorised data. Remove secrets, personal
+        information and internal identifiers before publishing a portfolio.
+      </p>
+    </section>
+
+    <section class="content-section" id="quiz">
+      <h2>10. Knowledge check</h2>
+      <p>Choose one answer for each question, then submit your responses.</p>
+
+      <form id="moduleQuiz">
+        <div class="quiz-question">
+          <p>1. What is the primary purpose of log analysis?</p>
+          <label><input type="radio" name="q1" value="a"> To delete old system records</label>
+          <label><input type="radio" name="q1" value="b"> To investigate recorded activity and identify relevant patterns</label>
+          <label><input type="radio" name="q1" value="c"> To guarantee that a system is secure</label>
+        </div>
+
+        <div class="quiz-question">
+          <p>2. Which field helps establish when an event occurred?</p>
+          <label><input type="radio" name="q2" value="a"> timestamp</label>
+          <label><input type="radio" name="q2" value="b"> hostname</label>
+          <label><input type="radio" name="q2" value="c"> process</label>
+        </div>
+
+        <div class="quiz-question">
+          <p>3. What should you check before correlating timestamps from different systems?</p>
+          <label><input type="radio" name="q3" value="a"> Font size</label>
+          <label><input type="radio" name="q3" value="b"> Time zone and clock accuracy</label>
+          <label><input type="radio" name="q3" value="c"> File extension only</label>
+        </div>
+
+        <div class="quiz-question">
+          <p>4. Does one failed login prove an attack?</p>
+          <label><input type="radio" name="q4" value="a"> Yes, always</label>
+          <label><input type="radio" name="q4" value="b"> No, it needs context and further investigation</label>
+          <label><input type="radio" name="q4" value="c"> Only on Linux</label>
+        </div>
+
+        <div class="quiz-question">
+          <p>5. What is event correlation?</p>
+          <label><input type="radio" name="q5" value="a"> Connecting related records using shared context</label>
+          <label><input type="radio" name="q5" value="b"> Removing duplicate files without review</label>
+          <label><input type="radio" name="q5" value="c"> Changing event timestamps</label>
+        </div>
+
+        <div class="quiz-question">
+          <p>6. What does HTTP 403 generally indicate?</p>
+          <label><input type="radio" name="q6" value="a"> The request was forbidden</label>
+          <label><input type="radio" name="q6" value="b"> The server returned a successful response</label>
+          <label><input type="radio" name="q6" value="c"> The client disconnected from Wi-Fi</label>
+        </div>
+
+        <div class="quiz-question">
+          <p>7. Which statement is the strongest evidence-based report wording?</p>
+          <label><input type="radio" name="q7" value="a"> The user is definitely a criminal</label>
+          <label><input type="radio" name="q7" value="b"> The logs record three failed attempts followed by a successful login</label>
+          <label><input type="radio" name="q7" value="c"> The system was definitely hacked</label>
+        </div>
+
+        <div class="quiz-question">
+          <p>8. What should happen to original evidence files?</p>
+          <label><input type="radio" name="q8" value="a"> Edit them directly during analysis</label>
+          <label><input type="radio" name="q8" value="b"> Preserve them unchanged and analyse working copies</label>
+          <label><input type="radio" name="q8" value="c"> Delete them after filtering</label>
+        </div>
+
+        <div class="log-controls">
+          <button class="module-button" type="submit">Submit answers</button>
+          <button class="module-button secondary" type="reset" id="resetQuiz">Reset</button>
+        </div>
+        <div class="result-message" id="quizResult" role="status" aria-live="polite"></div>
+      </form>
+    </section>
+
+    <section class="content-section" id="evidence">
+      <h2>11. Module completion checklist</h2>
+      <p>Track your own progress through the learning activities.</p>
+      <div class="module-progress">
+        <div class="module-progress-fill" id="progressFill"></div>
+      </div>
+      <p id="progressText" class="muted">0 of 8 activities completed</p>
+
+      <ul class="progress-list" id="progressList">
+        <li><label><input type="checkbox" data-module-progress="1"> I can explain common log fields and log sources.</label></li>
+        <li><label><input type="checkbox" data-module-progress="2"> I can explain why time zones and clock accuracy matter.</label></li>
+        <li><label><input type="checkbox" data-module-progress="3"> I completed the authentication log investigation.</label></li>
+        <li><label><input type="checkbox" data-module-progress="4"> I created a chronological event timeline.</label></li>
+        <li><label><input type="checkbox" data-module-progress="5"> I reviewed the synthetic web access logs.</label></li>
+        <li><label><input type="checkbox" data-module-progress="6"> I separated observations from interpretations.</label></li>
+        <li><label><input type="checkbox" data-module-progress="7"> I prepared an investigation report.</label></li>
+        <li><label><input type="checkbox" data-module-progress="8"> I reviewed my quiz results and corrected mistakes.</label></li>
+      </ul>
+
+      <div class="callout warning">
+        This checklist is a local, self-reported learning aid. It does not
+        independently verify your technical ability or certify module completion.
+      </div>
+
+      <h3>Submission evidence</h3>
+      <ul>
+        <li>Authentication investigation notes with answers.</li>
+        <li>Event correlation timeline.</li>
+        <li>Web log analysis notes.</li>
+        <li>Investigation report with observations and limitations.</li>
+        <li>Relevant queries or filtering steps.</li>
+      </ul>
+    </section>
+
+    <section class="content-section" id="resources">
+      <h2>12. Further learning resources</h2>
+      <ul>
+        <li><a href="https://learn.microsoft.com/en-us/windows/security/operating-system-security/device-management/use-windows-event-forwarding-to-assist-in-intrusion-detection" target="_blank" rel="noopener noreferrer">Microsoft: Windows Event Forwarding for intrusion detection</a></li>
+        <li><a href="https://www.elastic.co/guide/en/ecs/current/index.html" target="_blank" rel="noopener noreferrer">Elastic Common Schema documentation</a></li>
+        <li><a href="https://docs.splunk.com/Documentation/Splunk/latest/SearchReference/WhatsInThisManual" target="_blank" rel="noopener noreferrer">Splunk Search Reference</a></li>
+        <li><a href="https://www.rfc-editor.org/rfc/rfc5424" target="_blank" rel="noopener noreferrer">RFC 5424: The Syslog Protocol</a></li>
+        <li><a href="https://attack.mitre.org/" target="_blank" rel="noopener noreferrer">MITRE ATT&CK knowledge base</a></li>
+        <li><a href="https://www.nist.gov/cyberframework" target="_blank" rel="noopener noreferrer">NIST Cybersecurity Framework</a></li>
+        <li><a href="https://www.cisa.gov/resources-tools/resources/logging-made-easy" target="_blank" rel="noopener noreferrer">CISA: Logging Made Easy</a></li>
+      </ul>
+    </section>
+
+    <div class="content-section next-module">
+      <div>
+        <strong>Module 04 complete?</strong>
+        <p class="muted">Next: Module 05, Network Security Fundamentals.</p>
+      </div>
+      <a href="../05-network-security/">Continue to Module 05 →</a>
+    </div>
+
+  </div>
+</main>
+
+<footer class="module-footer">
+  <div class="module-shell">
+    <div class="next-module">
+      <span>GraySentinel Cyber Defence Lab · Proof Over Certificates</span>
+      <a href="../../index.html">Roadmap home</a>
+    </div>
+    <p>Security Skills. Shown, Not Claimed.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  const authData = [
+    { time: "2026-10-14T09:14:02Z", host: "WS-07", user: "analyst01", source: "192.0.2.45", status: "failure", message: "Invalid password" },
+    { time: "2026-10-14T09:14:18Z", host: "WS-07", user: "analyst01", source: "192.0.2.45", status: "failure", message: "Invalid password" },
+    { time: "2026-10-14T09:14:41Z", host: "WS-07", user: "analyst01", source: "192.0.2.45", status: "success", message: "Authentication successful" },
+    { time: "2026-10-14T09:18:03Z", host: "WS-12", user: "user02", source: "192.0.2.80", status: "failure", message: "Invalid password" },
+    { time: "2026-10-14T09:19:05Z", host: "WS-07", user: "analyst01", source: "192.0.2.45", status: "success", message: "Session token issued" },
+    { time: "2026-10-14T09:25:33Z", host: "WS-07", user: "analyst01", source: "192.0.2.45", status: "success", message: "Session activity recorded" }
+  ];
+
+  const authLogs = document.getElementById("authLogs");
+  const authFilter = document.getElementById("authFilter");
+  let authMode = "all";
+
+  function renderAuthLogs() {
+    if (!authLogs) return;
+
+    const query = (authFilter.value || "").trim().toLowerCase();
+    const filtered = authData.filter(function (item) {
+      const matchesMode = authMode === "all" || item.status === authMode;
+      const searchable = Object.values(item).join(" ").toLowerCase();
+      return matchesMode && searchable.includes(query);
+    });
+
+    authLogs.replaceChildren();
+
+    if (!filtered.length) {
+      const empty = document.createElement("span");
+      empty.className = "log-line";
+      empty.textContent = "No matching records.";
+      authLogs.appendChild(empty);
+      return;
+    }
+
+    filtered.forEach(function (item) {
+      const line = document.createElement("span");
+      line.className = "log-line" + (item.status === "failure" ? " suspicious" : "");
+      line.textContent =
+        item.time + " | host=" + item.host +
+        " | user=" + item.user +
+        " | src=" + item.source +
+        " | status=" + item.status +
+        " | " + item.message;
+      authLogs.appendChild(line);
+    });
+  }
+
+  if (authLogs && authFilter) {
+    authFilter.addEventListener("input", renderAuthLogs);
+
+    document.getElementById("showAllAuth").addEventListener("click", function () {
+      authMode = "all";
+      renderAuthLogs();
+    });
+
+    document.getElementById("showFailures").addEventListener("click", function () {
+      authMode = "failure";
+      renderAuthLogs();
+    });
+
+    document.getElementById("showSuccess").addEventListener("click", function () {
+      authMode = "success";
+      renderAuthLogs();
+    });
+
+    renderAuthLogs();
+  }
+
+  const quizAnswers = {
+    q1: "b",
+    q2: "a",
+    q3: "b",
+    q4: "b",
+    q5: "a",
+    q6: "a",
+    q7: "b",
+    q8: "b"
+  };
+
+  const quizForm = document.getElementById("moduleQuiz");
+  const quizResult = document.getElementById("quizResult");
+
+  if (quizForm && quizResult) {
+    quizForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      let score = 0;
+      let unanswered = 0;
+
+      Object.keys(quizAnswers).forEach(function (question) {
+        const selected = quizForm.querySelector(
+          'input[name="' + question + '"]:checked'
+        );
+
+        if (!selected) {
+          unanswered++;
+        } else if (selected.value === quizAnswers[question]) {
+          score++;
+        }
+      });
+
+      if (unanswered > 0) {
+        quizResult.className = "result-message error";
+        quizResult.textContent =
+          "Please answer all " + Object.keys(quizAnswers).length +
+          " questions. Unanswered: " + unanswered + ".";
+        return;
+      }
+
+      quizResult.className =
+        "result-message " + (score >= 6 ? "success" : "error");
+
+      quizResult.textContent =
+        "Your score: " + score + "/8. " +
+        (score >= 6
+          ? "Good work. Review any incorrect answers before moving on."
+          : "Revisit the relevant sections and try again.");
+    });
+
+    quizForm.addEventListener("reset", function () {
+      quizResult.textContent = "";
+      quizResult.className = "result-message";
+    });
+  }
+
+  const progressItems = Array.from(
+    document.querySelectorAll("[data-module-progress]")
+  );
+  const progressFill = document.getElementById("progressFill");
+  const progressText = document.getElementById("progressText");
+  const storageKey = "graysentinel-module-04-progress";
+
+  function updateProgress() {
+    const completed = progressItems.filter(function (item) {
+      return item.checked;
+    }).length;
+
+    const total = progressItems.length;
+    const percentage = total ? (completed / total) * 100 : 0;
+
+    if (progressFill) progressFill.style.width = percentage + "%";
+    if (progressText) {
+      progressText.textContent =
+        completed + " of " + total + " activities completed";
+    }
+
+    try {
+      localStorage.setItem(
+        storageKey,
+        JSON.stringify(progressItems.map(function (item) {
+          return item.checked;
+        }))
+      );
+    } catch (error) {
+      // Progress still works for the current page session.
+    }
+  }
+
+  try {
+    const saved = JSON.parse(localStorage.getItem(storageKey) || "null");
+
+    if (Array.isArray(saved)) {
+      progressItems.forEach(function (item, index) {
+        item.checked = saved[index] === true;
+      });
+    }
+  } catch (error) {
+    // Continue without saved progress if browser storage is unavailable.
+  }
+
+  progressItems.forEach(function (item) {
+    item.addEventListener("change", updateProgress);
+  });
+
+  updateProgress();
+})();
+</script>
+</body>
+</html>
