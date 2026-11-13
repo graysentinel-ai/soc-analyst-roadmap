@@ -1,0 +1,2497 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Security Fundamentals | GraySentinel SOC Analyst Roadmap</title>
+
+  <meta name="description" content="Learn cybersecurity fundamentals for SOC Analysts. Explore CIA triad, authentication, access control, threats, vulnerabilities, risk, indicators of compromise and MITRE ATT&CK.">
+
+  <meta name="keywords" content="Cybersecurity Fundamentals, SOC Analyst, CIA Triad, Security Threats, Vulnerability, Risk, MITRE ATT&CK, Blue Team, GraySentinel">
+
+  <meta name="author" content="GraySentinel Cyber Defence Lab">
+  <meta name="theme-color" content="#0B1830">
+
+  <link rel="stylesheet" href="../../assets/css/style.css">
+
+  <style>
+    :root {
+      --navy: #0B1830;
+      --navy-light: #142746;
+      --cyan: #18C7D8;
+      --orange: #F28A38;
+      --bg: #F5F8FC;
+      --white: #FFFFFF;
+      --text: #24344D;
+      --muted: #65758B;
+      --border: #DFE6EF;
+      --green: #18865B;
+      --code: #101D32;
+      --radius: 12px;
+      --shadow: 0 5px 20px rgba(11, 24, 48, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 90px;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.7;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .module-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-inner {
+      max-width: 1180px;
+      min-height: 70px;
+      padding: 12px 24px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--navy);
+      text-decoration: none;
+      font-weight: 800;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      background: var(--navy);
+      color: var(--cyan);
+      font-weight: 800;
+    }
+
+    .brand small {
+      display: block;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: 1px;
+    }
+
+    .header-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .header-links a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    .header-links a:hover {
+      color: var(--navy);
+    }
+
+    .module-hero {
+      background: var(--navy);
+      color: white;
+      padding: 66px 24px 58px;
+    }
+
+    .hero-inner {
+      max-width: 1120px;
+      margin: auto;
+    }
+
+    .breadcrumb {
+      margin-bottom: 24px;
+      color: #B5C4D8;
+      font-size: 13px;
+    }
+
+    .breadcrumb a {
+      color: var(--cyan);
+      text-decoration: none;
+    }
+
+    .module-label {
+      display: inline-block;
+      padding: 6px 11px;
+      border: 1px solid rgba(24, 199, 216, 0.5);
+      border-radius: 5px;
+      color: var(--cyan);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .module-hero h1 {
+      max-width: 780px;
+      margin: 18px 0 14px;
+      font-size: clamp(34px, 5vw, 54px);
+      line-height: 1.12;
+      letter-spacing: -1.8px;
+    }
+
+    .hero-description {
+      max-width: 720px;
+      color: #D1DBE9;
+      font-size: 17px;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 22px;
+      margin-top: 28px;
+      color: #D1DBE9;
+      font-size: 13px;
+    }
+
+    .hero-meta strong {
+      color: white;
+    }
+
+    .module-layout {
+      max-width: 1180px;
+      margin: 36px auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 250px minmax(0, 1fr);
+      align-items: start;
+      gap: 28px;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 94px;
+      padding: 20px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .sidebar h3 {
+      margin: 0 0 14px;
+      color: var(--navy);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+    }
+
+    .sidebar nav a {
+      display: block;
+      padding: 8px 10px;
+      margin: 3px 0;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13px;
+      border-radius: 6px;
+    }
+
+    .sidebar nav a:hover {
+      background: #EDF8FA;
+      color: var(--navy);
+    }
+
+    .sidebar nav a.active {
+      background: #E6F8FA;
+      color: var(--navy);
+      font-weight: 800;
+      border-left: 3px solid var(--cyan);
+    }
+
+    .sidebar-divider {
+      height: 1px;
+      margin: 15px 0;
+      background: var(--border);
+    }
+
+    .sidebar-note {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .content {
+      min-width: 0;
+    }
+
+    .content-section {
+      margin-bottom: 22px;
+      padding: 28px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .section-kicker {
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .content-section h2 {
+      margin: 5px 0 16px;
+      color: var(--navy);
+      font-size: 25px;
+      line-height: 1.3;
+    }
+
+    .content-section h3 {
+      margin: 26px 0 10px;
+      color: var(--navy);
+      font-size: 18px;
+    }
+
+    .content-section h4 {
+      margin: 18px 0 7px;
+      color: var(--navy);
+      font-size: 15px;
+    }
+
+    .content-section p {
+      color: var(--text);
+    }
+
+    .content-section ul,
+    .content-section ol {
+      padding-left: 23px;
+    }
+
+    .content-section li {
+      margin: 7px 0;
+    }
+
+    .info-box {
+      margin: 20px 0;
+      padding: 17px 18px;
+      border-left: 4px solid var(--cyan);
+      border-radius: 5px;
+      background: #EDF9FB;
+    }
+
+    .info-box strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--navy);
+    }
+
+    .warning-box {
+      margin: 20px 0;
+      padding: 17px 18px;
+      border-left: 4px solid var(--orange);
+      border-radius: 5px;
+      background: #FFF5EB;
+    }
+
+    .warning-box strong {
+      display: block;
+      margin-bottom: 5px;
+      color: #85430D;
+    }
+
+    .topic-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 13px;
+      margin-top: 18px;
+    }
+
+    .topic-card {
+      padding: 17px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: #FCFDFE;
+    }
+
+    .topic-card strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--navy);
+    }
+
+    .topic-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .data-table {
+      width: 100%;
+      margin: 18px 0;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .data-table th,
+    .data-table td {
+      padding: 12px;
+      text-align: left;
+      border: 1px solid var(--border);
+    }
+
+    .data-table th {
+      background: #EDF2F8;
+      color: var(--navy);
+    }
+
+    .data-table tr:nth-child(even) td {
+      background: #FAFBFD;
+    }
+
+    .code-block {
+      overflow-x: auto;
+      margin: 14px 0;
+      padding: 18px;
+      border-radius: 8px;
+      background: var(--code);
+      color: #D8E8F6;
+      font-family: Consolas, Monaco, monospace;
+      font-size: 13px;
+      line-height: 1.8;
+      white-space: pre;
+    }
+
+    .workflow {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin: 22px 0;
+    }
+
+    .workflow-item {
+      padding: 15px 10px;
+      text-align: center;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #FAFCFE;
+    }
+
+    .workflow-item strong {
+      display: block;
+      color: var(--navy);
+      font-size: 13px;
+    }
+
+    .workflow-item span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .exercise {
+      margin: 18px 0;
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+    }
+
+    .exercise-label {
+      display: inline-block;
+      margin-bottom: 9px;
+      padding: 4px 8px;
+      background: #E6F8FA;
+      color: #11616B;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .exercise h3 {
+      margin: 0 0 10px;
+    }
+
+    .task-list {
+      list-style: none;
+      padding: 0 !important;
+    }
+
+    .task-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin: 11px 0;
+    }
+
+    .task-list input {
+      width: 17px;
+      height: 17px;
+      margin-top: 4px;
+      accent-color: var(--green);
+      flex-shrink: 0;
+    }
+
+    .quiz-question {
+      margin: 22px 0;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+    }
+
+    .quiz-question p {
+      margin-top: 0;
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    .quiz-question label {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      margin: 11px 0;
+      color: var(--text);
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .quiz-question input {
+      margin-top: 5px;
+      accent-color: var(--green);
+    }
+
+    .primary-button {
+      display: inline-block;
+      padding: 12px 19px;
+      border: 0;
+      border-radius: 6px;
+      background: var(--navy);
+      color: white;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .primary-button:hover {
+      background: var(--navy-light);
+    }
+
+    .quiz-result {
+      display: none;
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 8px;
+      font-weight: 700;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      margin: 12px 0;
+      overflow: hidden;
+      border-radius: 20px;
+      background: #E8EDF3;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: var(--green);
+      transition: width 0.2s ease;
+    }
+
+    .evidence-card {
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: #FCFDFE;
+    }
+
+    .evidence-card h3 {
+      margin-top: 0;
+    }
+
+    .resource-list a {
+      color: #086F83;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .resource-list a:hover {
+      text-decoration: underline;
+    }
+
+    .next-module {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding: 24px;
+      border-radius: var(--radius);
+      background: var(--navy);
+      color: white;
+    }
+
+    .next-module h3 {
+      margin: 0 0 5px;
+      color: white;
+    }
+
+    .next-module p {
+      margin: 0;
+      color: #C6D5E7;
+      font-size: 13px;
+    }
+
+    .next-module a {
+      flex-shrink: 0;
+      padding: 11px 15px;
+      border-radius: 6px;
+      background: var(--cyan);
+      color: var(--navy);
+      font-size: 12px;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .module-footer {
+      padding: 28px 24px;
+      background: var(--navy);
+      color: #D1DBE9;
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .module-footer a {
+      color: var(--cyan);
+      text-decoration: none;
+    }
+
+    @media (max-width: 900px) {
+      .module-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+      }
+
+      .sidebar nav {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 3px;
+      }
+
+      .workflow {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 600px) {
+      .header-inner {
+        padding: 10px 15px;
+      }
+
+      .header-links {
+        gap: 10px;
+        font-size: 11px;
+      }
+
+      .module-hero {
+        padding: 42px 18px;
+      }
+
+      .module-layout {
+        padding: 0 14px;
+        margin: 20px auto;
+      }
+
+      .content-section {
+        padding: 20px 17px;
+      }
+
+      .content-section h2 {
+        font-size: 21px;
+      }
+
+      .topic-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .data-table {
+        display: block;
+        overflow-x: auto;
+      }
+
+      .next-module {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="module-header">
+    <div class="header-inner">
+
+      <a class="brand" href="../../index.html">
+        <span class="brand-mark">GS</span>
+        <span>
+          GRAYSENTINEL
+          <small>CYBER DEFENCE LAB</small>
+        </span>
+      </a>
+
+      <nav class="header-links" aria-label="Main navigation">
+        <a href="../../index.html">Home</a>
+        <a href="../../ROADMAP.md">Roadmap</a>
+        <a href="../../modules/README.md">Modules</a>
+      </nav>
+
+    </div>
+  </header>
+
+
+  <section class="module-hero">
+    <div class="hero-inner">
+
+      <div class="breadcrumb">
+        <a href="../../index.html">Home</a>
+        /
+        <a href="../../ROADMAP.md">SOC Analyst Roadmap</a>
+        /
+        Module 03
+      </div>
+
+      <span class="module-label">Module 03 · Security Knowledge</span>
+
+      <h1>Security Fundamentals</h1>
+
+      <p class="hero-description">
+        Understand essential security principles, common cyber threats,
+        vulnerabilities, risk, security controls and indicators that
+        help defensive analysts investigate suspicious activity.
+      </p>
+
+      <div class="hero-meta">
+        <span><strong>Level:</strong> Beginner</span>
+        <span><strong>Focus:</strong> Defensive Security</span>
+        <span><strong>Format:</strong> Concepts + Practical Exercises</span>
+        <span><strong>Module:</strong> 03 of 08</span>
+      </div>
+
+    </div>
+  </section>
+
+
+  <main class="module-layout">
+
+    <aside class="sidebar">
+
+      <h3>Module Navigation</h3>
+
+      <nav aria-label="Module sections">
+        <a href="#overview" class="active">01. Overview</a>
+        <a href="#objectives">02. Objectives</a>
+        <a href="#cia">03. CIA Triad</a>
+        <a href="#identity">04. Identity and Access</a>
+        <a href="#threats">05. Common Threats</a>
+        <a href="#vulnerability">06. Vulnerability and Risk</a>
+        <a href="#controls">07. Security Controls</a>
+        <a href="#ioc">08. Indicators</a>
+        <a href="#mitre">09. MITRE ATT&CK</a>
+        <a href="#practical">10. Practical Exercises</a>
+        <a href="#assessment">11. Knowledge Check</a>
+        <a href="#evidence">12. Evidence</a>
+        <a href="#completion">13. Completion</a>
+        <a href="#resources">14. Resources</a>
+      </nav>
+
+      <div class="sidebar-divider"></div>
+
+      <h3>Learning Progress</h3>
+
+      <div id="progressText" class="sidebar-note">
+        0 of 8 learning tasks completed
+      </div>
+
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+
+      <div class="sidebar-divider"></div>
+
+      <p class="sidebar-note">
+        Complete the exercises and document your work.
+        Your checklist is saved locally in this browser.
+      </p>
+
+    </aside>
+
+
+    <div class="content">
+
+
+      <!-- OVERVIEW -->
+      <section class="content-section" id="overview">
+
+        <span class="section-kicker">Start Here</span>
+
+        <h2>Module Overview</h2>
+
+        <p>
+          Cybersecurity is the practice of protecting systems,
+          networks, applications and information against threats
+          that could compromise their security.
+        </p>
+
+        <p>
+          Security professionals identify risks, implement controls,
+          monitor activity and investigate events that may affect
+          an organisation.
+        </p>
+
+        <p>
+          A SOC Analyst needs to understand security concepts before
+          interpreting alerts. This module introduces the terminology
+          and principles used in everyday defensive security work.
+        </p>
+
+        <div class="info-box">
+          <strong>Why does a SOC Analyst need security fundamentals?</strong>
+          An alert may indicate unusual activity, but an analyst
+          must understand the affected asset, possible threat,
+          relevant vulnerability, security controls and available
+          evidence before deciding how to respond.
+        </div>
+
+        <h3>What You Will Learn</h3>
+
+        <div class="topic-grid">
+
+          <div class="topic-card">
+            <strong>CIA Triad</strong>
+            <p>Understand confidentiality, integrity and availability.</p>
+          </div>
+
+          <div class="topic-card">
+            <strong>Identity and Access</strong>
+            <p>Understand authentication, authorisation and least privilege.</p>
+          </div>
+
+          <div class="topic-card">
+            <strong>Common Threats</strong>
+            <p>Recognise phishing, malware, ransomware and credential attacks.</p>
+          </div>
+
+          <div class="topic-card">
+            <strong>Vulnerability and Risk</strong>
+            <p>Understand how weaknesses and threats affect organisations.</p>
+          </div>
+
+          <div class="topic-card">
+            <strong>Security Controls</strong>
+            <p>Understand preventive, detective and corrective controls.</p>
+          </div>
+
+          <div class="topic-card">
+            <strong>Threat Indicators</strong>
+            <p>Understand IoCs, IoAs and threat investigation context.</p>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- OBJECTIVES -->
+      <section class="content-section" id="objectives">
+
+        <span class="section-kicker">Learning Outcomes</span>
+
+        <h2>Learning Objectives</h2>
+
+        <p>By the end of this module, you should be able to:</p>
+
+        <ul>
+          <li>Explain the CIA triad and its importance.</li>
+          <li>Understand authentication and authorisation.</li>
+          <li>Explain least privilege and defence in depth.</li>
+          <li>Recognise common cybersecurity threats.</li>
+          <li>Differentiate threats, vulnerabilities, exploits and risks.</li>
+          <li>Identify preventive, detective and corrective controls.</li>
+          <li>Understand Indicators of Compromise and Indicators of Attack.</li>
+          <li>Use basic MITRE ATT&CK concepts to describe observed behaviour.</li>
+          <li>Classify security scenarios using evidence and context.</li>
+          <li>Prepare a basic threat observation report.</li>
+        </ul>
+
+        <div class="info-box">
+          <strong>Completion expectation</strong>
+          You should be able to explain why an activity may be
+          security-relevant and identify what additional evidence
+          is needed to support an investigation.
+        </div>
+
+      </section>
+
+
+      <!-- CIA TRIAD -->
+      <section class="content-section" id="cia">
+
+        <span class="section-kicker">Topic 01</span>
+
+        <h2>The CIA Triad</h2>
+
+        <p>
+          The CIA triad is a foundational information security
+          model built around three objectives: confidentiality,
+          integrity and availability.
+        </p>
+
+        <div class="topic-grid">
+
+          <div class="topic-card">
+            <strong>Confidentiality</strong>
+            <p>
+              Information should be accessible only to authorised
+              people, systems or processes.
+            </p>
+            <p><strong>Example:</strong> Restricting access to employee records.</p>
+          </div>
+
+          <div class="topic-card">
+            <strong>Integrity</strong>
+            <p>
+              Information should remain accurate and protected
+              against unauthorised modification.
+            </p>
+            <p><strong>Example:</strong> Detecting unauthorised changes to a file.</p>
+          </div>
+
+          <div class="topic-card">
+            <strong>Availability</strong>
+            <p>
+              Systems and information should be accessible
+              when authorised users need them.
+            </p>
+            <p><strong>Example:</strong> Maintaining access to a business application.</p>
+          </div>
+
+        </div>
+
+        <h3>Understanding Security Impact</h3>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Scenario</th>
+              <th>Potential Security Impact</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>Unauthorised access to payroll records</td>
+              <td>Confidentiality</td>
+            </tr>
+
+            <tr>
+              <td>Unauthorised modification of financial records</td>
+              <td>Integrity</td>
+            </tr>
+
+            <tr>
+              <td>Business application unavailable due to an outage</td>
+              <td>Availability</td>
+            </tr>
+
+            <tr>
+              <td>Ransomware encrypts business files</td>
+              <td>Potential impact on availability and integrity</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="info-box">
+          <strong>SOC perspective</strong>
+          When investigating an incident, consider which
+          security objective may be affected. One incident
+          can affect more than one part of the CIA triad.
+        </div>
+
+      </section>
+
+
+      <!-- IDENTITY -->
+      <section class="content-section" id="identity">
+
+        <span class="section-kicker">Topic 02</span>
+
+        <h2>Authentication and Access Control</h2>
+
+        <p>
+          Organisations need to verify identities and control
+          what authenticated users and systems are permitted
+          to access.
+        </p>
+
+        <h3>Authentication</h3>
+
+        <p>
+          Authentication is the process of verifying an identity.
+        </p>
+
+        <p>Common authentication factors include:</p>
+
+        <ul>
+          <li><strong>Something you know:</strong> A password or PIN.</li>
+          <li><strong>Something you have:</strong> A hardware security key or authenticator device.</li>
+          <li><strong>Something you are:</strong> A biometric characteristic.</li>
+        </ul>
+
+        <h3>Multi-Factor Authentication</h3>
+
+        <p>
+          Multi-factor authentication (MFA) requires evidence
+          from more than one distinct authentication factor.
+          It adds protection when a single factor is compromised.
+        </p>
+
+        <h3>Authorisation</h3>
+
+        <p>
+          Authorisation determines which actions an identity
+          is permitted to perform after its identity has
+          been established.
+        </p>
+
+        <h3>Least Privilege</h3>
+
+        <p>
+          The principle of least privilege means giving users,
+          applications and services only the permissions needed
+          to perform their assigned responsibilities.
+        </p>
+
+        <h3>Defence in Depth</h3>
+
+        <p>
+          Defence in depth uses multiple layers of security
+          controls so that the failure of one control does not
+          automatically result in a complete security compromise.
+        </p>
+
+        <div class="workflow">
+
+          <div class="workflow-item">
+            <strong>Identity</strong>
+            <span>Who is requesting access?</span>
+          </div>
+
+          <div class="workflow-item">
+            <strong>Authentication</strong>
+            <span>Can the identity be verified?</span>
+          </div>
+
+          <div class="workflow-item">
+            <strong>Authorisation</strong>
+            <span>What is the identity allowed to do?</span>
+          </div>
+
+          <div class="workflow-item">
+            <strong>Monitoring</strong>
+            <span>What activity was performed?</span>
+          </div>
+
+        </div>
+
+        <div class="info-box">
+          <strong>Investigation example</strong>
+          If an account accesses a sensitive resource unexpectedly,
+          an analyst may review authentication records, account
+          privileges, access logs, device information and the
+          surrounding activity.
+        </div>
+
+      </section>
+
+
+      <!-- THREATS -->
+      <section class="content-section" id="threats">
+
+        <span class="section-kicker">Topic 03</span>
+
+        <h2>Common Cybersecurity Threats</h2>
+
+        <p>
+          A threat is a potential cause of harm to a system,
+          organisation or information asset.
+        </p>
+
+        <p>
+          Threats can involve malicious actors, software,
+          human error, environmental events or other conditions
+          that may affect security.
+        </p>
+
+        <h3>Common Threat Categories</h3>
+
+        <div class="topic-grid">
+
+          <div class="topic-card">
+            <strong>Phishing</strong>
+            <p>
+              Deceptive communication designed to persuade
+              someone to disclose information, click a link
+              or perform an unsafe action.
+            </p>
+          </div>
+
+          <div class="topic-card">
+            <strong>Malware</strong>
+            <p>
+              Software designed to perform harmful or
+              unauthorised activities.
+            </p>
+          </div>
+
+          <div class="topic-card">
+            <strong>Ransomware</strong>
+            <p>
+              Malware associated with denying access to data
+              or systems, commonly through encryption.
+            </p>
+          </div>
+
+          <div class="topic-card">
+            <strong>Credential Attacks</strong>
+            <p>
+              Attempts to obtain, guess, reuse or misuse
+              authentication credentials.
+            </p>
+          </div>
+
+          <div class="topic-card">
+            <strong>Denial of Service</strong>
+            <p>
+              Activity that disrupts or degrades access
+              to a service or system.
+            </p>
+          </div>
+
+          <div class="topic-card">
+            <strong>Data Exfiltration</strong>
+            <p>
+              Unauthorised transfer of information outside
+              its intended environment.
+            </p>
+          </div>
+
+          <div class="topic-card">
+            <strong>Privilege Escalation</strong>
+            <p>
+              Obtaining permissions beyond those initially
+              assigned to an account or process.
+            </p>
+          </div>
+
+          <div class="topic-card">
+            <strong>Insider Threat</strong>
+            <p>
+              Security risk arising from someone with
+              authorised or trusted access.
+            </p>
+          </div>
+
+        </div>
+
+        <h3>Phishing Indicators</h3>
+
+        <p>Examples of warning signs include:</p>
+
+        <ul>
+          <li>Unexpected requests for credentials.</li>
+          <li>Unusual urgency or pressure.</li>
+          <li>Unexpected attachments.</li>
+          <li>Links whose destinations do not match the displayed text.</li>
+          <li>Unusual sender addresses or domains.</li>
+          <li>Requests that bypass normal organisational processes.</li>
+        </ul>
+
+        <h3>Malware Concepts</h3>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>Virus</td>
+              <td>Malicious code that can attach to other files or programs.</td>
+            </tr>
+
+            <tr>
+              <td>Worm</td>
+              <td>Malware capable of self-propagation across systems or networks.</td>
+            </tr>
+
+            <tr>
+              <td>Trojan</td>
+              <td>Malicious software disguised as legitimate software.</td>
+            </tr>
+
+            <tr>
+              <td>Ransomware</td>
+              <td>Malware used to deny access to data or systems, often through encryption.</td>
+            </tr>
+
+            <tr>
+              <td>Spyware</td>
+              <td>Software that collects information without appropriate authorisation.</td>
+            </tr>
+
+            <tr>
+              <td>Rootkit</td>
+              <td>Tools designed to conceal activity or maintain privileged access.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="warning-box">
+          <strong>Analyst caution</strong>
+          A suspicious email, unusual process or failed login
+          is not sufficient by itself to prove a successful
+          attack. Analysts must collect and correlate evidence.
+        </div>
+
+      </section>
+
+
+      <!-- VULNERABILITY AND RISK -->
+      <section class="content-section" id="vulnerability">
+
+        <span class="section-kicker">Topic 04</span>
+
+        <h2>Threats, Vulnerabilities, Exploits and Risk</h2>
+
+        <p>
+          These terms are related, but they describe different
+          parts of a security problem.
+        </p>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Term</th>
+              <th>Meaning</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>Asset</td>
+              <td>Something valuable that an organisation wants to protect.</td>
+            </tr>
+
+            <tr>
+              <td>Threat</td>
+              <td>A potential cause of harm.</td>
+            </tr>
+
+            <tr>
+              <td>Vulnerability</td>
+              <td>A weakness that could be exploited or otherwise lead to harm.</td>
+            </tr>
+
+            <tr>
+              <td>Exploit</td>
+              <td>A method or technique that takes advantage of a vulnerability.</td>
+            </tr>
+
+            <tr>
+              <td>Risk</td>
+              <td>The potential for an adverse outcome, considered in context.</td>
+            </tr>
+
+            <tr>
+              <td>Impact</td>
+              <td>The consequence if an event occurs.</td>
+            </tr>
+
+            <tr>
+              <td>Likelihood</td>
+              <td>How plausible or probable an event is under the chosen assessment method.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Example Scenario</h3>
+
+        <div class="info-box">
+          <strong>Scenario: An outdated business server</strong>
+
+          <p>
+            An organisation operates a server containing
+            sensitive business information. The server runs
+            software with a known vulnerability and has not
+            received an available security update.
+          </p>
+
+          <p><strong>Asset:</strong> Business server and its information.</p>
+          <p><strong>Vulnerability:</strong> Unpatched software weakness.</p>
+          <p><strong>Threat:</strong> An actor capable of exploiting the weakness.</p>
+          <p><strong>Potential impact:</strong> Unauthorised access or service disruption.</p>
+          <p><strong>Risk:</strong> Depends on exposure, exploitability, existing controls and business impact.</p>
+        </div>
+
+        <h3>Risk Assessment Fundamentals</h3>
+
+        <p>
+          Organisations use different risk assessment methods.
+          A simplified approach considers likelihood and impact.
+        </p>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Likelihood</th>
+              <th>Impact</th>
+              <th>Illustrative Risk</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>Low</td>
+              <td>Low</td>
+              <td>Lower</td>
+            </tr>
+
+            <tr>
+              <td>Medium</td>
+              <td>Medium</td>
+              <td>Moderate</td>
+            </tr>
+
+            <tr>
+              <td>High</td>
+              <td>High</td>
+              <td>Higher</td>
+            </tr>
+
+            <tr>
+              <td>Low</td>
+              <td>High</td>
+              <td>Requires contextual assessment</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>
+          This is a conceptual example, not a formal risk scoring
+          standard. Actual risk ratings should follow the
+          organisation's approved methodology.
+        </p>
+
+        <h3>Vulnerability Severity</h3>
+
+        <p>
+          The Common Vulnerability Scoring System (CVSS) is a
+          framework used to communicate the severity characteristics
+          of software vulnerabilities.
+        </p>
+
+        <p>
+          A CVSS score is useful context, but it does not represent
+          the complete business risk of a vulnerability.
+        </p>
+
+        <div class="info-box">
+          <strong>SOC perspective</strong>
+          A vulnerability alert becomes more meaningful when
+          analysts understand the affected asset, exposure,
+          available patches, active exploitation evidence
+          and business context.
+        </div>
+
+      </section>
+
+
+      <!-- CONTROLS -->
+      <section class="content-section" id="controls">
+
+        <span class="section-kicker">Topic 05</span>
+
+        <h2>Security Controls</h2>
+
+        <p>
+          Security controls are safeguards used to reduce
+          security risks and protect organisational assets.
+        </p>
+
+        <h3>Control Categories by Function</h3>
+
+        <div class="topic-grid">
+
+          <div class="topic-card">
+            <strong>Preventive Controls</strong>
+            <p>
+              Designed to prevent or reduce the likelihood
+              of unwanted activity.
+            </p>
+            <p><strong>Examples:</strong> MFA, firewalls and access restrictions.</p>
+          </div>
+
+          <div class="topic-card">
+            <strong>Detective Controls</strong>
+            <p>
+              Designed to identify events or activity
+              that may require investigation.
+            </p>
+            <p><strong>Examples:</strong> SIEM alerts and endpoint monitoring.</p>
+          </div>
+
+          <div class="topic-card">
+            <strong>Corrective Controls</strong>
+            <p>
+              Designed to correct identified issues
+              or restore a secure state.
+            </p>
+            <p><strong>Examples:</strong> Patching and configuration correction.</p>
+          </div>
+
+          <div class="topic-card">
+            <strong>Recovery Controls</strong>
+            <p>
+              Support restoration after disruption
+              or an incident.
+            </p>
+            <p><strong>Examples:</strong> Tested backups and recovery procedures.</p>
+          </div>
+
+        </div>
+
+        <h3>Controls in a SOC Environment</h3>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Control</th>
+              <th>Primary Purpose</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>Multi-Factor Authentication</td>
+              <td>Reduce unauthorised account access.</td>
+            </tr>
+
+            <tr>
+              <td>Endpoint Protection</td>
+              <td>Help identify and respond to endpoint threats.</td>
+            </tr>
+
+            <tr>
+              <td>Firewall</td>
+              <td>Enforce network traffic policies.</td>
+            </tr>
+
+            <tr>
+              <td>Centralised Logging</td>
+              <td>Collect records for monitoring and investigation.</td>
+            </tr>
+
+            <tr>
+              <td>Security Monitoring</td>
+              <td>Identify activity requiring investigation.</td>
+            </tr>
+
+            <tr>
+              <td>Backups</td>
+              <td>Support data and system recovery.</td>
+            </tr>
+
+            <tr>
+              <td>Patch Management</td>
+              <td>Address known software weaknesses.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="info-box">
+          <strong>Important distinction</strong>
+          A security control is not effective merely because
+          it exists. Its configuration, coverage, operation
+          and validation matter.
+        </div>
+
+      </section>
+
+
+      <!-- IOC -->
+      <section class="content-section" id="ioc">
+
+        <span class="section-kicker">Topic 06</span>
+
+        <h2>Indicators of Compromise and Attack</h2>
+
+        <p>
+          Security analysts use indicators and observations
+          to identify activity that may be related to a threat.
+        </p>
+
+        <h3>Indicator of Compromise (IoC)</h3>
+
+        <p>
+          An Indicator of Compromise is an observable artefact
+          that may suggest a system or environment has been
+          compromised.
+        </p>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Indicator</th>
+              <th>Example</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>File Hash</td>
+              <td>A known malicious file hash.</td>
+            </tr>
+
+            <tr>
+              <td>IP Address</td>
+              <td>An address associated with known malicious infrastructure.</td>
+            </tr>
+
+            <tr>
+              <td>Domain</td>
+              <td>A domain linked to a reported malicious campaign.</td>
+            </tr>
+
+            <tr>
+              <td>URL</td>
+              <td>A known malicious web resource.</td>
+            </tr>
+
+            <tr>
+              <td>File Path</td>
+              <td>A file location associated with a specific investigation.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Indicator of Attack (IoA)</h3>
+
+        <p>
+          An Indicator of Attack describes observable behaviour
+          that may indicate an attempted or ongoing attack.
+        </p>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Behaviour</th>
+              <th>Why It May Matter</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>Repeated authentication failures</td>
+              <td>May indicate password guessing or another authentication issue.</td>
+            </tr>
+
+            <tr>
+              <td>Unusual privilege changes</td>
+              <td>May indicate an unexpected change in access.</td>
+            </tr>
+
+            <tr>
+              <td>Unexpected process execution</td>
+              <td>May require investigation of the process and its parent.</td>
+            </tr>
+
+            <tr>
+              <td>Unusual outbound connections</td>
+              <td>May require investigation of destination and application context.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>IoC vs IoA</h3>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>IoC</th>
+              <th>IoA</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>Focuses on observable compromise artefacts.</td>
+              <td>Focuses on suspicious behaviour or attack activity.</td>
+            </tr>
+
+            <tr>
+              <td>May include hashes, domains and IP addresses.</td>
+              <td>May include unusual execution or authentication patterns.</td>
+            </tr>
+
+            <tr>
+              <td>Can support matching and enrichment.</td>
+              <td>Can support behavioural investigation and detection.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="warning-box">
+          <strong>Context is essential</strong>
+          Indicators can become outdated, be reused by legitimate
+          services or produce false positives. Validate their
+          source, age, relevance and supporting evidence before
+          making a security decision.
+        </div>
+
+      </section>
+
+
+      <!-- MITRE -->
+      <section class="content-section" id="mitre">
+
+        <span class="section-kicker">Topic 07</span>
+
+        <h2>Introduction to MITRE ATT&CK</h2>
+
+        <p>
+          MITRE ATT&CK is a knowledge base of adversary tactics
+          and techniques based on observed behaviours.
+        </p>
+
+        <p>
+          It helps security professionals describe and organise
+          adversary activity using a common framework.
+        </p>
+
+        <h3>Core Concepts</h3>
+
+        <div class="topic-grid">
+
+          <div class="topic-card">
+            <strong>Tactic</strong>
+            <p>
+              Describes the adversary's objective or reason
+              for performing an action.
+            </p>
+          </div>
+
+          <div class="topic-card">
+            <strong>Technique</strong>
+            <p>
+              Describes a method used to achieve an objective.
+            </p>
+          </div>
+
+          <div class="topic-card">
+            <strong>Sub-technique</strong>
+            <p>
+              Provides a more specific description
+              of a technique.
+            </p>
+          </div>
+
+          <div class="topic-card">
+            <strong>Detection</strong>
+            <p>
+              Describes approaches that may help identify
+              relevant adversary behaviour.
+            </p>
+          </div>
+
+        </div>
+
+        <h3>Example ATT&CK Tactics</h3>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Tactic</th>
+              <th>General Objective</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>Initial Access</td>
+              <td>Gain an initial entry point into an environment.</td>
+            </tr>
+
+            <tr>
+              <td>Execution</td>
+              <td>Run malicious or unauthorised code.</td>
+            </tr>
+
+            <tr>
+              <td>Persistence</td>
+              <td>Maintain access over time.</td>
+            </tr>
+
+            <tr>
+              <td>Privilege Escalation</td>
+              <td>Obtain higher permissions.</td>
+            </tr>
+
+            <tr>
+              <td>Defense Evasion</td>
+              <td>Avoid or weaken security detection.</td>
+            </tr>
+
+            <tr>
+              <td>Credential Access</td>
+              <td>Obtain account credentials.</td>
+            </tr>
+
+            <tr>
+              <td>Discovery</td>
+              <td>Gather information about an environment.</td>
+            </tr>
+
+            <tr>
+              <td>Collection</td>
+              <td>Gather information of interest.</td>
+            </tr>
+
+            <tr>
+              <td>Exfiltration</td>
+              <td>Transfer data outside the environment.</td>
+            </tr>
+
+            <tr>
+              <td>Impact</td>
+              <td>Disrupt, damage or manipulate systems and data.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Why SOC Analysts Use ATT&CK</h3>
+
+        <ul>
+          <li>Describe observed behaviour consistently.</li>
+          <li>Organise threat investigation findings.</li>
+          <li>Understand possible stages of an intrusion.</li>
+          <li>Identify detection opportunities.</li>
+          <li>Communicate technical findings to other security teams.</li>
+        </ul>
+
+        <div class="info-box">
+          <strong>Important</strong>
+          ATT&CK mapping is a way to describe observed behaviour.
+          It is not proof that a specific threat actor or attack
+          campaign is responsible for an event.
+        </div>
+
+      </section>
+
+
+      <!-- PRACTICAL -->
+      <section class="content-section" id="practical">
+
+        <span class="section-kicker">Hands-on Learning</span>
+
+        <h2>Practical Exercises</h2>
+
+        <p>
+          These exercises use fictional scenarios, public references
+          and synthetic information. Do not test real systems or
+          investigate real people without appropriate authorisation.
+        </p>
+
+        <div class="exercise">
+
+          <span class="exercise-label">Exercise 01</span>
+
+          <h3>Classify the CIA Triad</h3>
+
+          <p><strong>Objective:</strong> Identify which security objective is affected by a scenario.</p>
+
+          <p><strong>Scenarios:</strong></p>
+
+          <ol>
+            <li>An unauthorised person reads a confidential employee file.</li>
+            <li>An attacker modifies a financial record without permission.</li>
+            <li>A business application becomes unavailable during an outage.</li>
+            <li>An unauthorised change affects the accuracy of a database.</li>
+            <li>A service interruption prevents users from accessing a critical application.</li>
+          </ol>
+
+          <p><strong>Tasks:</strong></p>
+
+          <ol>
+            <li>Identify the relevant CIA objective for each scenario.</li>
+            <li>Explain the reason for your classification.</li>
+            <li>Identify one security control that may reduce the risk.</li>
+          </ol>
+
+          <p><strong>Evidence:</strong> CIA triad classification worksheet.</p>
+
+        </div>
+
+
+        <div class="exercise">
+
+          <span class="exercise-label">Exercise 02</span>
+
+          <h3>Classify Security Threat Scenarios</h3>
+
+          <p><strong>Objective:</strong> Recognise common cybersecurity threats.</p>
+
+          <p><strong>Scenarios:</strong></p>
+
+          <ol>
+            <li>An employee receives a fake password-reset email.</li>
+            <li>A business workstation displays a ransom demand.</li>
+            <li>An application receives an unexpected volume of requests and becomes unavailable.</li>
+            <li>An account repeatedly attempts to access resources outside its normal permissions.</li>
+            <li>A sensitive file is transferred to an unauthorised external destination.</li>
+          </ol>
+
+          <p><strong>Tasks:</strong></p>
+
+          <ol>
+            <li>Identify the possible threat category.</li>
+            <li>List the evidence available in the scenario.</li>
+            <li>List the information that is still missing.</li>
+            <li>Suggest an appropriate defensive investigation step.</li>
+          </ol>
+
+          <p><strong>Evidence:</strong> Threat classification report.</p>
+
+        </div>
+
+
+        <div class="exercise">
+
+          <span class="exercise-label">Exercise 03</span>
+
+          <h3>Threat, Vulnerability and Risk Analysis</h3>
+
+          <p><strong>Objective:</strong> Separate security concepts within a scenario.</p>
+
+          <p>
+            A fictional organisation operates a business server
+            with outdated software. The server contains sensitive
+            records and is accessible through an approved business
+            network.
+          </p>
+
+          <p><strong>Tasks:</strong></p>
+
+          <ol>
+            <li>Identify the asset.</li>
+            <li>Describe the potential vulnerability.</li>
+            <li>Identify a plausible threat.</li>
+            <li>Explain a possible exploit scenario at a high level.</li>
+            <li>Describe potential business impact.</li>
+            <li>Identify existing information needed to assess risk.</li>
+            <li>Suggest appropriate security controls.</li>
+          </ol>
+
+          <p><strong>Evidence:</strong> Risk analysis worksheet.</p>
+
+        </div>
+
+
+        <div class="exercise">
+
+          <span class="exercise-label">Exercise 04</span>
+
+          <h3>Identify Indicators in a Synthetic Dataset</h3>
+
+          <p><strong>Objective:</strong> Identify observations that may require security investigation.</p>
+
+          <p>Review the fictional records below:</p>
+
+          <div class="code-block">2026-01-12 09:10:01 | user=alex | event=login_success
+2026-01-12 09:12:15 | user=alex | event=login_failed
+2026-01-12 09:12:19 | user=alex | event=login_failed
+2026-01-12 09:12:23 | user=alex | event=login_failed
+2026-01-12 09:13:02 | user=alex | event=login_success
+2026-01-12 09:14:40 | user=alex | event=file_access
+2026-01-12 09:15:12 | user=alex | event=admin_action</div>
+
+          <p><strong>Tasks:</strong></p>
+
+          <ol>
+            <li>Identify activity that deserves further review.</li>
+            <li>Build a timeline of the events.</li>
+            <li>Identify what the records establish.</li>
+            <li>List at least four pieces of missing context.</li>
+            <li>Explain why the records alone do not prove compromise.</li>
+            <li>Write a short investigation summary.</li>
+          </ol>
+
+          <p><strong>Evidence:</strong> Synthetic event analysis report.</p>
+
+        </div>
+
+
+        <div class="exercise">
+
+          <span class="exercise-label">Exercise 05</span>
+
+          <h3>Map Behaviour to MITRE ATT&CK</h3>
+
+          <p><strong>Objective:</strong> Practise describing security behaviour using ATT&CK concepts.</p>
+
+          <p><strong>Tasks:</strong></p>
+
+          <ol>
+            <li>Open the official MITRE ATT&CK website.</li>
+            <li>Review the tactic descriptions.</li>
+            <li>Select three fictional behaviours from your previous exercises.</li>
+            <li>Identify potentially relevant ATT&CK tactics or techniques.</li>
+            <li>Record the reasoning behind each mapping.</li>
+            <li>Clearly label uncertain mappings.</li>
+          </ol>
+
+          <p><strong>Evidence:</strong> ATT&CK mapping worksheet with source references.</p>
+
+        </div>
+
+
+        <div class="exercise">
+
+          <span class="exercise-label">Exercise 06</span>
+
+          <h3>Prepare a Basic Threat Observation Report</h3>
+
+          <p><strong>Objective:</strong> Communicate an investigation observation clearly.</p>
+
+          <p>Prepare a report using this structure:</p>
+
+          <div class="code-block">THREAT OBSERVATION REPORT
+
+1. Summary
+2. Scenario Description
+3. Affected Asset
+4. Observed Indicators
+5. Supporting Evidence
+6. Potential Security Impact
+7. Investigation Hypothesis
+8. Missing Information
+9. Recommended Next Steps
+10. Limitations</div>
+
+          <p><strong>Evidence:</strong> Completed threat observation report.</p>
+
+        </div>
+
+      </section>
+
+
+      <!-- ASSESSMENT -->
+      <section class="content-section" id="assessment">
+
+        <span class="section-kicker">Knowledge Validation</span>
+
+        <h2>Module Knowledge Check</h2>
+
+        <p>
+          Answer all eight questions. Review the relevant topics
+          if your understanding needs improvement.
+        </p>
+
+        <form id="quizForm">
+
+          <div class="quiz-question">
+            <p>1. What does confidentiality protect?</p>
+
+            <label><input type="radio" name="q1" value="a"> System availability</label>
+            <label><input type="radio" name="q1" value="b"> Information from unauthorised access or disclosure</label>
+            <label><input type="radio" name="q1" value="c"> Network speed</label>
+            <label><input type="radio" name="q1" value="d"> Hardware temperature</label>
+          </div>
+
+          <div class="quiz-question">
+            <p>2. Which principle gives users only the permissions they need?</p>
+
+            <label><input type="radio" name="q2" value="a"> Defence evasion</label>
+            <label><input type="radio" name="q2" value="b"> Least privilege</label>
+            <label><input type="radio" name="q2" value="c"> Data exfiltration</label>
+            <label><input type="radio" name="q2" value="d"> Availability</label>
+          </div>
+
+          <div class="quiz-question">
+            <p>3. What is a vulnerability?</p>
+
+            <label><input type="radio" name="q3" value="a"> A security weakness</label>
+            <label><input type="radio" name="q3" value="b"> A confirmed security incident</label>
+            <label><input type="radio" name="q3" value="c"> A network device</label>
+            <label><input type="radio" name="q3" value="d"> A security report</label>
+          </div>
+
+          <div class="quiz-question">
+            <p>4. Which is an example of a detective security control?</p>
+
+            <label><input type="radio" name="q4" value="a"> Security monitoring alerts</label>
+            <label><input type="radio" name="q4" value="b"> Password length policy</label>
+            <label><input type="radio" name="q4" value="c"> Application patching</label>
+            <label><input type="radio" name="q4" value="d"> Backup restoration</label>
+          </div>
+
+          <div class="quiz-question">
+            <p>5. Which of these is an example of an Indicator of Compromise?</p>
+
+            <label><input type="radio" name="q5" value="a"> A known malicious file hash</label>
+            <label><input type="radio" name="q5" value="b"> An employee's job title</label>
+            <label><input type="radio" name="q5" value="c"> A monitor's serial number</label>
+            <label><input type="radio" name="q5" value="d"> A normal keyboard input</label>
+          </div>
+
+          <div class="quiz-question">
+            <p>6. What does authentication do?</p>
+
+            <label><input type="radio" name="q6" value="a"> Determines file size</label>
+            <label><input type="radio" name="q6" value="b"> Verifies an identity</label>
+            <label><input type="radio" name="q6" value="c"> Assigns an IP address</label>
+            <label><input type="radio" name="q6" value="d"> Deletes an account</label>
+          </div>
+
+          <div class="quiz-question">
+            <p>7. What does MITRE ATT&CK organise?</p>
+
+            <label><input type="radio" name="q7" value="a"> Hardware inventory</label>
+            <label><input type="radio" name="q7" value="b"> Adversary tactics and techniques</label>
+            <label><input type="radio" name="q7" value="c"> Employee attendance</label>
+            <label><input type="radio" name="q7" value="d"> Software pricing</label>
+          </div>
+
+          <div class="quiz-question">
+            <p>8. Does one suspicious login event automatically prove a successful attack?</p>
+
+            <label><input type="radio" name="q8" value="a"> Yes, always</label>
+            <label><input type="radio" name="q8" value="b"> No, supporting evidence and context are needed</label>
+            <label><input type="radio" name="q8" value="c"> Yes, if the account is an administrator</label>
+            <label><input type="radio" name="q8" value="d"> No event should ever be investigated</label>
+          </div>
+
+          <button class="primary-button" type="submit">
+            Check My Answers
+          </button>
+
+          <div class="quiz-result" id="quizResult" role="status" aria-live="polite"></div>
+
+        </form>
+
+      </section>
+
+
+      <!-- EVIDENCE -->
+      <section class="content-section" id="evidence">
+
+        <span class="section-kicker">Proof of Work</span>
+
+        <h2>Required Evidence and Deliverables</h2>
+
+        <p>
+          Prepare the following documents for your technical portfolio.
+        </p>
+
+        <div class="evidence-card">
+
+          <h3>Module 03 Deliverables</h3>
+
+          <ul>
+            <li>CIA triad classification worksheet.</li>
+            <li>Threat classification report.</li>
+            <li>Threat, vulnerability and risk analysis.</li>
+            <li>Security control reference sheet.</li>
+            <li>IoC and IoA reference notes.</li>
+            <li>Synthetic event analysis report.</li>
+            <li>MITRE ATT&CK mapping worksheet.</li>
+            <li>Threat observation report.</li>
+            <li>Knowledge check result.</li>
+          </ul>
+
+        </div>
+
+        <h3>Suggested Portfolio Structure</h3>
+
+        <div class="code-block">soc-analyst-portfolio/
+│
+├── 01-networking/
+│   └── README.md
+│
+├── 02-operating-systems/
+│   └── README.md
+│
+├── 03-security-fundamentals/
+│   ├── README.md
+│   ├── cia-triad-analysis.md
+│   ├── threat-classification.md
+│   ├── risk-analysis.md
+│   ├── security-controls.md
+│   ├── ioc-ioa-reference.md
+│   ├── event-analysis.md
+│   ├── mitre-attack-mapping.md
+│   └── threat-observation-report.md
+│
+└── evidence/
+    └── sanitised-screenshots/</div>
+
+        <div class="info-box">
+          <strong>Proof Over Certificates</strong>
+          Every conclusion should be supported by relevant
+          evidence. Clearly distinguish confirmed observations,
+          assumptions and recommendations.
+        </div>
+
+      </section>
+
+
+      <!-- COMPLETION -->
+      <section class="content-section" id="completion">
+
+        <span class="section-kicker">Module Review</span>
+
+        <h2>Module Completion Checklist</h2>
+
+        <p>
+          Mark each task after completing the actual learning
+          activity. Progress is stored locally in this browser.
+        </p>
+
+        <ul class="task-list">
+
+          <li>
+            <input type="checkbox" data-module-progress="1">
+            <label>Understand confidentiality, integrity and availability.</label>
+          </li>
+
+          <li>
+            <input type="checkbox" data-module-progress="2">
+            <label>Understand authentication, authorisation and least privilege.</label>
+          </li>
+
+          <li>
+            <input type="checkbox" data-module-progress="3">
+            <label>Recognise common cybersecurity threats.</label>
+          </li>
+
+          <li>
+            <input type="checkbox" data-module-progress="4">
+            <label>Differentiate threats, vulnerabilities, exploits and risks.</label>
+          </li>
+
+          <li>
+            <input type="checkbox" data-module-progress="5">
+            <label>Understand preventive, detective and corrective controls.</label>
+          </li>
+
+          <li>
+            <input type="checkbox" data-module-progress="6">
+            <label>Understand IoCs, IoAs and investigation context.</label>
+          </li>
+
+          <li>
+            <input type="checkbox" data-module-progress="7">
+            <label>Complete the synthetic event and MITRE ATT&CK exercises.</label>
+          </li>
+
+          <li>
+            <input type="checkbox" data-module-progress="8">
+            <label>Prepare and review the required portfolio evidence.</label>
+          </li>
+
+        </ul>
+
+        <div class="progress-track">
+          <div class="progress-fill" id="completionFill"></div>
+        </div>
+
+        <p id="completionText" class="sidebar-note">
+          0 of 8 tasks completed.
+        </p>
+
+        <div class="warning-box">
+          <strong>Important</strong>
+          This checklist records self-reported progress.
+          It does not independently verify exercise completion
+          or professional competency.
+        </div>
+
+      </section>
+
+
+      <!-- RESOURCES -->
+      <section class="content-section" id="resources">
+
+        <span class="section-kicker">Further Learning</span>
+
+        <h2>Recommended Learning Resources</h2>
+
+        <p>
+          Use established security references and official
+          documentation to deepen your understanding.
+        </p>
+
+        <ul class="resource-list">
+
+          <li>
+            <a href="https://www.nist.gov/cybersecurity"
+               target="_blank" rel="noopener noreferrer">
+              NIST Cybersecurity Resources
+            </a>
+          </li>
+
+          <li>
+            <a href="https://www.cisa.gov/"
+               target="_blank" rel="noopener noreferrer">
+              CISA
+            </a>
+          </li>
+
+          <li>
+            <a href="https://attack.mitre.org/"
+               target="_blank" rel="noopener noreferrer">
+              MITRE ATT&CK
+            </a>
+          </li>
+
+          <li>
+            <a href="https://www.first.org/cvss/"
+               target="_blank" rel="noopener noreferrer">
+              FIRST: Common Vulnerability Scoring System
+            </a>
+          </li>
+
+          <li>
+            <a href="https://www.nist.gov/privacy-framework"
+               target="_blank" rel="noopener noreferrer">
+              NIST Privacy Framework
+            </a>
+          </li>
+
+          <li>
+            <a href="https://owasp.org/www-project-top-ten/"
+               target="_blank" rel="noopener noreferrer">
+              OWASP Top 10
+            </a>
+          </li>
+
+          <li>
+            <a href="https://www.cisecurity.org/cis-benchmarks"
+               target="_blank" rel="noopener noreferrer">
+              CIS Benchmarks
+            </a>
+          </li>
+
+        </ul>
+
+      </section>
+
+
+      <!-- NEXT MODULE -->
+      <section class="next-module">
+
+        <div>
+          <h3>Ready for Module 04?</h3>
+
+          <p>
+            Next: Log Analysis. Learn how to read, filter,
+            correlate and investigate security events.
+          </p>
+        </div>
+
+        <a href="../04-log-analysis/">
+          Next Module →
+        </a>
+
+      </section>
+
+    </div>
+
+  </main>
+
+
+  <footer class="module-footer">
+
+    <p><strong>GraySentinel Cyber Defence Lab</strong></p>
+
+    <p>
+      Proof Over Certificates · Security Skills. Shown, Not Claimed.
+    </p>
+
+    <p>
+      <a href="../../index.html">Main Roadmap</a>
+      |
+      <a href="../../CONTRIBUTING.md">Contribute</a>
+      |
+      <a href="../../SECURITY.md">Security Policy</a>
+    </p>
+
+    <p>© 2026 GraySentinel Cyber Defence Lab.</p>
+
+  </footer>
+
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+      // Module progress
+
+      const progressBoxes = document.querySelectorAll(
+        "[data-module-progress]"
+      );
+
+      const progressFill = document.getElementById("progressFill");
+      const completionFill = document.getElementById("completionFill");
+      const progressText = document.getElementById("progressText");
+      const completionText = document.getElementById("completionText");
+
+      const storageKey = "graysentinel-module-03-progress";
+
+      function loadProgress() {
+        try {
+          const saved = JSON.parse(
+            localStorage.getItem(storageKey) || "{}"
+          );
+
+          progressBoxes.forEach(function (checkbox) {
+            const key = checkbox.dataset.moduleProgress;
+            checkbox.checked = saved[key] === true;
+          });
+
+        } catch (error) {
+          console.warn("Could not load saved module progress:", error);
+        }
+      }
+
+      function updateProgress() {
+
+        const total = progressBoxes.length;
+
+        const completed = Array.from(progressBoxes).filter(
+          checkbox => checkbox.checked
+        ).length;
+
+        const percentage = total
+          ? Math.round((completed / total) * 100)
+          : 0;
+
+        if (progressFill) {
+          progressFill.style.width = percentage + "%";
+        }
+
+        if (completionFill) {
+          completionFill.style.width = percentage + "%";
+        }
+
+        if (progressText) {
+          progressText.textContent =
+            completed + " of " + total + " learning tasks completed";
+        }
+
+        if (completionText) {
+          completionText.textContent =
+            completed + " of " + total +
+            " tasks completed (" + percentage + "%).";
+        }
+
+        const saved = {};
+
+        progressBoxes.forEach(function (checkbox) {
+          saved[checkbox.dataset.moduleProgress] = checkbox.checked;
+        });
+
+        try {
+          localStorage.setItem(storageKey, JSON.stringify(saved));
+        } catch (error) {
+          console.warn("Could not save module progress:", error);
+        }
+      }
+
+      loadProgress();
+      updateProgress();
+
+      progressBoxes.forEach(function (checkbox) {
+        checkbox.addEventListener("change", updateProgress);
+      });
+
+
+      // Knowledge check
+
+      const quizForm = document.getElementById("quizForm");
+      const quizResult = document.getElementById("quizResult");
+
+      const correctAnswers = {
+        q1: "b",
+        q2: "b",
+        q3: "a",
+        q4: "a",
+        q5: "a",
+        q6: "b",
+        q7: "b",
+        q8: "b"
+      };
+
+      if (quizForm) {
+
+        quizForm.addEventListener("submit", function (event) {
+
+          event.preventDefault();
+
+          let score = 0;
+          let answered = 0;
+
+          const total = Object.keys(correctAnswers).length;
+
+          Object.keys(correctAnswers).forEach(function (question) {
+
+            const selected = quizForm.querySelector(
+              'input[name="' + question + '"]:checked'
+            );
+
+            if (selected) {
+
+              answered++;
+
+              if (selected.value === correctAnswers[question]) {
+                score++;
+              }
+
+            }
+
+          });
+
+          if (answered < total) {
+
+            quizResult.style.display = "block";
+            quizResult.style.background = "#FFF5EB";
+            quizResult.style.color = "#85430D";
+
+            quizResult.textContent =
+              "Please answer all " + total +
+              " questions. You have answered " +
+              answered + " of " + total + ".";
+
+            return;
+          }
+
+          const percentage = Math.round((score / total) * 100);
+
+          quizResult.style.display = "block";
+          quizResult.style.background =
+            percentage >= 70 ? "#E8F7F0" : "#FFF5EB";
+
+          quizResult.style.color =
+            percentage >= 70 ? "#176C4A" : "#85430D";
+
+          let message = "";
+
+          if (percentage >= 85) {
+            message = "Strong understanding. Review the explanations and continue practising.";
+          } else if (percentage >= 70) {
+            message = "Good foundation. Revisit any topics where you were uncertain.";
+          } else {
+            message = "Review the module content and attempt the quiz again.";
+          }
+
+          quizResult.textContent =
+            "Your score: " + score + "/" + total +
+            " (" + percentage + "%). " + message;
+
+        });
+
+      }
+
+
+      // Active sidebar navigation
+
+      const sidebarLinks = document.querySelectorAll(
+        '.sidebar nav a[href^="#"]'
+      );
+
+      const sections = Array.from(sidebarLinks)
+        .map(link => document.querySelector(link.getAttribute("href")))
+        .filter(Boolean);
+
+      if ("IntersectionObserver" in window) {
+
+        const observer = new IntersectionObserver(function (entries) {
+
+          entries.forEach(function (entry) {
+
+            if (entry.isIntersecting) {
+
+              sidebarLinks.forEach(function (link) {
+                link.classList.remove("active");
+              });
+
+              const activeLink = document.querySelector(
+                '.sidebar nav a[href="#' + entry.target.id + '"]'
+              );
+
+              if (activeLink) {
+                activeLink.classList.add("active");
+              }
+
+            }
+
+          });
+
+        }, {
+          rootMargin: "-20% 0px -65% 0px"
+        });
+
+        sections.forEach(function (section) {
+          observer.observe(section);
+        });
+
+      }
+
+    });
+  </script>
+
+</body>
+</html>
