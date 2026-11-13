@@ -1,0 +1,2246 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Networking Foundations | GraySentinel SOC Analyst Roadmap</title>
+
+  <meta
+    name="description"
+    content="Learn networking fundamentals for SOC Analysts. Study IP addressing, network models, protocols, ports, DNS, TCP, UDP and practical packet analysis."
+  >
+
+  <meta name="keywords" content="Networking Fundamentals, SOC Analyst, TCP IP, DNS, Network Security, Cybersecurity Learning, GraySentinel">
+
+  <meta name="author" content="GraySentinel Cyber Defence Lab">
+
+  <meta name="theme-color" content="#0B1830">
+
+  <link rel="stylesheet" href="../../assets/css/style.css">
+
+  <style>
+    :root {
+      --module-navy: #0B1830;
+      --module-navy-light: #142746;
+      --module-cyan: #18C7D8;
+      --module-orange: #F28A38;
+      --module-bg: #F5F8FC;
+      --module-white: #FFFFFF;
+      --module-text: #24344D;
+      --module-muted: #65758B;
+      --module-border: #DFE6EF;
+      --module-green: #18865B;
+      --module-code: #101D32;
+      --module-radius: 12px;
+      --module-shadow: 0 5px 20px rgba(11, 24, 48, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 90px;
+    }
+
+    body {
+      margin: 0;
+      background: var(--module-bg);
+      color: var(--module-text);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.7;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .module-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--module-white);
+      border-bottom: 1px solid var(--module-border);
+    }
+
+    .header-inner {
+      max-width: 1180px;
+      min-height: 70px;
+      padding: 12px 24px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--module-navy);
+      text-decoration: none;
+      font-weight: 800;
+      letter-spacing: -0.4px;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      background: var(--module-navy);
+      color: var(--module-cyan);
+      font-weight: 800;
+    }
+
+    .brand small {
+      display: block;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--module-muted);
+      letter-spacing: 1px;
+    }
+
+    .header-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .header-links a {
+      color: var(--module-muted);
+      text-decoration: none;
+    }
+
+    .header-links a:hover {
+      color: var(--module-navy);
+    }
+
+    .module-hero {
+      background: var(--module-navy);
+      color: white;
+      padding: 66px 24px 58px;
+    }
+
+    .hero-inner {
+      max-width: 1120px;
+      margin: auto;
+    }
+
+    .breadcrumb {
+      margin-bottom: 24px;
+      color: #B5C4D8;
+      font-size: 13px;
+    }
+
+    .breadcrumb a {
+      color: var(--module-cyan);
+      text-decoration: none;
+    }
+
+    .module-label {
+      display: inline-block;
+      padding: 6px 11px;
+      border: 1px solid rgba(24, 199, 216, 0.5);
+      border-radius: 5px;
+      color: var(--module-cyan);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .module-hero h1 {
+      max-width: 780px;
+      margin: 18px 0 14px;
+      font-size: clamp(34px, 5vw, 54px);
+      line-height: 1.12;
+      letter-spacing: -1.8px;
+    }
+
+    .hero-description {
+      max-width: 720px;
+      color: #D1DBE9;
+      font-size: 17px;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 22px;
+      margin-top: 28px;
+      color: #D1DBE9;
+      font-size: 13px;
+    }
+
+    .hero-meta strong {
+      color: white;
+    }
+
+    .module-layout {
+      max-width: 1180px;
+      margin: 36px auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 250px minmax(0, 1fr);
+      align-items: start;
+      gap: 28px;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 94px;
+      padding: 20px;
+      background: var(--module-white);
+      border: 1px solid var(--module-border);
+      border-radius: var(--module-radius);
+      box-shadow: var(--module-shadow);
+    }
+
+    .sidebar h3 {
+      margin: 0 0 14px;
+      color: var(--module-navy);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 8px 10px;
+      margin: 3px 0;
+      color: var(--module-muted);
+      text-decoration: none;
+      font-size: 13px;
+      border-radius: 6px;
+    }
+
+    .sidebar a:hover {
+      background: #EDF8FA;
+      color: var(--module-navy);
+    }
+
+    .sidebar a.active {
+      background: #E6F8FA;
+      color: var(--module-navy);
+      font-weight: 800;
+      border-left: 3px solid var(--module-cyan);
+    }
+
+    .sidebar-divider {
+      height: 1px;
+      margin: 15px 0;
+      background: var(--module-border);
+    }
+
+    .sidebar-note {
+      color: var(--module-muted);
+      font-size: 12px;
+    }
+
+    .content {
+      min-width: 0;
+    }
+
+    .content-section {
+      margin-bottom: 22px;
+      padding: 28px;
+      background: var(--module-white);
+      border: 1px solid var(--module-border);
+      border-radius: var(--module-radius);
+      box-shadow: var(--module-shadow);
+    }
+
+    .section-kicker {
+      color: var(--module-green);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .content-section h2 {
+      margin: 5px 0 16px;
+      color: var(--module-navy);
+      font-size: 25px;
+      line-height: 1.3;
+    }
+
+    .content-section h3 {
+      margin: 26px 0 10px;
+      color: var(--module-navy);
+      font-size: 18px;
+    }
+
+    .content-section h4 {
+      margin: 18px 0 7px;
+      color: var(--module-navy);
+      font-size: 15px;
+    }
+
+    .content-section p {
+      color: var(--module-text);
+    }
+
+    .content-section ul,
+    .content-section ol {
+      padding-left: 23px;
+    }
+
+    .content-section li {
+      margin: 7px 0;
+    }
+
+    .info-box {
+      margin: 20px 0;
+      padding: 17px 18px;
+      border-left: 4px solid var(--module-cyan);
+      border-radius: 5px;
+      background: #EDF9FB;
+    }
+
+    .info-box strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--module-navy);
+    }
+
+    .warning-box {
+      margin: 20px 0;
+      padding: 17px 18px;
+      border-left: 4px solid var(--module-orange);
+      border-radius: 5px;
+      background: #FFF5EB;
+    }
+
+    .warning-box strong {
+      display: block;
+      margin-bottom: 5px;
+      color: #85430D;
+    }
+
+    .topic-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 13px;
+      margin-top: 18px;
+    }
+
+    .topic-card {
+      padding: 17px;
+      border: 1px solid var(--module-border);
+      border-radius: 9px;
+      background: #FCFDFE;
+    }
+
+    .topic-card strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--module-navy);
+    }
+
+    .topic-card p {
+      margin: 0;
+      color: var(--module-muted);
+      font-size: 13px;
+    }
+
+    .data-table {
+      width: 100%;
+      margin: 18px 0;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .data-table th,
+    .data-table td {
+      padding: 12px;
+      text-align: left;
+      border: 1px solid var(--module-border);
+    }
+
+    .data-table th {
+      background: #EDF2F8;
+      color: var(--module-navy);
+    }
+
+    .data-table tr:nth-child(even) td {
+      background: #FAFBFD;
+    }
+
+    .code-block {
+      overflow-x: auto;
+      margin: 14px 0;
+      padding: 18px;
+      border-radius: 8px;
+      background: var(--module-code);
+      color: #D8E8F6;
+      font-family: Consolas, Monaco, monospace;
+      font-size: 13px;
+      line-height: 1.8;
+      white-space: pre;
+    }
+
+    .code-block .comment {
+      color: #86A5BC;
+    }
+
+    .workflow {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin: 22px 0;
+    }
+
+    .workflow-item {
+      padding: 15px 10px;
+      text-align: center;
+      border: 1px solid var(--module-border);
+      border-radius: 8px;
+      background: #FAFCFE;
+    }
+
+    .workflow-item strong {
+      display: block;
+      color: var(--module-navy);
+      font-size: 13px;
+    }
+
+    .workflow-item span {
+      display: block;
+      margin-top: 4px;
+      color: var(--module-muted);
+      font-size: 11px;
+    }
+
+    .exercise {
+      margin: 18px 0;
+      padding: 20px;
+      border: 1px solid var(--module-border);
+      border-radius: 9px;
+    }
+
+    .exercise-label {
+      display: inline-block;
+      margin-bottom: 9px;
+      padding: 4px 8px;
+      background: #E6F8FA;
+      color: #11616B;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .exercise h3 {
+      margin: 0 0 10px;
+    }
+
+    .exercise p {
+      margin: 8px 0;
+    }
+
+    .task-list {
+      list-style: none;
+      padding: 0 !important;
+    }
+
+    .task-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin: 11px 0;
+    }
+
+    .task-list input {
+      width: 17px;
+      height: 17px;
+      margin-top: 4px;
+      accent-color: var(--module-green);
+      flex-shrink: 0;
+    }
+
+    .quiz-question {
+      margin: 22px 0;
+      padding: 18px;
+      border: 1px solid var(--module-border);
+      border-radius: 9px;
+    }
+
+    .quiz-question p {
+      margin-top: 0;
+      color: var(--module-navy);
+      font-weight: 700;
+    }
+
+    .quiz-question label {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      margin: 11px 0;
+      color: var(--module-text);
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .quiz-question input {
+      margin-top: 5px;
+      accent-color: var(--module-green);
+    }
+
+    .primary-button {
+      display: inline-block;
+      padding: 12px 19px;
+      border: 0;
+      border-radius: 6px;
+      background: var(--module-navy);
+      color: white;
+      font-weight: 700;
+      font-size: 13px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .primary-button:hover {
+      background: var(--module-navy-light);
+    }
+
+    .secondary-button {
+      display: inline-block;
+      padding: 11px 18px;
+      border: 1px solid var(--module-border);
+      border-radius: 6px;
+      background: white;
+      color: var(--module-navy);
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .quiz-result {
+      display: none;
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 8px;
+      background: #E8F7F0;
+      color: #176C4A;
+      font-weight: 700;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      margin: 12px 0;
+      overflow: hidden;
+      border-radius: 20px;
+      background: #E8EDF3;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: var(--module-green);
+      transition: width 0.2s ease;
+    }
+
+    .evidence-card {
+      padding: 20px;
+      border: 1px solid var(--module-border);
+      border-radius: 9px;
+      background: #FCFDFE;
+    }
+
+    .evidence-card h3 {
+      margin-top: 0;
+    }
+
+    .resource-list a {
+      color: #086F83;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .resource-list a:hover {
+      text-decoration: underline;
+    }
+
+    .next-module {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding: 24px;
+      border-radius: var(--module-radius);
+      background: var(--module-navy);
+      color: white;
+    }
+
+    .next-module h3 {
+      margin: 0 0 5px;
+      color: white;
+    }
+
+    .next-module p {
+      margin: 0;
+      color: #C6D5E7;
+      font-size: 13px;
+    }
+
+    .next-module a {
+      flex-shrink: 0;
+      padding: 11px 15px;
+      border-radius: 6px;
+      background: var(--module-cyan);
+      color: var(--module-navy);
+      font-size: 12px;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .module-footer {
+      padding: 28px 24px;
+      background: var(--module-navy);
+      color: #D1DBE9;
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .module-footer a {
+      color: var(--module-cyan);
+      text-decoration: none;
+    }
+
+    @media (max-width: 900px) {
+      .module-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+      }
+
+      .sidebar nav {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 3px;
+      }
+
+      .workflow {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 600px) {
+      .header-inner {
+        padding: 10px 15px;
+      }
+
+      .header-links {
+        gap: 10px;
+        font-size: 11px;
+      }
+
+      .module-hero {
+        padding: 42px 18px;
+      }
+
+      .module-layout {
+        padding: 0 14px;
+        margin: 20px auto;
+      }
+
+      .content-section {
+        padding: 20px 17px;
+      }
+
+      .content-section h2 {
+        font-size: 21px;
+      }
+
+      .topic-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .data-table {
+        display: block;
+        overflow-x: auto;
+      }
+
+      .next-module {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="module-header">
+    <div class="header-inner">
+
+      <a class="brand" href="../../index.html">
+        <span class="brand-mark">GS</span>
+        <span>
+          GRAYSENTINEL
+          <small>CYBER DEFENCE LAB</small>
+        </span>
+      </a>
+
+      <nav class="header-links" aria-label="Main navigation">
+        <a href="../../index.html">Home</a>
+        <a href="../../ROADMAP.md">Roadmap</a>
+        <a href="../../modules/README.md">Modules</a>
+      </nav>
+
+    </div>
+  </header>
+
+
+  <!-- HERO -->
+  <section class="module-hero">
+    <div class="hero-inner">
+
+      <div class="breadcrumb">
+        <a href="../../index.html">Home</a>
+        /
+        <a href="../../ROADMAP.md">SOC Analyst Roadmap</a>
+        /
+        Module 01
+      </div>
+
+      <span class="module-label">Module 01 · Technical Foundations</span>
+
+      <h1>Networking Foundations</h1>
+
+      <p class="hero-description">
+        Understand how computers communicate, how network protocols
+        work and how network activity helps security analysts
+        investigate suspicious behaviour.
+      </p>
+
+      <div class="hero-meta">
+        <span><strong>Level:</strong> Beginner</span>
+        <span><strong>Focus:</strong> Networking</span>
+        <span><strong>Format:</strong> Concepts + Practical Exercises</span>
+        <span><strong>Module:</strong> 01 of 08</span>
+      </div>
+
+    </div>
+  </section>
+
+
+  <main class="module-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+      <h3>Module Navigation</h3>
+
+      <nav aria-label="Module sections">
+        <a href="#overview" class="active">01. Overview</a>
+        <a href="#objectives">02. Objectives</a>
+        <a href="#networks">03. Networks</a>
+        <a href="#ip-addressing">04. IP Addressing</a>
+        <a href="#models">05. Network Models</a>
+        <a href="#protocols">06. Protocols</a>
+        <a href="#ports">07. Ports and Services</a>
+        <a href="#traffic">08. Network Traffic</a>
+        <a href="#practical">09. Practical Exercises</a>
+        <a href="#assessment">10. Knowledge Check</a>
+        <a href="#evidence">11. Evidence</a>
+        <a href="#completion">12. Completion</a>
+      </nav>
+
+      <div class="sidebar-divider"></div>
+
+      <h3>Learning Progress</h3>
+
+      <div id="progressText" class="sidebar-note">
+        0 of 8 learning tasks completed
+      </div>
+
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+
+      <div class="sidebar-divider"></div>
+
+      <p class="sidebar-note">
+        Complete the exercises and document your work.
+        Your checklist is saved locally in this browser.
+      </p>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <div class="content">
+
+
+      <!-- OVERVIEW -->
+      <section class="content-section" id="overview">
+
+        <span class="section-kicker">Start Here</span>
+
+        <h2>Module Overview</h2>
+
+        <p>
+          Every device connected to a network communicates through
+          defined rules and protocols. Security analysts study these
+          communications to understand normal behaviour and identify
+          suspicious activity.
+        </p>
+
+        <p>
+          Before investigating network attacks, you need to understand
+          how networks operate. This module introduces the concepts
+          that form the foundation of network security monitoring.
+        </p>
+
+        <div class="info-box">
+          <strong>Why does a SOC Analyst need networking?</strong>
+          Network logs and packet captures can reveal communication
+          between devices, unusual connections, suspicious destinations,
+          unexpected services and other activity that may require
+          investigation.
+        </div>
+
+        <h3>What You Will Learn</h3>
+
+        <div class="topic-grid">
+
+          <div class="topic-card">
+            <strong>Network Fundamentals</strong>
+            <p>Understand networks, devices and communication.</p>
+          </div>
+
+          <div class="topic-card">
+            <strong>IP Addressing</strong>
+            <p>Understand IPv4, private addresses and gateways.</p>
+          </div>
+
+          <div class="topic-card">
+            <strong>Network Models</strong>
+            <p>Understand the OSI and TCP/IP models.</p>
+          </div>
+
+          <div class="topic-card">
+            <strong>Protocols and Ports</strong>
+            <p>Understand common services and communication rules.</p>
+          </div>
+
+          <div class="topic-card">
+            <strong>Network Traffic</strong>
+            <p>Understand packets, connections and basic traffic analysis.</p>
+          </div>
+
+          <div class="topic-card">
+            <strong>Practical Investigation</strong>
+            <p>Inspect permitted network activity and document findings.</p>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- OBJECTIVES -->
+      <section class="content-section" id="objectives">
+
+        <span class="section-kicker">Learning Outcomes</span>
+
+        <h2>Learning Objectives</h2>
+
+        <p>By the end of this module, you should be able to:</p>
+
+        <ul>
+          <li>Explain what a computer network is.</li>
+          <li>Differentiate LAN, WAN and internet connectivity.</li>
+          <li>Understand IPv4 addresses and private IP ranges.</li>
+          <li>Explain the purpose of the OSI and TCP/IP models.</li>
+          <li>Identify commonly used network protocols.</li>
+          <li>Explain the relationship between IP addresses and ports.</li>
+          <li>Understand TCP and UDP communication.</li>
+          <li>Interpret basic packet capture information.</li>
+          <li>Document network observations in a structured format.</li>
+        </ul>
+
+        <div class="info-box">
+          <strong>Completion expectation</strong>
+          You should be able to explain your observations in your own
+          words rather than simply memorising definitions.
+        </div>
+
+      </section>
+
+
+      <!-- NETWORKS -->
+      <section class="content-section" id="networks">
+
+        <span class="section-kicker">Topic 01</span>
+
+        <h2>Understanding Computer Networks</h2>
+
+        <p>
+          A computer network is a group of connected devices that
+          communicate and exchange information.
+        </p>
+
+        <p>
+          These devices may include computers, servers, routers,
+          switches, mobile devices and other network-connected systems.
+        </p>
+
+        <h3>Common Network Types</h3>
+
+        <div class="topic-grid">
+
+          <div class="topic-card">
+            <strong>LAN · Local Area Network</strong>
+            <p>
+              Connects devices within a limited geographical area,
+              such as a home, office or laboratory.
+            </p>
+          </div>
+
+          <div class="topic-card">
+            <strong>WAN · Wide Area Network</strong>
+            <p>
+              Connects networks across larger geographical distances.
+            </p>
+          </div>
+
+          <div class="topic-card">
+            <strong>WLAN · Wireless LAN</strong>
+            <p>
+              Connects devices through wireless networking technology,
+              commonly Wi-Fi.
+            </p>
+          </div>
+
+          <div class="topic-card">
+            <strong>Internet</strong>
+            <p>
+              A global network of interconnected networks that
+              communicate using common protocols.
+            </p>
+          </div>
+
+        </div>
+
+        <h3>Important Network Devices</h3>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Device</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>Router</td>
+              <td>Forwards traffic between different networks.</td>
+            </tr>
+
+            <tr>
+              <td>Switch</td>
+              <td>Connects devices within a local network.</td>
+            </tr>
+
+            <tr>
+              <td>Firewall</td>
+              <td>Controls network traffic according to security rules.</td>
+            </tr>
+
+            <tr>
+              <td>Access Point</td>
+              <td>Provides wireless network connectivity.</td>
+            </tr>
+
+            <tr>
+              <td>Server</td>
+              <td>Provides services or resources to other systems.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="info-box">
+          <strong>SOC perspective</strong>
+          An unexpected communication path or an unusual network
+          service may provide an investigation lead. It does not,
+          by itself, prove malicious activity.
+        </div>
+
+      </section>
+
+
+      <!-- IP ADDRESSING -->
+      <section class="content-section" id="ip-addressing">
+
+        <span class="section-kicker">Topic 02</span>
+
+        <h2>IP Addressing</h2>
+
+        <p>
+          An Internet Protocol address identifies a network interface
+          for communication using the IP protocol.
+        </p>
+
+        <h3>IPv4 Address</h3>
+
+        <p>
+          IPv4 addresses use 32 bits and are commonly written as
+          four decimal numbers separated by dots.
+        </p>
+
+        <div class="code-block">192.168.1.10</div>
+
+        <p>
+          Each decimal section represents eight bits and ranges
+          from 0 to 255.
+        </p>
+
+        <h3>Private IPv4 Address Ranges</h3>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Private Range</th>
+              <th>CIDR</th>
+              <th>Address Range</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>10.0.0.0</td>
+              <td>/8</td>
+              <td>10.0.0.0 – 10.255.255.255</td>
+            </tr>
+
+            <tr>
+              <td>172.16.0.0</td>
+              <td>/12</td>
+              <td>172.16.0.0 – 172.31.255.255</td>
+            </tr>
+
+            <tr>
+              <td>192.168.0.0</td>
+              <td>/16</td>
+              <td>192.168.0.0 – 192.168.255.255</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Public and Private IP Addresses</h3>
+
+        <p>
+          Private addresses are used within private networks and are
+          not directly globally routable on the public internet.
+          Public addresses are used for globally routable internet
+          communication.
+        </p>
+
+        <h3>Other Important Addressing Concepts</h3>
+
+        <ul>
+          <li><strong>Subnet Mask:</strong> Helps identify the network and host portions of an IPv4 address.</li>
+          <li><strong>Default Gateway:</strong> Provides a route to other networks.</li>
+          <li><strong>DNS:</strong> Resolves domain names to IP addresses.</li>
+          <li><strong>MAC Address:</strong> Identifies a network interface at the data-link layer.</li>
+          <li><strong>Loopback:</strong> IPv4 loopback traffic commonly uses 127.0.0.1.</li>
+        </ul>
+
+        <h3>Example Network Configuration</h3>
+
+        <div class="code-block">IP Address:      192.168.1.10
+Subnet Mask:     255.255.255.0
+Default Gateway: 192.168.1.1
+DNS Server:      192.168.1.1</div>
+
+        <p>
+          This is an illustrative private network configuration.
+          Actual values depend on the network environment.
+        </p>
+
+      </section>
+
+
+      <!-- NETWORK MODELS -->
+      <section class="content-section" id="models">
+
+        <span class="section-kicker">Topic 03</span>
+
+        <h2>OSI and TCP/IP Models</h2>
+
+        <p>
+          Network models help explain how data moves through
+          different networking functions.
+        </p>
+
+        <h3>The OSI Model</h3>
+
+        <p>The OSI model contains seven layers.</p>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Layer</th>
+              <th>Name</th>
+              <th>Function</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>7</td>
+              <td>Application</td>
+              <td>Network services used by applications.</td>
+            </tr>
+
+            <tr>
+              <td>6</td>
+              <td>Presentation</td>
+              <td>Data representation, encoding and encryption concepts.</td>
+            </tr>
+
+            <tr>
+              <td>5</td>
+              <td>Session</td>
+              <td>Session establishment and management.</td>
+            </tr>
+
+            <tr>
+              <td>4</td>
+              <td>Transport</td>
+              <td>End-to-end transport and port addressing.</td>
+            </tr>
+
+            <tr>
+              <td>3</td>
+              <td>Network</td>
+              <td>Logical addressing and routing.</td>
+            </tr>
+
+            <tr>
+              <td>2</td>
+              <td>Data Link</td>
+              <td>Local network framing and MAC addressing.</td>
+            </tr>
+
+            <tr>
+              <td>1</td>
+              <td>Physical</td>
+              <td>Physical transmission of bits.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>The TCP/IP Model</h3>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Layer</th>
+              <th>Examples</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>Application</td>
+              <td>HTTP, HTTPS, DNS, SMTP</td>
+            </tr>
+
+            <tr>
+              <td>Transport</td>
+              <td>TCP, UDP</td>
+            </tr>
+
+            <tr>
+              <td>Internet</td>
+              <td>IP, ICMP</td>
+            </tr>
+
+            <tr>
+              <td>Network Access</td>
+              <td>Ethernet, Wi-Fi</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="info-box">
+          <strong>Why this matters in security investigations</strong>
+          Understanding network layers helps analysts reason about
+          where an event occurs. For example, routing issues,
+          transport connections and application requests describe
+          different parts of network communication.
+        </div>
+
+      </section>
+
+
+      <!-- PROTOCOLS -->
+      <section class="content-section" id="protocols">
+
+        <span class="section-kicker">Topic 04</span>
+
+        <h2>Common Network Protocols</h2>
+
+        <p>
+          A protocol defines rules that allow systems to exchange
+          information.
+        </p>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Protocol</th>
+              <th>Purpose</th>
+              <th>Common Port</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>HTTP</td>
+              <td>Web communication</td>
+              <td>80</td>
+            </tr>
+
+            <tr>
+              <td>HTTPS</td>
+              <td>Encrypted web communication</td>
+              <td>443</td>
+            </tr>
+
+            <tr>
+              <td>DNS</td>
+              <td>Domain name resolution</td>
+              <td>53</td>
+            </tr>
+
+            <tr>
+              <td>DHCP</td>
+              <td>Automatic network configuration</td>
+              <td>67 / 68</td>
+            </tr>
+
+            <tr>
+              <td>SSH</td>
+              <td>Secure remote administration</td>
+              <td>22</td>
+            </tr>
+
+            <tr>
+              <td>SMTP</td>
+              <td>Email transmission</td>
+              <td>25</td>
+            </tr>
+
+            <tr>
+              <td>FTP</td>
+              <td>File transfer</td>
+              <td>20 / 21</td>
+            </tr>
+
+            <tr>
+              <td>RDP</td>
+              <td>Remote Desktop Protocol</td>
+              <td>3389</td>
+            </tr>
+
+            <tr>
+              <td>SNMP</td>
+              <td>Network device monitoring and management</td>
+              <td>161 / 162</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="warning-box">
+          <strong>Important</strong>
+          Common port numbers are conventions, not proof of the
+          application or service running on a connection. Services
+          can use non-standard ports, and port observations must
+          be interpreted with additional evidence.
+        </div>
+
+        <h3>DNS: Domain Name System</h3>
+
+        <p>
+          DNS translates domain names into information used to locate
+          network services, commonly including IP addresses.
+        </p>
+
+        <p>For example:</p>
+
+        <div class="code-block">example.com → Resolved IP address</div>
+
+        <p>
+          During an investigation, DNS records can help analysts
+          understand which domain names a system attempted to resolve.
+        </p>
+
+        <h3>DHCP: Dynamic Host Configuration Protocol</h3>
+
+        <p>
+          DHCP can automatically provide network configuration
+          information such as IP addresses, subnet masks, gateways
+          and DNS server information.
+        </p>
+
+        <h3>HTTP and HTTPS</h3>
+
+        <p>
+          HTTP is an application-layer protocol used for web
+          communication. HTTPS uses HTTP over a protected TLS
+          connection.
+        </p>
+
+        <h3>SSH</h3>
+
+        <p>
+          SSH provides encrypted remote access and administration.
+          It is commonly used to manage Linux and other networked
+          systems.
+        </p>
+
+      </section>
+
+
+      <!-- PORTS -->
+      <section class="content-section" id="ports">
+
+        <span class="section-kicker">Topic 05</span>
+
+        <h2>Ports and Services</h2>
+
+        <p>
+          An IP address identifies a network interface for IP
+          communication. A transport-layer port helps identify
+          the application or service endpoint.
+        </p>
+
+        <p>
+          TCP and UDP port numbers range from 0 to 65535.
+        </p>
+
+        <h3>Port Categories</h3>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Range</th>
+              <th>Category</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>0–1023</td>
+              <td>Well-known ports</td>
+            </tr>
+
+            <tr>
+              <td>1024–49151</td>
+              <td>Registered ports</td>
+            </tr>
+
+            <tr>
+              <td>49152–65535</td>
+              <td>Dynamic or private ports</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Example Connection</h3>
+
+        <div class="code-block">Source IP:       192.168.1.10
+Source Port:     51524
+
+Destination IP:  93.184.216.34
+Destination Port: 443
+
+Protocol:        TCP</div>
+
+        <p>
+          This example describes a TCP connection from a client
+          using source port 51524 to a destination using port 443.
+          The port alone does not establish what application content
+          was exchanged.
+        </p>
+
+        <div class="info-box">
+          <strong>SOC investigation question</strong>
+          Is this connection expected for the system, user, time
+          and business context? Analysts need supporting evidence
+          before deciding whether an event is suspicious.
+        </div>
+
+      </section>
+
+
+      <!-- TRAFFIC -->
+      <section class="content-section" id="traffic">
+
+        <span class="section-kicker">Topic 06</span>
+
+        <h2>Understanding Network Traffic</h2>
+
+        <p>
+          Network traffic is the data exchanged between devices.
+          Analysts may inspect traffic metadata, packet headers
+          and permitted packet contents to understand communication.
+        </p>
+
+        <h3>What Is a Packet?</h3>
+
+        <p>
+          A packet is a unit of data transmitted across a network.
+          Its structure depends on the protocols being used.
+        </p>
+
+        <h3>Important Packet Information</h3>
+
+        <ul>
+          <li>Source IP address.</li>
+          <li>Destination IP address.</li>
+          <li>Source port.</li>
+          <li>Destination port.</li>
+          <li>Transport protocol.</li>
+          <li>Packet length.</li>
+          <li>Timestamp.</li>
+          <li>Relevant protocol flags and fields.</li>
+        </ul>
+
+        <h3>TCP Fundamentals</h3>
+
+        <p>
+          TCP is a connection-oriented transport protocol. It
+          provides mechanisms for reliable, ordered data delivery.
+        </p>
+
+        <h4>TCP Three-Way Handshake</h4>
+
+        <div class="workflow">
+
+          <div class="workflow-item">
+            <strong>01 · SYN</strong>
+            <span>Client requests a connection.</span>
+          </div>
+
+          <div class="workflow-item">
+            <strong>02 · SYN-ACK</strong>
+            <span>Server acknowledges and responds.</span>
+          </div>
+
+          <div class="workflow-item">
+            <strong>03 · ACK</strong>
+            <span>Client acknowledges the response.</span>
+          </div>
+
+          <div class="workflow-item">
+            <strong>04 · Established</strong>
+            <span>Data communication can begin.</span>
+          </div>
+
+        </div>
+
+        <h3>UDP Fundamentals</h3>
+
+        <p>
+          UDP is a connectionless transport protocol. It does not
+          establish a TCP-style connection before transmitting data.
+        </p>
+
+        <p>
+          UDP is commonly used where low overhead and application-level
+          handling of delivery are important.
+        </p>
+
+        <h3>TCP vs UDP</h3>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>TCP</th>
+              <th>UDP</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>Connection-oriented</td>
+              <td>Connectionless</td>
+            </tr>
+
+            <tr>
+              <td>Reliable, ordered delivery mechanisms</td>
+              <td>No built-in guarantee of delivery or ordering</td>
+            </tr>
+
+            <tr>
+              <td>Uses connection state and acknowledgements</td>
+              <td>Has lower protocol overhead</td>
+            </tr>
+
+            <tr>
+              <td>Commonly used for HTTPS and SSH</td>
+              <td>Commonly used for DNS queries and real-time applications</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="info-box">
+          <strong>Practical takeaway</strong>
+          Do not classify traffic as malicious simply because it
+          uses TCP, UDP or a particular port. Investigate the
+          communication context and supporting evidence.
+        </div>
+
+      </section>
+
+
+      <!-- PRACTICAL -->
+      <section class="content-section" id="practical">
+
+        <span class="section-kicker">Hands-on Learning</span>
+
+        <h2>Practical Exercises</h2>
+
+        <p>
+          Complete these exercises in your own computer or an
+          authorised training environment. Use only systems and
+          network traffic you are permitted to inspect.
+        </p>
+
+        <div class="exercise">
+
+          <span class="exercise-label">Exercise 01</span>
+
+          <h3>Inspect Your Network Configuration</h3>
+
+          <p><strong>Objective:</strong> Identify your device's network configuration.</p>
+
+          <p><strong>Windows command:</strong></p>
+
+          <div class="code-block">ipconfig /all</div>
+
+          <p><strong>Linux command:</strong></p>
+
+          <div class="code-block">ip address
+ip route</div>
+
+          <p><strong>Tasks:</strong></p>
+
+          <ol>
+            <li>Identify an active network interface.</li>
+            <li>Record its IP address.</li>
+            <li>Identify its subnet information.</li>
+            <li>Identify the default gateway, if configured.</li>
+            <li>Identify the DNS configuration where available.</li>
+          </ol>
+
+          <p><strong>Evidence:</strong> A sanitised configuration worksheet.</p>
+
+        </div>
+
+
+        <div class="exercise">
+
+          <span class="exercise-label">Exercise 02</span>
+
+          <h3>Understand DNS Resolution</h3>
+
+          <p><strong>Objective:</strong> Observe how a domain name is resolved.</p>
+
+          <p><strong>Windows or Linux command:</strong></p>
+
+          <div class="code-block">nslookup example.com</div>
+
+          <p><strong>Tasks:</strong></p>
+
+          <ol>
+            <li>Run the DNS lookup command.</li>
+            <li>Identify the queried domain.</li>
+            <li>Identify the DNS server shown in the result.</li>
+            <li>Record the returned address information.</li>
+            <li>Explain what the result establishes and what it does not establish.</li>
+          </ol>
+
+          <p><strong>Evidence:</strong> A DNS lookup analysis note.</p>
+
+        </div>
+
+
+        <div class="exercise">
+
+          <span class="exercise-label">Exercise 03</span>
+
+          <h3>Inspect Network Connections</h3>
+
+          <p><strong>Objective:</strong> Understand active network connection information.</p>
+
+          <p><strong>Windows command:</strong></p>
+
+          <div class="code-block">netstat -ano</div>
+
+          <p><strong>Linux command:</strong></p>
+
+          <div class="code-block">ss -tunap</div>
+
+          <p><strong>Tasks:</strong></p>
+
+          <ol>
+            <li>Identify local addresses and ports.</li>
+            <li>Identify remote addresses and ports.</li>
+            <li>Observe the transport protocol.</li>
+            <li>Identify connection states where available.</li>
+            <li>Explain why a listening port is not automatically malicious.</li>
+          </ol>
+
+          <p><strong>Evidence:</strong> A sanitised network connection worksheet.</p>
+
+        </div>
+
+
+        <div class="exercise">
+
+          <span class="exercise-label">Exercise 04</span>
+
+          <h3>Inspect a Packet Capture</h3>
+
+          <p><strong>Objective:</strong> Understand packet-level network information.</p>
+
+          <p>
+            Use Wireshark with a sample packet capture supplied by
+            your training environment or capture traffic from your
+            own authorised device.
+          </p>
+
+          <p><strong>Tasks:</strong></p>
+
+          <ol>
+            <li>Open the permitted packet capture.</li>
+            <li>Identify source and destination addresses.</li>
+            <li>Identify TCP and UDP traffic.</li>
+            <li>Identify DNS requests where present.</li>
+            <li>Inspect TCP handshake packets where present.</li>
+            <li>Record your observations and limitations.</li>
+          </ol>
+
+          <p><strong>Evidence:</strong> A packet analysis worksheet with relevant screenshots.</p>
+
+          <div class="warning-box">
+            <strong>Privacy requirement</strong>
+            Do not publish captures containing passwords, personal
+            information, session tokens or confidential communication.
+            Use synthetic or sanitised captures for public submissions.
+          </div>
+
+        </div>
+
+
+        <div class="exercise">
+
+          <span class="exercise-label">Exercise 05</span>
+
+          <h3>Build a Network Protocol Reference Sheet</h3>
+
+          <p><strong>Objective:</strong> Build a quick reference for common protocols.</p>
+
+          <p><strong>Tasks:</strong></p>
+
+          <ol>
+            <li>Document at least ten common protocols.</li>
+            <li>Describe the purpose of each protocol.</li>
+            <li>Record commonly associated ports where applicable.</li>
+            <li>Identify whether the protocol commonly uses TCP, UDP or both.</li>
+            <li>Document one security monitoring consideration for each selected protocol.</li>
+          </ol>
+
+          <p><strong>Evidence:</strong> A documented protocol reference sheet.</p>
+
+        </div>
+
+      </section>
+
+
+      <!-- ASSESSMENT -->
+      <section class="content-section" id="assessment">
+
+        <span class="section-kicker">Knowledge Validation</span>
+
+        <h2>Module Knowledge Check</h2>
+
+        <p>
+          Answer the following questions to check your understanding.
+          This is a learning quiz, not a professional certification
+          or job-readiness assessment.
+        </p>
+
+        <form id="quizForm">
+
+          <div class="quiz-question">
+            <p>1. Which device commonly forwards traffic between different networks?</p>
+
+            <label><input type="radio" name="q1" value="a"> Switch</label>
+            <label><input type="radio" name="q1" value="b"> Router</label>
+            <label><input type="radio" name="q1" value="c"> Keyboard</label>
+            <label><input type="radio" name="q1" value="d"> Monitor</label>
+          </div>
+
+          <div class="quiz-question">
+            <p>2. Which protocol is commonly used for domain name resolution?</p>
+
+            <label><input type="radio" name="q2" value="a"> SSH</label>
+            <label><input type="radio" name="q2" value="b"> SMTP</label>
+            <label><input type="radio" name="q2" value="c"> DNS</label>
+            <label><input type="radio" name="q2" value="d"> FTP</label>
+          </div>
+
+          <div class="quiz-question">
+            <p>3. Which OSI layer is responsible for logical addressing and routing?</p>
+
+            <label><input type="radio" name="q3" value="a"> Physical</label>
+            <label><input type="radio" name="q3" value="b"> Data Link</label>
+            <label><input type="radio" name="q3" value="c"> Network</label>
+            <label><input type="radio" name="q3" value="d"> Application</label>
+          </div>
+
+          <div class="quiz-question">
+            <p>4. Which port is commonly associated with HTTPS?</p>
+
+            <label><input type="radio" name="q4" value="a"> 21</label>
+            <label><input type="radio" name="q4" value="b"> 22</label>
+            <label><input type="radio" name="q4" value="c"> 80</label>
+            <label><input type="radio" name="q4" value="d"> 443</label>
+          </div>
+
+          <div class="quiz-question">
+            <p>5. Which transport protocol is connection-oriented?</p>
+
+            <label><input type="radio" name="q5" value="a"> UDP</label>
+            <label><input type="radio" name="q5" value="b"> TCP</label>
+            <label><input type="radio" name="q5" value="c"> DNS</label>
+            <label><input type="radio" name="q5" value="d"> ARP</label>
+          </div>
+
+          <div class="quiz-question">
+            <p>6. Which of these is a private IPv4 address?</p>
+
+            <label><input type="radio" name="q6" value="a"> 8.8.8.8</label>
+            <label><input type="radio" name="q6" value="b"> 192.168.1.10</label>
+            <label><input type="radio" name="q6" value="c"> 1.1.1.1</label>
+            <label><input type="radio" name="q6" value="d"> 93.184.216.34</label>
+          </div>
+
+          <div class="quiz-question">
+            <p>7. What does DHCP commonly provide to a network client?</p>
+
+            <label><input type="radio" name="q7" value="a"> Automatic network configuration</label>
+            <label><input type="radio" name="q7" value="b"> Malware detection</label>
+            <label><input type="radio" name="q7" value="c"> File encryption</label>
+            <label><input type="radio" name="q7" value="d"> Password recovery</label>
+          </div>
+
+          <div class="quiz-question">
+            <p>8. What is the correct order of the TCP three-way handshake?</p>
+
+            <label><input type="radio" name="q8" value="a"> ACK → SYN → SYN-ACK</label>
+            <label><input type="radio" name="q8" value="b"> SYN → SYN-ACK → ACK</label>
+            <label><input type="radio" name="q8" value="c"> SYN-ACK → ACK → SYN</label>
+            <label><input type="radio" name="q8" value="d"> ACK → ACK → SYN</label>
+          </div>
+
+          <button class="primary-button" type="submit">
+            Check My Answers
+          </button>
+
+          <div class="quiz-result" id="quizResult" role="status" aria-live="polite"></div>
+
+        </form>
+
+      </section>
+
+
+      <!-- EVIDENCE -->
+      <section class="content-section" id="evidence">
+
+        <span class="section-kicker">Proof of Work</span>
+
+        <h2>Required Evidence and Deliverables</h2>
+
+        <p>
+          Complete the practical activities and prepare the following
+          documents for your learning portfolio.
+        </p>
+
+        <div class="evidence-card">
+
+          <h3>Module 01 Deliverables</h3>
+
+          <ul>
+            <li>Networking fundamentals notes.</li>
+            <li>Network configuration worksheet.</li>
+            <li>DNS lookup analysis.</li>
+            <li>Network connection observation report.</li>
+            <li>Protocol and port reference sheet.</li>
+            <li>Packet analysis worksheet.</li>
+            <li>Knowledge check result.</li>
+          </ul>
+
+        </div>
+
+        <h3>Suggested Portfolio Structure</h3>
+
+        <div class="code-block">soc-analyst-portfolio/
+│
+├── 01-networking/
+│   ├── README.md
+│   ├── networking-notes.md
+│   ├── network-configuration.md
+│   ├── dns-analysis.md
+│   ├── protocol-reference.md
+│   ├── connection-analysis.md
+│   └── packet-analysis.md
+│
+└── evidence/
+    └── sanitised-screenshots/</div>
+
+        <div class="info-box">
+          <strong>Proof Over Certificates</strong>
+          Your portfolio should show what you investigated,
+          how you investigated it, what you observed and what
+          conclusions the available evidence supports.
+        </div>
+
+      </section>
+
+
+      <!-- COMPLETION -->
+      <section class="content-section" id="completion">
+
+        <span class="section-kicker">Module Review</span>
+
+        <h2>Module Completion Checklist</h2>
+
+        <p>
+          Mark each task after completing the actual work.
+          Progress is stored in this browser using local storage.
+        </p>
+
+        <ul class="task-list">
+
+          <li>
+            <input type="checkbox" data-module-progress="1">
+            <label>Understand basic networking concepts and network devices.</label>
+          </li>
+
+          <li>
+            <input type="checkbox" data-module-progress="2">
+            <label>Understand IPv4 addressing and private IP ranges.</label>
+          </li>
+
+          <li>
+            <input type="checkbox" data-module-progress="3">
+            <label>Understand the OSI and TCP/IP models.</label>
+          </li>
+
+          <li>
+            <input type="checkbox" data-module-progress="4">
+            <label>Identify common protocols and their purposes.</label>
+          </li>
+
+          <li>
+            <input type="checkbox" data-module-progress="5">
+            <label>Understand ports, services and TCP versus UDP.</label>
+          </li>
+
+          <li>
+            <input type="checkbox" data-module-progress="6">
+            <label>Complete the network configuration and DNS exercises.</label>
+          </li>
+
+          <li>
+            <input type="checkbox" data-module-progress="7">
+            <label>Complete the packet analysis exercise safely.</label>
+          </li>
+
+          <li>
+            <input type="checkbox" data-module-progress="8">
+            <label>Prepare and review the required portfolio evidence.</label>
+          </li>
+
+        </ul>
+
+        <div class="progress-track">
+          <div class="progress-fill" id="completionFill"></div>
+        </div>
+
+        <p id="completionText" class="sidebar-note">
+          0 of 8 tasks completed.
+        </p>
+
+        <div class="warning-box">
+          <strong>Important</strong>
+          This checklist records your own progress. It does not
+          independently verify that the exercises were performed
+          or that you have demonstrated competency.
+        </div>
+
+      </section>
+
+
+      <!-- RESOURCES -->
+      <section class="content-section" id="resources">
+
+        <span class="section-kicker">Further Learning</span>
+
+        <h2>Recommended Learning Resources</h2>
+
+        <p>
+          Use reliable technical documentation to strengthen your
+          understanding. Always refer to current documentation
+          when working with specific tools or technologies.
+        </p>
+
+        <ul class="resource-list">
+
+          <li>
+            <a href="https://www.cloudflare.com/learning/network-layer/what-is-a-computer-network/"
+               target="_blank" rel="noopener noreferrer">
+              Cloudflare Learning: Computer Networks
+            </a>
+          </li>
+
+          <li>
+            <a href="https://www.cloudflare.com/learning/dns/what-is-dns/"
+               target="_blank" rel="noopener noreferrer">
+              Cloudflare Learning: DNS
+            </a>
+          </li>
+
+          <li>
+            <a href="https://www.rfc-editor.org/rfc/rfc791"
+               target="_blank" rel="noopener noreferrer">
+              RFC 791: Internet Protocol
+            </a>
+          </li>
+
+          <li>
+            <a href="https://www.rfc-editor.org/rfc/rfc9293"
+               target="_blank" rel="noopener noreferrer">
+              RFC 9293: Transmission Control Protocol
+            </a>
+          </li>
+
+          <li>
+            <a href="https://www.rfc-editor.org/rfc/rfc768"
+               target="_blank" rel="noopener noreferrer">
+              RFC 768: User Datagram Protocol
+            </a>
+          </li>
+
+          <li>
+            <a href="https://www.wireshark.org/docs/"
+               target="_blank" rel="noopener noreferrer">
+              Wireshark Official Documentation
+            </a>
+          </li>
+
+          <li>
+            <a href="https://skillsforall.com/"
+               target="_blank" rel="noopener noreferrer">
+              Cisco Skills for All
+            </a>
+          </li>
+
+        </ul>
+
+      </section>
+
+
+      <!-- NEXT MODULE -->
+      <section class="next-module">
+
+        <div>
+          <h3>Ready for Module 02?</h3>
+
+          <p>
+            Next: Operating Systems. Learn Linux and Windows
+            fundamentals used in SOC investigations.
+          </p>
+        </div>
+
+        <a href="../02-operating-systems/">
+          Next Module →
+        </a>
+
+      </section>
+
+    </div>
+
+  </main>
+
+
+  <!-- FOOTER -->
+  <footer class="module-footer">
+
+    <p>
+      <strong>GraySentinel Cyber Defence Lab</strong>
+    </p>
+
+    <p>
+      Proof Over Certificates · Security Skills. Shown, Not Claimed.
+    </p>
+
+    <p>
+      <a href="../../index.html">Main Roadmap</a>
+      |
+      <a href="../../CONTRIBUTING.md">Contribute</a>
+      |
+      <a href="../../SECURITY.md">Security Policy</a>
+    </p>
+
+    <p>© 2026 GraySentinel Cyber Defence Lab.</p>
+
+  </footer>
+
+
+  <!-- MODULE JAVASCRIPT -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+      const progressBoxes = document.querySelectorAll(
+        "[data-module-progress]"
+      );
+
+      const progressFill = document.getElementById("progressFill");
+      const completionFill = document.getElementById("completionFill");
+      const progressText = document.getElementById("progressText");
+      const completionText = document.getElementById("completionText");
+
+      const storageKey = "graysentinel-module-01-progress";
+
+      function loadProgress() {
+        try {
+          const saved = JSON.parse(
+            localStorage.getItem(storageKey) || "{}"
+          );
+
+          progressBoxes.forEach(function (checkbox) {
+            const key = checkbox.dataset.moduleProgress;
+            checkbox.checked = saved[key] === true;
+          });
+
+        } catch (error) {
+          console.warn("Could not load saved module progress:", error);
+        }
+      }
+
+      function updateProgress() {
+
+        const total = progressBoxes.length;
+
+        const completed = Array.from(progressBoxes).filter(
+          checkbox => checkbox.checked
+        ).length;
+
+        const percentage = total
+          ? Math.round((completed / total) * 100)
+          : 0;
+
+        if (progressFill) {
+          progressFill.style.width = percentage + "%";
+        }
+
+        if (completionFill) {
+          completionFill.style.width = percentage + "%";
+        }
+
+        if (progressText) {
+          progressText.textContent =
+            completed + " of " + total + " learning tasks completed";
+        }
+
+        if (completionText) {
+          completionText.textContent =
+            completed + " of " + total +
+            " tasks completed (" + percentage + "%).";
+        }
+
+        const saved = {};
+
+        progressBoxes.forEach(function (checkbox) {
+          saved[checkbox.dataset.moduleProgress] = checkbox.checked;
+        });
+
+        try {
+          localStorage.setItem(storageKey, JSON.stringify(saved));
+        } catch (error) {
+          console.warn("Could not save module progress:", error);
+        }
+      }
+
+      loadProgress();
+      updateProgress();
+
+      progressBoxes.forEach(function (checkbox) {
+        checkbox.addEventListener("change", updateProgress);
+      });
+
+
+      // Knowledge Check
+
+      const quizForm = document.getElementById("quizForm");
+      const quizResult = document.getElementById("quizResult");
+
+      const correctAnswers = {
+        q1: "b",
+        q2: "c",
+        q3: "c",
+        q4: "d",
+        q5: "b",
+        q6: "b",
+        q7: "a",
+        q8: "b"
+      };
+
+      if (quizForm) {
+
+        quizForm.addEventListener("submit", function (event) {
+
+          event.preventDefault();
+
+          let score = 0;
+          let answered = 0;
+
+          const total = Object.keys(correctAnswers).length;
+
+          Object.keys(correctAnswers).forEach(function (question) {
+
+            const selected = quizForm.querySelector(
+              'input[name="' + question + '"]:checked'
+            );
+
+            if (selected) {
+
+              answered++;
+
+              if (selected.value === correctAnswers[question]) {
+                score++;
+              }
+
+            }
+
+          });
+
+          if (answered < total) {
+
+            quizResult.style.display = "block";
+            quizResult.style.background = "#FFF5EB";
+            quizResult.style.color = "#85430D";
+
+            quizResult.textContent =
+              "Please answer all " + total +
+              " questions. You have answered " +
+              answered + " of " + total + ".";
+
+            return;
+          }
+
+          const percentage = Math.round((score / total) * 100);
+
+          quizResult.style.display = "block";
+          quizResult.style.background =
+            percentage >= 70 ? "#E8F7F0" : "#FFF5EB";
+
+          quizResult.style.color =
+            percentage >= 70 ? "#176C4A" : "#85430D";
+
+          let message = "";
+
+          if (percentage >= 85) {
+            message = "Strong understanding. Review the explanations and continue practising.";
+          } else if (percentage >= 70) {
+            message = "Good foundation. Revisit any topics where you were uncertain.";
+          } else {
+            message = "Review the module content and attempt the quiz again.";
+          }
+
+          quizResult.textContent =
+            "Your score: " + score + "/" + total +
+            " (" + percentage + "%). " + message;
+
+        });
+
+      }
+
+
+      // Sidebar active section
+
+      const sidebarLinks = document.querySelectorAll(
+        '.sidebar nav a[href^="#"]'
+      );
+
+      const sections = Array.from(sidebarLinks)
+        .map(link => document.querySelector(link.getAttribute("href")))
+        .filter(Boolean);
+
+      if ("IntersectionObserver" in window) {
+
+        const observer = new IntersectionObserver(function (entries) {
+
+          entries.forEach(function (entry) {
+
+            if (entry.isIntersecting) {
+
+              sidebarLinks.forEach(function (link) {
+                link.classList.remove("active");
+              });
+
+              const activeLink = document.querySelector(
+                '.sidebar nav a[href="#' + entry.target.id + '"]'
+              );
+
+              if (activeLink) {
+                activeLink.classList.add("active");
+              }
+
+            }
+
+          });
+
+        }, {
+          rootMargin: "-20% 0px -65% 0px"
+        });
+
+        sections.forEach(function (section) {
+          observer.observe(section);
+        });
+
+      }
+
+    });
+  </script>
+
+</body>
+</html>
