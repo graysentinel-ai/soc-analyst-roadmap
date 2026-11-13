@@ -1,0 +1,22 @@
+
+alert_id,timestamp,alert_name,severity,source_ip,destination_ip,hostname,username,description,status
+GS-1001,2026-10-14T08:00:12Z,Multiple Failed Logins,HIGH,198.51.100.25,192.0.2.10,WS-ANALYST-01,admin,Repeated failed authentication attempts,OPEN
+GS-1002,2026-10-14T08:05:20Z,Successful Admin Login,MEDIUM,198.51.100.25,192.0.2.10,WS-ANALYST-01,admin,Successful login after repeated failures,OPEN
+GS-1003,2026-10-14T08:10:15Z,Unusual Outbound Connection,MEDIUM,192.0.2.15,203.0.113.80,WS-ANALYST-02,analyst01,Connection to an unusual destination,OPEN
+GS-1004,2026-10-14T08:15:30Z,Malware Detection,HIGH,192.0.2.20,192.0.2.20,WS-ANALYST-03,analyst02,Endpoint security tool detected a suspicious file,OPEN
+GS-1005,2026-10-14T08:20:45Z,Firewall Connection Blocked,LOW,203.0.113.40,192.0.2.50,FW-EDGE,unknown,Connection attempt blocked by firewall,CLOSED
+GS-1006,2026-10-14T08:25:10Z,Privileged Account Activity,MEDIUM,192.0.2.10,192.0.2.10,WS-ANALYST-01,admin,Privileged account activity observed,OPEN
+GS-1007,2026-10-14T08:30:22Z,Port Scan Suspected,HIGH,203.0.113.45,192.0.2.60,FW-EDGE,unknown,Multiple connection attempts to different ports,OPEN
+GS-1008,2026-10-14T08:35:40Z,Repeated DNS Requests,LOW,192.0.2.30,198.51.100.53,WS-ANALYST-04,analyst03,Repeated DNS requests observed,OPEN
+GS-1009,2026-10-14T08:40:05Z,Failed VPN Authentication,MEDIUM,203.0.113.60,192.0.2.70,VPN-GATEWAY,unknown,VPN authentication failure,OPEN
+GS-1010,2026-10-14T08:45:18Z,Successful VPN Authentication,LOW,203.0.113.60,192.0.2.70,VPN-GATEWAY,analyst04,VPN authentication succeeded,OPEN
+GS-1011,2026-10-14T08:50:33Z,Suspicious PowerShell Execution,HIGH,192.0.2.40,192.0.2.40,WS-ANALYST-05,analyst05,Suspicious command-line pattern detected,OPEN
+GS-1012,2026-10-14T08:55:47Z,USB Device Connected,LOW,192.0.2.45,192.0.2.45,WS-ANALYST-06,analyst06,External storage device connected,OPEN
+GS-1013,2026-10-14T09:00:12Z,Account Lockout,MEDIUM,198.51.100.77,192.0.2.80,WS-ANALYST-07,employee01,User account locked after failed logins,OPEN
+GS-1014,2026-10-14T09:05:28Z,Unusual Process Execution,MEDIUM,192.0.2.50,192.0.2.50,WS-ANALYST-08,analyst07,Process executed from a temporary directory,OPEN
+GS-1015,2026-10-14T09:10:41Z,Web Traffic Allowed,INFO,192.0.2.55,198.51.100.90,WS-ANALYST-09,analyst08,Normal HTTPS traffic allowed,CLOSED
+GS-1016,2026-10-14T09:15:55Z,Multiple Failed Logins,HIGH,203.0.113.90,192.0.2.10,WS-ANALYST-01,admin,Additional failed authentication attempts,OPEN
+GS-1017,2026-10-14T09:20:16Z,Endpoint Protection Updated,INFO,192.0.2.20,192.0.2.20,WS-ANALYST-03,SYSTEM,Endpoint security definitions updated,CLOSED
+GS-1018,2026-10-14T09:25:39Z,Unusual Login Time,MEDIUM,192.0.2.65,192.0.2.90,WS-ANALYST-10,analyst09,Login observed outside usual working hours,OPEN
+GS-1019,2026-10-14T09:30:44Z,Potential Data Transfer,HIGH,192.0.2.75,203.0.113.100,WS-ANALYST-11,analyst10,Unusual outbound data volume observed,OPEN
+GS-1020,2026-10-14T09:35:50Z,Repeated Firewall Denials,LOW,203.0.113.110,192.0.2.100,FW-EDGE,unknown,Repeated connection attempts denied,CLOSED
