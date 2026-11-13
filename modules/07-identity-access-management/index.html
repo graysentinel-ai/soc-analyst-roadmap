@@ -1,0 +1,1459 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Learn Identity and Access Management, authentication, authorisation, MFA, RBAC, least privilege, identity lifecycle and access investigation with GraySentinel.">
+  <meta name="theme-color" content="#0B1830">
+  <title>Module 07: Identity and Access Management | GraySentinel</title>
+  <link rel="stylesheet" href="../../assets/css/style.css">
+
+  <style>
+    :root {
+      --navy: #0b1830;
+      --cyan: #18c7d8;
+      --orange: #f28a38;
+      --ink: #172940;
+      --muted: #64748b;
+      --border: #dce4ed;
+      --bg: #f4f7fb;
+      --green: #16865b;
+      --red: #c43d4b;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.65;
+    }
+
+    a { color: #087d9a; }
+
+    .shell {
+      width: min(1180px, calc(100% - 36px));
+      margin: auto;
+    }
+
+    .topbar {
+      background: var(--navy);
+      color: white;
+      padding: 13px 0;
+    }
+
+    .topbar-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .brand {
+      color: white;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .brand span { color: var(--cyan); }
+
+    .back-link {
+      color: #dce8f5;
+      text-decoration: none;
+      font-size: .9rem;
+    }
+
+    .hero {
+      background: var(--navy);
+      color: white;
+      padding: 58px 0;
+      border-bottom: 5px solid var(--cyan);
+    }
+
+    .eyebrow {
+      color: var(--cyan);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      max-width: 850px;
+      margin: 12px 0;
+      font-size: clamp(2.1rem, 5vw, 3.6rem);
+      line-height: 1.1;
+    }
+
+    .hero p {
+      max-width: 760px;
+      color: #d2ddec;
+      font-size: 1.08rem;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 23px;
+    }
+
+    .meta span {
+      border: 1px solid #40516a;
+      border-radius: 5px;
+      padding: 6px 11px;
+      color: #e7eff8;
+      font-size: .84rem;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 245px minmax(0, 1fr);
+      gap: 30px;
+      align-items: start;
+      padding-top: 32px;
+      padding-bottom: 60px;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 20px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 20px;
+    }
+
+    .sidebar h2 {
+      margin: 0 0 12px;
+      font-size: .9rem;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 8px 0;
+      color: #42536b;
+      font-size: .9rem;
+      text-decoration: none;
+      border-bottom: 1px solid #edf1f5;
+    }
+
+    .sidebar a:hover { color: #087d9a; }
+
+    .content { min-width: 0; }
+
+    .section {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 27px;
+      margin-bottom: 22px;
+      scroll-margin-top: 20px;
+    }
+
+    .section h2 {
+      margin: 0 0 14px;
+      color: var(--navy);
+      font-size: 1.45rem;
+      line-height: 1.3;
+    }
+
+    .section h3 {
+      color: var(--navy);
+      margin: 22px 0 8px;
+      font-size: 1.08rem;
+    }
+
+    .section p { color: #43536a; }
+
+    .callout {
+      border-left: 4px solid var(--cyan);
+      background: #edfafd;
+      padding: 14px 17px;
+      border-radius: 0 6px 6px 0;
+      margin: 18px 0;
+      color: #25465a;
+    }
+
+    .warning {
+      border-left-color: var(--orange);
+      background: #fff6ed;
+      color: #69421e;
+    }
+
+    .concept-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 13px;
+      margin-top: 17px;
+    }
+
+    .concept {
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 16px;
+      background: #fbfcfe;
+    }
+
+    .concept strong {
+      display: block;
+      color: var(--navy);
+      margin-bottom: 5px;
+    }
+
+    .concept p {
+      margin: 0;
+      font-size: .92rem;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin: 16px 0;
+    }
+
+    table {
+      width: 100%;
+      min-width: 560px;
+      border-collapse: collapse;
+      font-size: .9rem;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 11px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #edf2f7;
+      color: var(--navy);
+    }
+
+    code {
+      background: #edf2f7;
+      padding: 2px 5px;
+      border-radius: 3px;
+      font-size: .88em;
+    }
+
+    pre {
+      overflow-x: auto;
+      background: #101c2e;
+      color: #d8e7f5;
+      border-radius: 7px;
+      padding: 17px;
+      font-size: .84rem;
+      line-height: 1.65;
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+    }
+
+    .lab {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin: 18px 0;
+      overflow: hidden;
+    }
+
+    .lab-header {
+      background: #edf2f7;
+      padding: 14px 17px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .lab-header strong { color: var(--navy); }
+
+    .lab-body { padding: 17px; }
+
+    .tag {
+      display: inline-block;
+      border-radius: 4px;
+      padding: 3px 8px;
+      font-size: .75rem;
+      font-weight: 800;
+      background: #e6f5f8;
+      color: #08677a;
+    }
+
+    .tag.warning {
+      background: #fff0d9;
+      color: #8a4b08;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 14px 0;
+    }
+
+    .module-button {
+      border: 0;
+      border-radius: 5px;
+      padding: 10px 15px;
+      background: var(--navy);
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .module-button.secondary {
+      background: #e8eef5;
+      color: var(--navy);
+      border: 1px solid var(--border);
+    }
+
+    .module-button:hover { opacity: .88; }
+
+    .filter-input {
+      width: 100%;
+      max-width: 440px;
+      padding: 11px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 5px;
+      font: inherit;
+      background: white;
+      color: var(--ink);
+    }
+
+    .output {
+      max-height: 350px;
+      overflow: auto;
+      background: #101c2e;
+      color: #d8e7f5;
+      border-radius: 7px;
+      padding: 13px;
+      font: .8rem/1.7 Consolas, Monaco, monospace;
+    }
+
+    .output-line {
+      display: block;
+      padding: 4px 5px;
+      border-bottom: 1px solid #24364d;
+      overflow-wrap: anywhere;
+    }
+
+    .output-line.alert {
+      background: #522d34;
+      color: #ffd9d9;
+    }
+
+    .quiz-question {
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .quiz-question:last-child { border-bottom: 0; }
+
+    .quiz-question p {
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    .quiz-question label {
+      display: block;
+      padding: 5px 0;
+      color: #43536a;
+      cursor: pointer;
+    }
+
+    .quiz-question input { margin-right: 8px; }
+
+    .result {
+      min-height: 24px;
+      font-weight: 700;
+      margin-top: 10px;
+    }
+
+    .success { color: var(--green); }
+    .error { color: var(--red); }
+
+    .progress-list { list-style: none; padding: 0; }
+    .progress-list li { margin: 11px 0; }
+
+    .progress-list label {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      cursor: pointer;
+    }
+
+    .progress-list input { margin-top: 6px; }
+
+    .progress-track {
+      height: 9px;
+      background: #e6edf4;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 13px 0;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      background: var(--green);
+      transition: width .2s ease;
+    }
+
+    .next-module {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .next-module a {
+      display: inline-block;
+      background: var(--navy);
+      color: white;
+      text-decoration: none;
+      padding: 11px 16px;
+      border-radius: 5px;
+      font-weight: 700;
+    }
+
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 24px 0;
+      color: var(--muted);
+      font-size: .88rem;
+    }
+
+    @media (max-width: 800px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+      .sidebar nav {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0 15px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .shell { width: min(100% - 24px, 1180px); }
+      .hero { padding: 42px 0; }
+      .section { padding: 19px; }
+      .concept-grid { grid-template-columns: 1fr; }
+      .sidebar nav { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="shell topbar-inner">
+    <a class="brand" href="../../index.html">GRAY<span>SENTINEL</span></a>
+    <a class="back-link" href="../../index.html">← Back to Cybersecurity Roadmap</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="shell">
+    <div class="eyebrow">Cybersecurity Learning Roadmap · Module 07</div>
+    <h1>Identity and Access Management</h1>
+    <p>
+      Understand how organisations manage digital identities, verify users,
+      assign permissions and monitor access. Learn to investigate suspicious
+      sign-ins and access changes using evidence.
+    </p>
+    <div class="meta">
+      <span>Level: Beginner to Intermediate</span>
+      <span>Focus: Identity Security</span>
+      <span>Practice: Synthetic Access Records</span>
+      <span>Evidence: Access Review Report</span>
+    </div>
+  </div>
+</section>
+
+<main class="shell layout">
+
+  <aside class="sidebar">
+    <h2>In this module</h2>
+    <nav>
+      <a href="#objectives">Learning objectives</a>
+      <a href="#fundamentals">IAM fundamentals</a>
+      <a href="#authentication">Authentication</a>
+      <a href="#authorisation">Authorisation</a>
+      <a href="#models">Access control models</a>
+      <a href="#lifecycle">Identity lifecycle</a>
+      <a href="#controls">IAM security controls</a>
+      <a href="#lab1">Lab 1: Sign-in review</a>
+      <a href="#lab2">Lab 2: Access review</a>
+      <a href="#lab3">Lab 3: Lifecycle review</a>
+      <a href="#investigation">Identity investigation</a>
+      <a href="#report">Access review report</a>
+      <a href="#quiz">Knowledge check</a>
+      <a href="#evidence">Evidence checklist</a>
+      <a href="#resources">Resources</a>
+    </nav>
+  </aside>
+
+  <div class="content">
+
+    <section class="section" id="objectives">
+      <h2>1. Learning objectives</h2>
+      <p>By the end of this module, you should be able to:</p>
+      <ul>
+        <li>Explain the purpose of Identity and Access Management.</li>
+        <li>Differentiate authentication from authorisation.</li>
+        <li>Explain MFA, SSO, federation and passwordless authentication.</li>
+        <li>Understand RBAC, ABAC and least privilege.</li>
+        <li>Describe the joiner, mover and leaver identity lifecycle.</li>
+        <li>Identify risks involving excessive permissions and stale accounts.</li>
+        <li>Review sign-in and access records for suspicious patterns.</li>
+        <li>Prepare an evidence-based access review report.</li>
+      </ul>
+
+      <div class="callout">
+        <strong>Core principle:</strong> A valid login does not automatically
+        mean a user should have access to every resource. Authentication
+        establishes identity; authorisation determines permitted actions.
+      </div>
+    </section>
+
+    <section class="section" id="fundamentals">
+      <h2>2. IAM fundamentals</h2>
+      <p>
+        Identity and Access Management is the set of policies, processes and
+        technologies used to manage digital identities and control access to
+        systems, applications and information.
+      </p>
+
+      <div class="concept-grid">
+        <div class="concept">
+          <strong>Identity</strong>
+          <p>A digital representation of a person, service, device or other entity.</p>
+        </div>
+        <div class="concept">
+          <strong>Account</strong>
+          <p>A record used by an identity to access a particular system or service.</p>
+        </div>
+        <div class="concept">
+          <strong>Authentication</strong>
+          <p>Verifying that an identity is who or what it claims to be.</p>
+        </div>
+        <div class="concept">
+          <strong>Authorisation</strong>
+          <p>Determining what an authenticated identity is allowed to do.</p>
+        </div>
+        <div class="concept">
+          <strong>Permission</strong>
+          <p>A specific allowed action, such as read, write, approve or administer.</p>
+        </div>
+        <div class="concept">
+          <strong>Access review</strong>
+          <p>Checking whether assigned access remains appropriate and approved.</p>
+        </div>
+      </div>
+
+      <h3>Why IAM matters</h3>
+      <ul>
+        <li>Reduces unauthorised access to systems and data.</li>
+        <li>Limits the impact of compromised accounts.</li>
+        <li>Supports accountability through identity-linked activity records.</li>
+        <li>Helps remove access when a person changes role or leaves.</li>
+        <li>Supports compliance and organisational access policies.</li>
+      </ul>
+    </section>
+
+    <section class="section" id="authentication">
+      <h2>3. Authentication</h2>
+      <p>
+        Authentication verifies an identity before access is granted.
+        Different methods rely on different types of evidence.
+      </p>
+
+      <h3>Authentication factor categories</h3>
+      <div class="concept-grid">
+        <div class="concept">
+          <strong>Something you know</strong>
+          <p>A password, PIN or other memorised secret.</p>
+        </div>
+        <div class="concept">
+          <strong>Something you have</strong>
+          <p>A hardware security key or registered authenticator device.</p>
+        </div>
+        <div class="concept">
+          <strong>Something you are</strong>
+          <p>A biometric characteristic such as a fingerprint or face match.</p>
+        </div>
+        <div class="concept">
+          <strong>Context and signals</strong>
+          <p>Device state, location or behaviour may inform risk-based access decisions, but are not automatically independent authentication factors.</p>
+        </div>
+      </div>
+
+      <h3>Multi-Factor Authentication (MFA)</h3>
+      <p>
+        MFA requires evidence from at least two different authentication
+        factor categories. Using two passwords does not provide two
+        independent factors.
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Method</th><th>Example</th><th>Security consideration</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Password</td><td>Memorised secret</td><td>Protect against reuse, phishing and weak credentials</td></tr>
+            <tr><td>Authenticator app</td><td>Time-based one-time password</td><td>Protect account recovery and enrolment processes</td></tr>
+            <tr><td>Push approval</td><td>Approve a sign-in notification</td><td>Users can be targeted with repeated approval requests</td></tr>
+            <tr><td>Hardware security key</td><td>FIDO2 security key</td><td>Phishing-resistant when correctly implemented</td></tr>
+            <tr><td>Biometrics</td><td>Fingerprint or face verification</td><td>Secure device enrolment and recovery are important</td></tr>
+            <tr><td>Passkey</td><td>Cryptographic credential tied to a relying party</td><td>Use supported platform and account recovery protections</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Single Sign-On (SSO)</h3>
+      <p>
+        SSO allows a user to authenticate through an identity provider and
+        access multiple connected applications without separately entering
+        credentials for each application.
+      </p>
+
+      <h3>Federated identity</h3>
+      <p>
+        Federation allows separate systems or organisations to trust
+        identity assertions from an agreed identity provider. Common
+        technologies include SAML and OpenID Connect.
+      </p>
+
+      <div class="callout warning">
+        SSO improves user experience but concentrates trust in the identity
+        provider. Protect privileged identity accounts, authentication
+        methods, recovery procedures and application integrations.
+      </div>
+    </section>
+
+    <section class="section" id="authorisation">
+      <h2>4. Authorisation and access decisions</h2>
+      <p>
+        After authentication, the system determines whether the identity
+        can perform a requested action on a resource.
+      </p>
+
+      <h3>Common permission types</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Permission</th><th>Meaning</th><th>Example</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Read</td><td>View information</td><td>Open a report</td></tr>
+            <tr><td>Write</td><td>Create or modify information</td><td>Edit a record</td></tr>
+            <tr><td>Delete</td><td>Remove information</td><td>Delete an obsolete file</td></tr>
+            <tr><td>Execute</td><td>Run a program or operation</td><td>Execute an approved script</td></tr>
+            <tr><td>Approve</td><td>Authorise a defined action</td><td>Approve a purchase request</td></tr>
+            <tr><td>Administer</td><td>Manage a system or its configuration</td><td>Manage user accounts</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Least privilege</h3>
+      <p>
+        Give an identity only the minimum permissions needed to perform its
+        authorised responsibilities. Review permissions when responsibilities
+        change and remove access that is no longer required.
+      </p>
+
+      <h3>Separation of duties</h3>
+      <p>
+        Divide sensitive responsibilities so that one individual cannot
+        complete a critical process without the required independent review
+        or approval.
+      </p>
+
+      <div class="callout">
+        Example: The person who creates a payment request should not
+        automatically be the only person authorised to approve and release
+        that payment.
+      </div>
+    </section>
+
+    <section class="section" id="models">
+      <h2>5. Access control models</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Model</th><th>How access is determined</th><th>Example</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>RBAC</td>
+              <td>Permissions are assigned to roles, and users receive roles.</td>
+              <td>Finance Analyst role can read finance reports.</td>
+            </tr>
+            <tr>
+              <td>ABAC</td>
+              <td>Access is evaluated using attributes and policy rules.</td>
+              <td>Allow access when department, device and data classification meet policy.</td>
+            </tr>
+            <tr>
+              <td>DAC</td>
+              <td>Resource owners can decide who receives access.</td>
+              <td>A document owner shares a file with another user.</td>
+            </tr>
+            <tr>
+              <td>MAC</td>
+              <td>Access is controlled through centrally defined security labels and policy.</td>
+              <td>Access to information based on approved clearance and classification.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>RBAC example</h3>
+      <pre><code>Role: Security Analyst
+Permissions:
+- Read security alerts
+- View investigation records
+- Create investigation notes
+
+Role: Security Administrator
+Permissions:
+- Manage security configurations
+- Manage approved security integrations
+- Administer security platform access
+
+Role: Auditor
+Permissions:
+- Read audit records
+- View policy evidence
+- Export approved reports</code></pre>
+
+      <div class="callout warning">
+        A role should not become a shortcut for excessive permissions.
+        Review the actual permissions behind each role, not just its name.
+      </div>
+    </section>
+
+    <section class="section" id="lifecycle">
+      <h2>6. Identity lifecycle management</h2>
+      <p>
+        Identity access should change as a person's relationship with an
+        organisation changes.
+      </p>
+
+      <div class="concept-grid">
+        <div class="concept">
+          <strong>Joiner</strong>
+          <p>Create the identity, verify the request, assign approved access and record ownership.</p>
+        </div>
+        <div class="concept">
+          <strong>Mover</strong>
+          <p>Change permissions when a person changes role, team or responsibility.</p>
+        </div>
+        <div class="concept">
+          <strong>Leaver</strong>
+          <p>Disable or remove access when the person leaves, according to approved procedures.</p>
+        </div>
+        <div class="concept">
+          <strong>Periodic review</strong>
+          <p>Confirm that existing access remains appropriate and supported by an owner.</p>
+        </div>
+      </div>
+
+      <h3>Example lifecycle process</h3>
+      <ol>
+        <li>Receive an approved identity or access request.</li>
+        <li>Verify the person's identity and employment or engagement status.</li>
+        <li>Confirm the business owner and required access.</li>
+        <li>Assign access based on approved roles and policies.</li>
+        <li>Record the approval and provisioning activity.</li>
+        <li>Review access after role or responsibility changes.</li>
+        <li>Disable or remove access when no longer authorised.</li>
+        <li>Retain appropriate audit evidence according to policy.</li>
+      </ol>
+
+      <div class="callout warning">
+        Delayed offboarding can leave active accounts behind. However, do not
+        delete records or accounts without considering legal retention,
+        investigation holds, ownership transfer and organisational policy.
+      </div>
+    </section>
+
+    <section class="section" id="controls">
+      <h2>7. IAM security controls</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Control</th><th>Purpose</th><th>Evidence to review</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>MFA</td><td>Add an independent authentication factor</td><td>Enrolment and authentication policy</td></tr>
+            <tr><td>Conditional access</td><td>Apply access rules using defined context and risk signals</td><td>Policy configuration and decision logs</td></tr>
+            <tr><td>Privileged Access Management</td><td>Control and monitor elevated permissions</td><td>Privileged account inventory and approvals</td></tr>
+            <tr><td>Access reviews</td><td>Confirm that permissions remain appropriate</td><td>Review records and owner decisions</td></tr>
+            <tr><td>Account lifecycle controls</td><td>Manage account creation, changes and removal</td><td>Joiner, mover and leaver records</td></tr>
+            <tr><td>Session management</td><td>Control session duration and revocation</td><td>Session policies and logs</td></tr>
+            <tr><td>Service account governance</td><td>Manage non-human identities and credentials</td><td>Owners, permissions and rotation records</td></tr>
+            <tr><td>Audit logging</td><td>Record identity and access activity</td><td>Sign-in, role and permission change events</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Privileged accounts</h3>
+      <p>
+        Privileged accounts can change security settings, manage users,
+        access sensitive data or control infrastructure. They should receive
+        stronger oversight than ordinary user accounts.
+      </p>
+
+      <ul>
+        <li>Maintain an inventory of privileged accounts.</li>
+        <li>Assign a named business and technical owner.</li>
+        <li>Use separate administrative identities where appropriate.</li>
+        <li>Require strong authentication and controlled access.</li>
+        <li>Review privileged activity and permission changes.</li>
+        <li>Remove unnecessary or dormant privileged access.</li>
+      </ul>
+    </section>
+
+    <section class="section" id="lab1">
+      <h2>8. Practical Lab 1: Sign-in log investigation</h2>
+      <p>
+        <span class="tag">Synthetic dataset</span>
+        Inspect the sign-in records for a fictional organisation.
+        Identify unusual patterns and document what additional evidence
+        you would need.
+      </p>
+
+      <div class="lab">
+        <div class="lab-header">
+          <strong>Scenario: Repeated sign-in failures</strong>
+          <span class="tag warning">Investigation exercise</span>
+        </div>
+
+        <div class="lab-body">
+          <label for="signinFilter"><strong>Filter sign-in records</strong></label><br>
+          <input class="filter-input" id="signinFilter" type="search"
+                 placeholder="Try: analyst01, failure, success, MFA">
+
+          <div class="controls">
+            <button class="module-button" id="signinAll" type="button">Show all</button>
+            <button class="module-button secondary" id="signinFailed" type="button">Failed</button>
+            <button class="module-button secondary" id="signinSuccess" type="button">Successful</button>
+          </div>
+
+          <div class="output" id="signinOutput" aria-live="polite"></div>
+
+          <h3>Questions</h3>
+          <ol>
+            <li>Which account has repeated failed sign-in attempts?</li>
+            <li>Which source address appears in those attempts?</li>
+            <li>Was there a later successful sign-in?</li>
+            <li>What does the MFA result show?</li>
+            <li>What other records would help validate whether the access was legitimate?</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="lab2">
+      <h2>9. Practical Lab 2: Role and permission review</h2>
+      <p>
+        Review the fictional access assignments. Look for excessive
+        permissions, unclear ownership and possible separation-of-duties
+        concerns.
+      </p>
+
+      <div class="lab">
+        <div class="lab-header">
+          <strong>Scenario: Quarterly access review</strong>
+          <span class="tag">Access governance</span>
+        </div>
+
+        <div class="lab-body">
+          <pre><code>USER: analyst01
+ROLE: Security Analyst
+ACCESS:
+- Read security alerts
+- View investigation records
+OWNER: Security Operations Lead
+STATUS: Approved
+
+USER: intern02
+ROLE: Security Intern
+ACCESS:
+- Read security alerts
+- Administer identity platform
+OWNER: Not recorded
+STATUS: Review required
+
+USER: finance01
+ROLE: Finance Analyst
+ACCESS:
+- Read finance reports
+- Approve payments
+OWNER: Finance Manager
+STATUS: Review required
+
+USER: former_user03
+ROLE: Project Contributor
+ACCESS:
+- Read project repository
+- Access internal dashboard
+OWNER: Not recorded
+STATUS: Employment status unknown</code></pre>
+
+          <h3>Questions</h3>
+          <ol>
+            <li>Which account has an access level that may exceed its stated role?</li>
+            <li>Which records have missing or unclear ownership?</li>
+            <li>Why does the former user's status need validation?</li>
+            <li>What evidence would you request before changing permissions?</li>
+            <li>How would you document your access review recommendation?</li>
+          </ol>
+
+          <div class="callout warning">
+            Do not modify real accounts or permissions during this exercise.
+            Real access changes require approval from the appropriate owner.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="lab3">
+      <h2>10. Practical Lab 3: Identity lifecycle review</h2>
+      <p>
+        Examine the fictional identity lifecycle records. Identify
+        provisioning and offboarding gaps.
+      </p>
+
+      <div class="lab">
+        <div class="lab-header">
+          <strong>Scenario: Joiner, mover and leaver process review</strong>
+          <span class="tag">Lifecycle governance</span>
+        </div>
+
+        <div class="lab-body">
+          <pre><code>RECORD-001
+User: user01
+Event: Account created
+Date: 2026-10-01
+Approval: Recorded
+Access: Standard employee role
+
+RECORD-002
+User: user02
+Event: Department changed
+Date: 2026-10-05
+Approval: Recorded
+Access: Previous department role still assigned
+
+RECORD-003
+User: user03
+Event: Engagement ended
+Date: 2026-10-08
+Approval: Recorded
+Account status: Active
+
+RECORD-004
+User: user04
+Event: Privileged access requested
+Date: 2026-10-10
+Approval: Missing
+Access: Administrator role assigned</code></pre>
+
+          <h3>Questions</h3>
+          <ol>
+            <li>Which record describes a mover event?</li>
+            <li>Which record indicates a possible delayed offboarding issue?</li>
+            <li>Which record has a missing approval?</li>
+            <li>What controls should prevent these gaps?</li>
+            <li>What should be verified before access is changed or removed?</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="investigation">
+      <h2>11. Identity investigation workflow</h2>
+      <ol>
+        <li><strong>Define the question:</strong> Identify the account, resource or access event under review.</li>
+        <li><strong>Confirm ownership:</strong> Identify the identity owner and business approver.</li>
+        <li><strong>Review authentication:</strong> Check sign-in time, source, method, result and MFA details.</li>
+        <li><strong>Review permissions:</strong> Identify assigned roles, groups and effective access.</li>
+        <li><strong>Check lifecycle status:</strong> Validate employment, engagement and role information.</li>
+        <li><strong>Correlate events:</strong> Compare sign-in, permission change and resource access records.</li>
+        <li><strong>Assess impact:</strong> Identify the resources and actions available to the identity.</li>
+        <li><strong>Document findings:</strong> Separate facts, interpretations and unknowns.</li>
+        <li><strong>Recommend action:</strong> Route changes through the authorised approval process.</li>
+      </ol>
+
+      <div class="callout">
+        Useful investigation questions:
+        <ul>
+          <li>Who requested the access?</li>
+          <li>Who approved it?</li>
+          <li>When was it provisioned?</li>
+          <li>What permissions were actually assigned?</li>
+          <li>Does the identity still need that access?</li>
+          <li>Was the access used in an expected way?</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="report">
+      <h2>12. Access review report</h2>
+      <p>Prepare a report that makes each recommendation traceable to evidence.</p>
+
+      <ol>
+        <li><strong>Review scope:</strong> Systems, identities and review period.</li>
+        <li><strong>Identity inventory:</strong> Accounts, owners and current status.</li>
+        <li><strong>Access inventory:</strong> Roles, groups and permissions.</li>
+        <li><strong>Approval evidence:</strong> Request, owner and authorisation records.</li>
+        <li><strong>Authentication review:</strong> Relevant sign-in and MFA observations.</li>
+        <li><strong>Exceptions:</strong> Excessive, stale, orphaned or undocumented access.</li>
+        <li><strong>Risk assessment:</strong> Potential impact and confidence.</li>
+        <li><strong>Recommendations:</strong> Specific changes requiring approval.</li>
+        <li><strong>Evidence references:</strong> Record identifiers and supporting extracts.</li>
+      </ol>
+
+      <h3>Example finding</h3>
+      <pre><code>Observation:
+The synthetic access inventory shows an account assigned
+identity-platform administrator permissions while its stated
+role is Security Intern. The access owner is not recorded.
+
+Assessment:
+The assignment may exceed the user's documented responsibilities.
+The available records do not establish whether the access was
+approved through another process.
+
+Recommended next steps:
+Identify the business and technical owner, locate the access
+request and approval, validate current responsibilities, and
+route any required permission change through the approved process.</code></pre>
+
+      <h3>Suggested portfolio structure</h3>
+      <pre><code>iam-access-review/
+├── README.md
+├── evidence/
+│   ├── synthetic-signin-records.csv
+│   ├── access-inventory.csv
+│   └── lifecycle-records.csv
+├── analysis/
+│   ├── signin-investigation.md
+│   ├── permission-review.md
+│   └── lifecycle-review.md
+└── report/
+    └── iam-access-review-report.md</code></pre>
+
+      <p>
+        Use synthetic or properly authorised records. Remove usernames,
+        email addresses, internal identifiers and confidential access
+        information before publishing a portfolio.
+      </p>
+    </section>
+
+    <section class="section" id="quiz">
+      <h2>13. Knowledge check</h2>
+      <p>Choose one answer for each question and submit your responses.</p>
+
+      <form id="moduleQuiz">
+
+        <div class="quiz-question">
+          <p>1. What does authentication establish?</p>
+          <label><input type="radio" name="q1" value="a"> Whether an identity is who or what it claims to be</label>
+          <label><input type="radio" name="q1" value="b"> Which files should be deleted</label>
+          <label><input type="radio" name="q1" value="c"> Whether a network cable works</label>
+        </div>
+
+        <div class="quiz-question">
+          <p>2. What does authorisation determine?</p>
+          <label><input type="radio" name="q2" value="a"> The user's display name</label>
+          <label><input type="radio" name="q2" value="b"> What an identity is allowed to access or do</label>
+          <label><input type="radio" name="q2" value="c"> The device's screen resolution</label>
+        </div>
+
+        <div class="quiz-question">
+          <p>3. Which is an example of MFA?</p>
+          <label><input type="radio" name="q3" value="a"> Two different passwords</label>
+          <label><input type="radio" name="q3" value="b"> Username and email address</label>
+          <label><input type="radio" name="q3" value="c"> Password and hardware security key</label>
+        </div>
+
+        <div class="quiz-question">
+          <p>4. What does RBAC use to organise permissions?</p>
+          <label><input type="radio" name="q4" value="a"> Roles</label>
+          <label><input type="radio" name="q4" value="b"> Random IP addresses</label>
+          <label><input type="radio" name="q4" value="c"> File extensions</label>
+        </div>
+
+        <div class="quiz-question">
+          <p>5. What does least privilege mean?</p>
+          <label><input type="radio" name="q5" value="a"> Give everyone administrator access</label>
+          <label><input type="radio" name="q5" value="b"> Grant only the permissions required for authorised work</label>
+          <label><input type="radio" name="q5" value="c"> Disable all user accounts</label>
+        </div>
+
+        <div class="quiz-question">
+          <p>6. What is a mover event?</p>
+          <label><input type="radio" name="q6" value="a"> A person changes role or responsibilities</label>
+          <label><input type="radio" name="q6" value="b"> A person joins the organisation</label>
+          <label><input type="radio" name="q6" value="c"> A server changes its IP address</label>
+        </div>
+
+        <div class="quiz-question">
+          <p>7. What is an important control for privileged accounts?</p>
+          <label><input type="radio" name="q7" value="a"> Share one administrator password among all staff</label>
+          <label><input type="radio" name="q7" value="b"> Avoid recording administrative activity</label>
+          <label><input type="radio" name="q7" value="c"> Strong authentication, ownership and activity review</label>
+        </div>
+
+        <div class="quiz-question">
+          <p>8. What should happen before changing a user's permissions?</p>
+          <label><input type="radio" name="q8" value="a"> Follow the authorised access review and approval process</label>
+          <label><input type="radio" name="q8" value="b"> Assume the account owner has approved it</label>
+          <label><input type="radio" name="q8" value="c"> Delete the account immediately</label>
+        </div>
+
+        <div class="controls">
+          <button class="module-button" type="submit">Submit answers</button>
+          <button class="module-button secondary" type="reset">Reset</button>
+        </div>
+
+        <div class="result" id="quizResult" role="status" aria-live="polite"></div>
+      </form>
+    </section>
+
+    <section class="section" id="evidence">
+      <h2>14. Module completion checklist</h2>
+      <p>Track your own progress through the learning activities.</p>
+
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <p id="progressText">0 of 8 activities completed</p>
+
+      <ul class="progress-list">
+        <li><label><input type="checkbox" data-module-progress="1"> I can explain IAM fundamentals.</label></li>
+        <li><label><input type="checkbox" data-module-progress="2"> I can distinguish authentication and authorisation.</label></li>
+        <li><label><input type="checkbox" data-module-progress="3"> I understand MFA, SSO and federation.</label></li>
+        <li><label><input type="checkbox" data-module-progress="4"> I can explain RBAC, ABAC and least privilege.</label></li>
+        <li><label><input type="checkbox" data-module-progress="5"> I reviewed the synthetic sign-in records.</label></li>
+        <li><label><input type="checkbox" data-module-progress="6"> I completed the role and permission review.</label></li>
+        <li><label><input type="checkbox" data-module-progress="7"> I reviewed identity lifecycle records and prepared a report.</label></li>
+        <li><label><input type="checkbox" data-module-progress="8"> I completed and reviewed the knowledge check.</label></li>
+      </ul>
+
+      <div class="callout warning">
+        This checklist stores self-reported progress in your browser. It does
+        not independently verify technical ability or certify completion.
+      </div>
+
+      <h3>Expected submission evidence</h3>
+      <ul>
+        <li>Sign-in investigation notes.</li>
+        <li>Role and permission review with recommendations.</li>
+        <li>Joiner, mover and leaver lifecycle review.</li>
+        <li>IAM access review report.</li>
+        <li>Supporting filters, queries or analysis steps.</li>
+      </ul>
+    </section>
+
+    <section class="section" id="resources">
+      <h2>15. Further learning resources</h2>
+      <ul>
+        <li><a href="https://pages.nist.gov/800-63-4/" target="_blank" rel="noopener noreferrer">NIST Digital Identity Guidelines</a></li>
+        <li><a href="https://www.cisa.gov/resources-tools/resources/implementing-phishing-resistant-mfa" target="_blank" rel="noopener noreferrer">CISA: Implementing Phishing-Resistant MFA</a></li>
+        <li><a href="https://www.nist.gov/cyberframework" target="_blank" rel="noopener noreferrer">NIST Cybersecurity Framework</a></li>
+        <li><a href="https://openid.net/developers/how-connect-works/" target="_blank" rel="noopener noreferrer">OpenID Connect introduction</a></li>
+        <li><a href="https://www.oasis-open.org/standard/saml/" target="_blank" rel="noopener noreferrer">OASIS SAML standard</a></li>
+        <li><a href="https://fidoalliance.org/passkeys/" target="_blank" rel="noopener noreferrer">FIDO Alliance: Passkeys</a></li>
+        <li><a href="https://attack.mitre.org/" target="_blank" rel="noopener noreferrer">MITRE ATT&CK</a></li>
+      </ul>
+    </section>
+
+    <section class="section next-module">
+      <div>
+        <strong>Module 07 complete?</strong>
+        <p>Next: Module 08, Detection Engineering.</p>
+      </div>
+      <a href="../08-detection-engineering/">Continue to Module 08 →</a>
+    </section>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="shell">
+    <strong>GraySentinel Cyber Defence Lab</strong>
+    <p>Proof Over Certificates · Security Skills. Shown, Not Claimed.</p>
+    <a href="../../index.html">Return to roadmap home</a>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  const signinData = [
+    {
+      time: "2026-10-14T08:40:12Z",
+      user: "analyst01",
+      source: "192.0.2.45",
+      result: "failure",
+      mfa: "not_reached",
+      application: "VPN",
+      note: "Invalid password"
+    },
+    {
+      time: "2026-10-14T08:40:28Z",
+      user: "analyst01",
+      source: "192.0.2.45",
+      result: "failure",
+      mfa: "not_reached",
+      application: "VPN",
+      note: "Invalid password"
+    },
+    {
+      time: "2026-10-14T08:41:03Z",
+      user: "analyst01",
+      source: "192.0.2.45",
+      result: "success",
+      mfa: "approved",
+      application: "VPN",
+      note: "Sign-in completed"
+    },
+    {
+      time: "2026-10-14T08:55:17Z",
+      user: "finance01",
+      source: "198.51.100.20",
+      result: "success",
+      mfa: "approved",
+      application: "Finance Portal",
+      note: "Sign-in completed"
+    },
+    {
+      time: "2026-10-14T09:05:42Z",
+      user: "intern02",
+      source: "203.0.113.30",
+      result: "failure",
+      mfa: "denied",
+      application: "Identity Portal",
+      note: "MFA approval denied"
+    },
+    {
+      time: "2026-10-14T09:12:08Z",
+      user: "analyst01",
+      source: "192.0.2.45",
+      result: "success",
+      mfa: "approved",
+      application: "Security Dashboard",
+      note: "Application access recorded"
+    }
+  ];
+
+  const signinOutput = document.getElementById("signinOutput");
+  const signinFilter = document.getElementById("signinFilter");
+  let signinMode = "all";
+
+  function renderSignin() {
+    if (!signinOutput || !signinFilter) return;
+
+    const query = signinFilter.value.trim().toLowerCase();
+
+    const records = signinData.filter(function (record) {
+      const modeMatches =
+        signinMode === "all" || record.result === signinMode;
+
+      const searchable = Object.values(record).join(" ").toLowerCase();
+
+      return modeMatches && searchable.includes(query);
+    });
+
+    signinOutput.replaceChildren();
+
+    if (!records.length) {
+      const empty = document.createElement("span");
+      empty.className = "output-line";
+      empty.textContent = "No matching records.";
+      signinOutput.appendChild(empty);
+      return;
+    }
+
+    records.forEach(function (record) {
+      const line = document.createElement("span");
+
+      line.className = "output-line" +
+        (record.result === "failure" || record.mfa === "denied"
+          ? " alert"
+          : "");
+
+      line.textContent =
+        record.time +
+        " | user=" + record.user +
+        " | source=" + record.source +
+        " | result=" + record.result +
+        " | MFA=" + record.mfa +
+        " | application=" + record.application +
+        " | " + record.note;
+
+      signinOutput.appendChild(line);
+    });
+  }
+
+  if (signinOutput && signinFilter) {
+    signinFilter.addEventListener("input", renderSignin);
+
+    document.getElementById("signinAll").addEventListener("click", function () {
+      signinMode = "all";
+      renderSignin();
+    });
+
+    document.getElementById("signinFailed").addEventListener("click", function () {
+      signinMode = "failure";
+      renderSignin();
+    });
+
+    document.getElementById("signinSuccess").addEventListener("click", function () {
+      signinMode = "success";
+      renderSignin();
+    });
+
+    renderSignin();
+  }
+
+  const answers = {
+    q1: "a",
+    q2: "b",
+    q3: "c",
+    q4: "a",
+    q5: "b",
+    q6: "a",
+    q7: "c",
+    q8: "a"
+  };
+
+  const quiz = document.getElementById("moduleQuiz");
+  const quizResult = document.getElementById("quizResult");
+
+  if (quiz && quizResult) {
+    quiz.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      let score = 0;
+      let unanswered = 0;
+
+      Object.keys(answers).forEach(function (question) {
+        const selected = quiz.querySelector(
+          'input[name="' + question + '"]:checked'
+        );
+
+        if (!selected) {
+          unanswered++;
+        } else if (selected.value === answers[question]) {
+          score++;
+        }
+      });
+
+      if (unanswered > 0) {
+        quizResult.className = "result error";
+        quizResult.textContent =
+          "Answer all questions before submitting. Unanswered: " +
+          unanswered + ".";
+        return;
+      }
+
+      quizResult.className =
+        "result " + (score >= 6 ? "success" : "error");
+
+      quizResult.textContent =
+        "Your score: " + score + "/8. " +
+        (score >= 6
+          ? "Good work. Review any incorrect answers."
+          : "Revisit the relevant sections and try again.");
+    });
+
+    quiz.addEventListener("reset", function () {
+      quizResult.textContent = "";
+      quizResult.className = "result";
+    });
+  }
+
+  const progressItems = Array.from(
+    document.querySelectorAll("[data-module-progress]")
+  );
+
+  const progressFill = document.getElementById("progressFill");
+  const progressText = document.getElementById("progressText");
+  const storageKey = "graysentinel-module-07-progress";
+
+  function updateProgress() {
+    const completed = progressItems.filter(function (item) {
+      return item.checked;
+    }).length;
+
+    const total = progressItems.length;
+    const percentage = total ? (completed / total) * 100 : 0;
+
+    if (progressFill) {
+      progressFill.style.width = percentage + "%";
+    }
+
+    if (progressText) {
+      progressText.textContent =
+        completed + " of " + total + " activities completed";
+    }
+
+    try {
+      localStorage.setItem(
+        storageKey,
+        JSON.stringify(
+          progressItems.map(function (item) {
+            return item.checked;
+          })
+        )
+      );
+    } catch (error) {
+      // Progress remains usable for the current page session.
+    }
+  }
+
+  try {
+    const saved = JSON.parse(
+      localStorage.getItem(storageKey) || "null"
+    );
+
+    if (Array.isArray(saved)) {
+      progressItems.forEach(function (item, index) {
+        item.checked = saved[index] === true;
+      });
+    }
+  } catch (error) {
+    // Continue without persisted progress.
+  }
+
+  progressItems.forEach(function (item) {
+    item.addEventListener("change", updateProgress);
+  });
+
+  updateProgress();
+})();
+</script>
+
+</body>
+</html>
