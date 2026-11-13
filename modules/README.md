@@ -1,4 +1,3 @@
-
 # GraySentinel SOC Analyst Learning Modules
 
 **Proof Over Certificates | Practical Cybersecurity | Verifiable Skills**
@@ -170,9 +169,22 @@ Reading documentation alone does not establish practical competency.
 
 The modules provide the technical foundation for practical exercises and portfolio projects.
 
-Explore:
+Each module connects with a corresponding practical lab to help learners apply the concepts they have studied.
 
-- [Practical Cybersecurity Labs](../labs/README.md)
+| Module | Learning Area | Corresponding Practical Lab |
+|---|---|---|
+| 01. Networking Foundations | Network communication and protocols | [Lab 01: Network Traffic Analysis](../labs/01-network-traffic-analysis/) |
+| 02. Operating Systems | Linux, Windows and system investigation | [Lab 02: Operating System Investigation](../labs/02-operating-system-investigation/) |
+| 03. Security Fundamentals | Security events and threat concepts | [Lab 03: Security Event Analysis](../labs/03-security-event-analysis/) |
+| 04. Log Analysis | Log interpretation and security event investigation | [Lab 07: SIEM Alert Triage](../labs/07-siem-alert-triage/) |
+| 05. Network Security | Firewalls and network defence | [Lab 04: Network Security Investigation](../labs/04-network-security-investigation/) |
+| 06. Endpoint Security | Endpoint monitoring and investigation | [Lab 05: Endpoint Investigation](../labs/05-endpoint-investigation/) |
+| 07. Identity & Access Management | Authentication and access control | [Lab 06: Identity and Access Investigation](../labs/06-identity-access-investigation/) |
+| 08. Detection Engineering | Detection rules and security analytics | [Lab 08: Detection Engineering](../labs/08-detection-engineering/) |
+
+Explore the complete learning resources:
+
+- [All Practical Cybersecurity Labs](../labs/README.md)
 - [Main Learning Roadmap](../ROADMAP.md)
 - [Learning Resources](../RESOURCES.md)
 
