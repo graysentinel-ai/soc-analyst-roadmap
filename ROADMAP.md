@@ -10,15 +10,15 @@
 
 The GraySentinel SOC Analyst Roadmap provides a structured learning journey for individuals who want to develop practical cybersecurity and defensive security capabilities.
 
-The roadmap progresses through eight learning modules, supported by practical exercises, technical investigations, assessments and portfolio development.
+The roadmap progresses through eight learning modules, supported by eight practical labs, technical investigations and portfolio development.
 
 The objective is not simply to complete learning material.
 
-The objective is to demonstrate what you understand, what you can execute and what evidence supports your work.
+The objective is to understand cybersecurity concepts, apply practical knowledge and demonstrate technical work through documented evidence.
 
 ### Learning Framework
 
-**Learn → Practise → Investigate → Document → Validate → Build Your Portfolio**
+**Learn → Practise → Investigate → Document → Build Your Portfolio**
 
 ---
 
@@ -43,7 +43,7 @@ Each stage builds on the knowledge and capabilities developed in the previous st
 
 ### Module 01: Networking Foundations
 
-Directory: `modules/01-networking/`
+Directory: [`modules/01-networking/`](./modules/01-networking/)
 
 Learning areas:
 
@@ -56,13 +56,17 @@ Learning areas:
 - Ports and services.
 - Basic network traffic analysis.
 
-Expected capability:
+**Expected capability:**
 
 Understand basic network communication and interpret common network activity.
 
+**Related Practical Lab:**
+
+[Lab 01: Network Traffic Analysis](./labs/01-network-traffic-analysis/)
+
 ### Module 02: Operating Systems
 
-Directory: `modules/02-operating-systems/`
+Directory: [`modules/02-operating-systems/`](./modules/02-operating-systems/)
 
 Learning areas:
 
@@ -75,9 +79,13 @@ Learning areas:
 - Operating system events.
 - Basic command-line operations.
 
-Expected capability:
+**Expected capability:**
 
 Understand how operating systems function and identify important system-level information.
+
+**Related Practical Lab:**
+
+[Lab 02: Operating System Investigation](./labs/02-operating-system-investigation/)
 
 ---
 
@@ -87,7 +95,7 @@ Understand how operating systems function and identify important system-level in
 
 ### Module 03: Security Fundamentals
 
-Directory: `modules/03-security-fundamentals/`
+Directory: [`modules/03-security-fundamentals/`](./modules/03-security-fundamentals/)
 
 Learning areas:
 
@@ -100,13 +108,17 @@ Learning areas:
 - Indicators of Compromise.
 - Defensive security principles.
 
-Expected capability:
+**Expected capability:**
 
 Understand common cybersecurity threats and the fundamentals of protecting systems and information.
 
+**Related Practical Lab:**
+
+[Lab 03: Security Event Analysis](./labs/03-security-event-analysis/)
+
 ### Module 04: Log Analysis
 
-Directory: `modules/04-log-analysis/`
+Directory: [`modules/04-log-analysis/`](./modules/04-log-analysis/)
 
 Learning areas:
 
@@ -119,9 +131,15 @@ Learning areas:
 - Event correlation.
 - Investigation timelines.
 
-Expected capability:
+**Expected capability:**
 
 Read security events, identify unusual activity and document investigation findings.
+
+**Related Practical Labs:**
+
+- [Lab 03: Security Event Analysis](./labs/03-security-event-analysis/)
+- [Lab 06: Identity and Access Investigation](./labs/06-identity-access-investigation/)
+- [Lab 07: SIEM Alert Triage](./labs/07-siem-alert-triage/)
 
 ---
 
@@ -131,7 +149,7 @@ Read security events, identify unusual activity and document investigation findi
 
 ### Module 05: Network Security
 
-Directory: `modules/05-network-security/`
+Directory: [`modules/05-network-security/`](./modules/05-network-security/)
 
 Learning areas:
 
@@ -144,13 +162,18 @@ Learning areas:
 - Secure network configuration.
 - Network threat investigation.
 
-Expected capability:
+**Expected capability:**
 
 Understand network security controls and investigate suspicious network activity.
 
+**Related Practical Labs:**
+
+- [Lab 01: Network Traffic Analysis](./labs/01-network-traffic-analysis/)
+- [Lab 04: Network Security Investigation](./labs/04-network-security-investigation/)
+
 ### Module 06: Endpoint Security
 
-Directory: `modules/06-endpoint-security/`
+Directory: [`modules/06-endpoint-security/`](./modules/06-endpoint-security/)
 
 Learning areas:
 
@@ -163,9 +186,13 @@ Learning areas:
 - Malware behaviour fundamentals.
 - Endpoint investigation.
 
-Expected capability:
+**Expected capability:**
 
 Understand endpoint activity and identify behaviour that may require security investigation.
+
+**Related Practical Lab:**
+
+[Lab 05: Endpoint Investigation](./labs/05-endpoint-investigation/)
 
 ---
 
@@ -175,7 +202,7 @@ Understand endpoint activity and identify behaviour that may require security in
 
 ### Module 07: Identity & Access Management
 
-Directory: `modules/07-identity-access-management/`
+Directory: [`modules/07-identity-access-management/`](./modules/07-identity-access-management/)
 
 Learning areas:
 
@@ -188,13 +215,17 @@ Learning areas:
 - Identity security risks.
 - Access reviews and auditing.
 
-Expected capability:
+**Expected capability:**
 
 Understand how identities and permissions are managed and identify common access-related security risks.
 
+**Related Practical Lab:**
+
+[Lab 06: Identity and Access Investigation](./labs/06-identity-access-investigation/)
+
 ### Module 08: Detection Engineering
 
-Directory: `modules/08-detection-engineering/`
+Directory: [`modules/08-detection-engineering/`](./modules/08-detection-engineering/)
 
 Learning areas:
 
@@ -205,45 +236,66 @@ Learning areas:
 - Sigma detection rules.
 - SIEM query development.
 - False-positive analysis.
-- Detection validation and documentation.
+- Detection documentation.
 
-Expected capability:
+**Expected capability:**
 
-Develop, test, explain and document basic security detection logic.
+Understand and develop basic security detection logic and explain how detection rules identify potentially suspicious activity.
+
+**Related Practical Labs:**
+
+- [Lab 07: SIEM Alert Triage](./labs/07-siem-alert-triage/)
+- [Lab 08: Detection Engineering](./labs/08-detection-engineering/)
 
 ---
 
 ## 7. Practical Learning and Lab Execution
 
-Learning concepts should be supported by practical execution.
+Learning concepts should be supported by practical exercises.
 
-The Labs directory provides the foundation for hands-on exercises.
+The repository provides eight practical labs covering important SOC investigation activities.
 
-Directory: `labs/`
+### Available Practical Labs
 
-Every practical exercise should define:
-
-1. Scenario and security context.
-2. Learning objective.
-3. Required tools and environment.
-4. Execution instructions.
-5. Expected observations.
-6. Evidence requirements.
-7. Evaluation criteria.
+| No. | Practical Lab | Learning Focus | Directory |
+|---|---|---|---|
+| 01 | Network Traffic Analysis | Packet and protocol investigation | [Open Lab](./labs/01-network-traffic-analysis/) |
+| 02 | Operating System Investigation | Linux system information and authentication logs | [Open Lab](./labs/02-operating-system-investigation/) |
+| 03 | Security Event Analysis | Security events and authentication patterns | [Open Lab](./labs/03-security-event-analysis/) |
+| 04 | Network Security Investigation | Firewall and network connection analysis | [Open Lab](./labs/04-network-security-investigation/) |
+| 05 | Endpoint Investigation | Process and endpoint activity | [Open Lab](./labs/05-endpoint-investigation/) |
+| 06 | Identity and Access Investigation | Authentication and account activity | [Open Lab](./labs/06-identity-access-investigation/) |
+| 07 | SIEM Alert Triage | Alert analysis and prioritization | [Open Lab](./labs/07-siem-alert-triage/) |
+| 08 | Detection Engineering | Sigma detection rules | [Open Lab](./labs/08-detection-engineering/) |
 
 ### Practical Learning Workflow
 
 | Step | Activity | Outcome |
 |---|---|---|
 | 01 | Understand the scenario | Problem identification |
-| 02 | Prepare the environment | Ready-to-use lab |
-| 03 | Execute the exercise | Practical experience |
+| 02 | Review the required resources | Preparation |
+| 03 | Complete the exercise | Practical experience |
 | 04 | Analyse observations | Technical understanding |
-| 05 | Capture evidence | Verifiable artifacts |
-| 06 | Document findings | Investigation report |
-| 07 | Review results | Identified improvements |
+| 05 | Document findings | Investigation record |
+| 06 | Prepare relevant artifacts | Portfolio material |
+| 07 | Review the outcome | Identified improvements |
 
-Practical exercises must use authorized systems, isolated environments or synthetic datasets.
+### Practical Resources
+
+Depending on the exercise, learners may work with:
+
+- Synthetic security datasets.
+- Network packet captures.
+- Linux investigation scripts.
+- Firewall logs.
+- Endpoint event records.
+- Identity and authentication records.
+- SIEM alert datasets.
+- Sigma detection rules.
+
+All practical activities must use authorized systems, controlled environments or supplied educational datasets.
+
+For the complete lab directory, visit [`labs/README.md`](./labs/README.md).
 
 ---
 
@@ -251,26 +303,24 @@ Practical exercises must use authorized systems, isolated environments or synthe
 
 A technical portfolio should demonstrate practical work rather than simply list completed courses.
 
-As learners progress, they should build projects demonstrating their knowledge.
+Learners can use the practical labs in this repository as the foundation for developing their cybersecurity portfolios.
 
 ### Suggested Portfolio Projects
 
-These are proposed project directions. Individual project instructions and directories will be developed separately.
-
-| No. | Project | Related Skills |
-|---|---|---|
-| 01 | Network Traffic Analysis | Networking and packet analysis |
-| 02 | Operating System Investigation | Linux and Windows |
-| 03 | Security Log Investigation | Log analysis |
-| 04 | Network Security Review | Network defence |
-| 05 | Endpoint Activity Investigation | Endpoint monitoring |
-| 06 | Identity Access Review | IAM and access control |
-| 07 | SIEM Detection Development | SIEM queries |
-| 08 | Detection Rule Validation | Sigma and detection engineering |
+| No. | Project | Related Lab | Skills |
+|---|---|---|---|
+| 01 | Network Traffic Analysis | Lab 01 | Networking and packet analysis |
+| 02 | Operating System Investigation | Lab 02 | Linux and system investigation |
+| 03 | Security Event Investigation | Lab 03 | Security log analysis |
+| 04 | Network Security Investigation | Lab 04 | Firewall and network defence |
+| 05 | Endpoint Activity Investigation | Lab 05 | Endpoint monitoring |
+| 06 | Identity Access Investigation | Lab 06 | IAM and authentication |
+| 07 | SIEM Alert Triage | Lab 07 | Security monitoring and alert analysis |
+| 08 | Detection Rule Development | Lab 08 | Sigma and detection engineering |
 
 ### Portfolio Evidence
 
-Each project should contain relevant artifacts such as:
+As learners complete their practical work, they can organize relevant artifacts such as:
 
 - Source files and scripts.
 - Sanitized datasets.
@@ -279,8 +329,8 @@ Each project should contain relevant artifacts such as:
 - Detection rules.
 - Query results.
 - Screenshots with explanations.
-- Testing documentation.
-- Final technical reports.
+- Technical findings.
+- Final investigation reports.
 
 ### Suggested Portfolio Structure
 
@@ -299,57 +349,64 @@ cybersecurity-portfolio/
 │   ├── evidence/
 │   └── report.md
 │
-├── 03-log-investigation/
+├── 03-security-event-analysis/
 │   ├── README.md
-│   ├── datasets/
 │   └── report.md
 │
 ├── 04-network-security/
+│   ├── README.md
+│   └── report.md
 │
 ├── 05-endpoint-investigation/
+│   ├── README.md
+│   └── report.md
 │
-├── 06-identity-access-review/
+├── 06-identity-access/
+│   ├── README.md
+│   └── report.md
 │
-├── 07-siem-detection/
+├── 07-siem-alert-triage/
+│   ├── README.md
+│   └── report.md
 │
-└── 08-detection-validation/
+└── 08-detection-engineering/
+    ├── README.md
+    └── rules/
 ```
 
-This is a suggested portfolio organization, not an existing directory structure in this repository.
+This is a suggested organization for an individual learner's portfolio, not an additional directory structure required inside this repository.
 
 ---
 
-## 9. Assessment and Skill Validation
+## 9. Assessment and Skill Development
 
 Knowledge assessments help evaluate conceptual understanding.
 
-Practical submissions help evaluate execution and technical reasoning.
-
-Both are important.
+Practical exercises help learners apply their knowledge and develop technical reasoning.
 
 ### Assessment Areas
 
-| Area | Evaluation Focus |
+| Area | Learning Focus |
 |---|---|
-| Technical Understanding | Understanding of core concepts |
-| Practical Execution | Ability to perform assigned activities |
-| Investigation | Ability to interpret technical evidence |
-| Problem Solving | Ability to identify and explain issues |
-| Documentation | Quality and clarity of reports |
-| Evidence Quality | Authenticity and reproducibility |
+| Technical Understanding | Understanding core concepts |
+| Practical Execution | Performing assigned activities |
+| Investigation | Interpreting technical evidence |
+| Problem Solving | Identifying and explaining issues |
+| Documentation | Organizing technical findings |
+| Evidence Quality | Supporting conclusions with relevant artifacts |
 
-### Completion Criteria
+### Learning Completion Criteria
 
-A learner should demonstrate:
+Learners should aim to demonstrate:
 
 - Understanding of the module objectives.
-- Completion of required exercises.
-- Relevant supporting evidence.
-- Ability to explain the methodology.
-- Understanding of findings and limitations.
-- Completion of applicable assessments.
+- Completion of relevant practical exercises.
+- Ability to explain their investigation methodology.
+- Clear documentation of findings.
+- Understanding of limitations and uncertainties.
+- Ability to communicate technical observations.
 
-Completing a module or passing a knowledge quiz alone does not establish practical competency.
+Completing a module or reading a learning resource alone does not establish practical competency.
 
 ---
 
@@ -357,21 +414,21 @@ Completing a module or passing a knowledge quiz alone does not establish practic
 
 Follow this sequence:
 
-| Milestone | Required Work |
+| Milestone | Required Learning |
 |---|---|
-| Milestone 01 | Complete Networking Foundations |
-| Milestone 02 | Complete Operating Systems |
-| Milestone 03 | Complete Security Fundamentals |
-| Milestone 04 | Complete Log Analysis |
-| Milestone 05 | Complete Network Security |
-| Milestone 06 | Complete Endpoint Security |
-| Milestone 07 | Complete Identity & Access Management |
-| Milestone 08 | Complete Detection Engineering |
-| Milestone 09 | Execute relevant practical labs |
-| Milestone 10 | Build and document portfolio projects |
-| Milestone 11 | Review assessments and practical evidence |
+| 01 | Networking Foundations |
+| 02 | Operating Systems |
+| 03 | Security Fundamentals |
+| 04 | Log Analysis |
+| 05 | Network Security |
+| 06 | Endpoint Security |
+| 07 | Identity & Access Management |
+| 08 | Detection Engineering |
+| 09 | Complete relevant practical labs |
+| 10 | Organize investigation findings |
+| 11 | Build a cybersecurity portfolio |
 
-Progress should be based on completed work and reviewed evidence rather than time spent reading.
+Progress should be based on learning and completed work rather than time spent reading.
 
 No fixed completion duration or employment outcome is guaranteed.
 
@@ -389,7 +446,7 @@ Use official documentation and reputable resources alongside the modules.
 - [Sigma](https://sigmahq.io/)
 - [Linux Kernel Documentation](https://docs.kernel.org/)
 
-Additional references are maintained in [RESOURCES.md](./RESOURCES.md).
+Additional references are maintained in [`RESOURCES.md`](./RESOURCES.md).
 
 ---
 
@@ -417,9 +474,21 @@ Read the [Security Policy](./SECURITY.md) for reporting procedures.
 | Learning Modules | [modules/README.md](./modules/README.md) |
 | Practical Labs | [labs/README.md](./labs/README.md) |
 | Learning Resources | [RESOURCES.md](./RESOURCES.md) |
+| Website | [index.html](./index.html) |
 | Contribution Guidelines | [CONTRIBUTING.md](./CONTRIBUTING.md) |
 | Code of Conduct | [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) |
 | Security Policy | [SECURITY.md](./SECURITY.md) |
+
+### Learning Modules
+
+1. [Networking Foundations](./modules/01-networking/)
+2. [Operating Systems](./modules/02-operating-systems/)
+3. [Security Fundamentals](./modules/03-security-fundamentals/)
+4. [Log Analysis](./modules/04-log-analysis/)
+5. [Network Security](./modules/05-network-security/)
+6. [Endpoint Security](./modules/06-endpoint-security/)
+7. [Identity & Access Management](./modules/07-identity-access-management/)
+8. [Detection Engineering](./modules/08-detection-engineering/)
 
 ---
 
