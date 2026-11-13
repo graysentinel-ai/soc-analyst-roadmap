@@ -1,0 +1,1553 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="Learn Detection Engineering with GraySentinel. Build security detections, write Sigma rules, analyse security logs, map attacks to MITRE ATT&CK and validate detection logic through practical labs.">
+
+    <meta name="keywords" content="Detection Engineering, Cybersecurity, SIEM, Sigma Rules, MITRE ATT&CK, Threat Detection, Security Monitoring, Blue Team, SOC Analyst, GraySentinel">
+
+    <meta name="author" content="GraySentinel Cyber Defence Lab">
+
+    <title>Module 08: Detection Engineering | GraySentinel</title>
+
+    <link rel="stylesheet" href="../../assets/css/style.css">
+
+    <style>
+        .module-hero {
+            padding: 45px 0;
+        }
+
+        .module-label {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 5px;
+            background: #E8F8FB;
+            color: #087D91;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .module-layout {
+            display: grid;
+            grid-template-columns: 260px minmax(0, 1fr);
+            gap: 30px;
+            align-items: start;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 90px;
+            padding: 22px;
+            border: 1px solid #DFE6EF;
+            border-radius: 10px;
+            background: #fff;
+        }
+
+        .sidebar h3 {
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 8px 10px;
+            color: #52627A;
+            font-size: 13px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .sidebar a:hover {
+            background: #E8F8FB;
+            color: #087D91;
+        }
+
+        .progress-track {
+            height: 8px;
+            background: #E9EEF4;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 12px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: #18C7D8;
+            transition: width .3s ease;
+        }
+
+        .content-section {
+            background: #fff;
+            border: 1px solid #DFE6EF;
+            border-radius: 10px;
+            padding: 28px;
+            margin-bottom: 24px;
+        }
+
+        .content-section h2 {
+            color: #0B1830;
+            font-size: 23px;
+            margin-bottom: 15px;
+        }
+
+        .content-section h3 {
+            color: #183454;
+            font-size: 17px;
+            margin: 22px 0 10px;
+        }
+
+        .content-section p,
+        .content-section li {
+            color: #52627A;
+            line-height: 1.75;
+            font-size: 14px;
+        }
+
+        .content-section ul,
+        .content-section ol {
+            padding-left: 22px;
+        }
+
+        .content-section li {
+            margin-bottom: 7px;
+        }
+
+        .info-card {
+            padding: 17px;
+            background: #F5F8FC;
+            border-left: 4px solid #18C7D8;
+            border-radius: 5px;
+            margin: 18px 0;
+        }
+
+        .warning-card {
+            padding: 17px;
+            background: #FFF6EB;
+            border-left: 4px solid #F28A38;
+            border-radius: 5px;
+            margin: 18px 0;
+        }
+
+        .success-card {
+            padding: 17px;
+            background: #EFF9F4;
+            border-left: 4px solid #18865B;
+            border-radius: 5px;
+            margin: 18px 0;
+        }
+
+        .info-card p,
+        .warning-card p,
+        .success-card p {
+            margin: 0;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 18px 0;
+        }
+
+        .content-section table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .content-section th {
+            background: #0B1830;
+            color: #fff;
+            text-align: left;
+            padding: 12px;
+        }
+
+        .content-section td {
+            padding: 12px;
+            border-bottom: 1px solid #DFE6EF;
+            color: #52627A;
+            vertical-align: top;
+        }
+
+        .code-block {
+            background: #101D32;
+            color: #D8E8F7;
+            padding: 20px;
+            border-radius: 7px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        .code-block pre {
+            white-space: pre;
+            font-family: Consolas, monospace;
+            font-size: 13px;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        .task-card {
+            border: 1px solid #DFE6EF;
+            padding: 18px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .task-card h3 {
+            margin-top: 0;
+        }
+
+        .check-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 11px 0;
+            border-bottom: 1px solid #EDF1F5;
+            color: #52627A;
+            font-size: 14px;
+        }
+
+        .check-item input {
+            margin-top: 4px;
+            accent-color: #18C7D8;
+        }
+
+        .quiz-question {
+            padding: 18px 0;
+            border-bottom: 1px solid #DFE6EF;
+        }
+
+        .quiz-question label {
+            display: block;
+            margin: 10px 0;
+            color: #52627A;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .quiz-question input {
+            margin-right: 8px;
+            accent-color: #087D91;
+        }
+
+        .quiz-result {
+            display: none;
+            padding: 18px;
+            background: #EFF9F4;
+            border-radius: 7px;
+            margin-top: 20px;
+        }
+
+        .primary-btn {
+            border: none;
+            background: #0B1830;
+            color: #fff;
+            padding: 12px 22px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 15px;
+        }
+
+        .primary-btn:hover {
+            background: #087D91;
+        }
+
+        .resource-list a {
+            color: #087D91;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .resource-list a:hover {
+            text-decoration: underline;
+        }
+
+        .module-footer {
+            padding: 30px 0;
+            border-top: 1px solid #DFE6EF;
+            margin-top: 40px;
+            color: #65758B;
+            font-size: 13px;
+        }
+
+        @media(max-width: 900px) {
+            .module-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: relative;
+                top: 0;
+            }
+        }
+
+        @media(max-width: 600px) {
+            .content-section {
+                padding: 18px;
+            }
+
+            .content-section h2 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="site-header">
+    <div class="container">
+        <div class="brand">
+            <a href="../../index.html">GraySentinel</a>
+        </div>
+
+        <nav class="header-links">
+            <a href="../../index.html">Home</a>
+            <a href="../../roadmap.html">Roadmap</a>
+            <a href="../README.md">Modules</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+
+<section class="module-hero">
+    <div class="container">
+
+        <div class="module-label">MODULE 08 · BLUE TEAM</div>
+
+        <h1>Detection Engineering</h1>
+
+        <p>
+            Learn how to turn security events into meaningful detections.
+            Understand attack behaviour, analyse telemetry, write detection
+            rules and validate whether your security monitoring can identify
+            suspicious activity.
+        </p>
+
+        <p>
+            <strong>Level:</strong> Intermediate &nbsp; |
+            <strong>Domain:</strong> Blue Team &nbsp; |
+            <strong>Focus:</strong> Detection Development
+        </p>
+
+        <div class="info-card">
+            <p>
+                <strong>Module Objective:</strong>
+                Build the ability to develop, test, document and improve
+                security detections using structured evidence rather than
+                relying on preconfigured alerts.
+            </p>
+        </div>
+
+        <p>
+            <a href="../07-identity-access-management/index.html">
+                ← Previous Module: Identity and Access Management
+            </a>
+        </p>
+
+    </div>
+</section>
+
+<section class="container">
+
+<div class="module-layout">
+
+<aside class="sidebar">
+
+    <h3>Module Navigation</h3>
+
+    <a href="#objectives">Learning Objectives</a>
+    <a href="#introduction">Introduction</a>
+    <a href="#fundamentals">Detection Fundamentals</a>
+    <a href="#telemetry">Security Telemetry</a>
+    <a href="#lifecycle">Detection Lifecycle</a>
+    <a href="#mitre">MITRE ATT&CK Mapping</a>
+    <a href="#sigma">Sigma Rules</a>
+    <a href="#siem">SIEM Queries</a>
+    <a href="#false-positives">False Positives</a>
+    <a href="#practical">Practical Labs</a>
+    <a href="#investigation">Detection Investigation</a>
+    <a href="#evidence">Evidence Requirements</a>
+    <a href="#checklist">Learning Progress</a>
+    <a href="#assessment">Knowledge Assessment</a>
+    <a href="#resources">Resources</a>
+
+    <hr>
+
+    <h3>Learning Progress</h3>
+
+    <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <p id="progressText">0 of 8 completed</p>
+
+    <p style="font-size:12px;color:#65758B;">
+        Progress is saved locally in your browser.
+    </p>
+
+</aside>
+
+<div class="module-content">
+
+<section class="content-section" id="objectives">
+
+    <h2>1. Learning Objectives</h2>
+
+    <p>By completing this module, you should be able to:</p>
+
+    <ul>
+        <li>Explain what detection engineering means in cybersecurity.</li>
+        <li>Understand how security telemetry is generated and collected.</li>
+        <li>Identify suspicious behaviour from system and network events.</li>
+        <li>Map detection logic to MITRE ATT&CK techniques.</li>
+        <li>Understand and write basic Sigma detection rules.</li>
+        <li>Build basic SIEM queries for suspicious activity.</li>
+        <li>Evaluate detection accuracy and false-positive rates.</li>
+        <li>Document detection logic and investigation evidence.</li>
+    </ul>
+
+    <div class="success-card">
+        <p>
+            <strong>Expected Outcome:</strong>
+            You should be able to demonstrate a working detection rule,
+            explain why it exists, test it against sample data and document
+            its limitations.
+        </p>
+    </div>
+
+</section>
+
+<section class="content-section" id="introduction">
+
+    <h2>2. Introduction to Detection Engineering</h2>
+
+    <p>
+        Security systems generate thousands or millions of events.
+        These events may include login attempts, process execution,
+        network connections, file modifications and administrative actions.
+    </p>
+
+    <p>
+        However, collecting events is not the same as identifying threats.
+        Security teams need detection logic that identifies meaningful
+        patterns in the available data.
+    </p>
+
+    <p>
+        Detection Engineering is the process of designing, implementing,
+        testing and improving rules that identify potentially malicious
+        or suspicious activity.
+    </p>
+
+    <h3>Example Scenario</h3>
+
+    <p>
+        Imagine an employee account normally logs in from one office
+        computer. Suddenly, the account performs several failed login
+        attempts followed by a successful login from an unfamiliar system.
+    </p>
+
+    <p>
+        A detection engineer may build a rule that identifies repeated
+        authentication failures followed by a successful login.
+    </p>
+
+    <div class="info-card">
+        <p>
+            <strong>Important:</strong>
+            A detection alert is an indication that activity deserves
+            investigation. It is not automatic proof of a cyberattack.
+        </p>
+    </div>
+
+    <h3>Detection Engineering vs Traditional Monitoring</h3>
+
+    <div class="table-wrapper">
+        <table>
+            <tr>
+                <th>Traditional Monitoring</th>
+                <th>Detection Engineering</th>
+            </tr>
+            <tr>
+                <td>Collects system events.</td>
+                <td>Develops logic to identify suspicious behaviour.</td>
+            </tr>
+            <tr>
+                <td>Displays dashboards and alerts.</td>
+                <td>Tests whether alerts identify relevant activity.</td>
+            </tr>
+            <tr>
+                <td>May rely on default rules.</td>
+                <td>Creates and continuously improves detection rules.</td>
+            </tr>
+            <tr>
+                <td>Focuses on visibility.</td>
+                <td>Focuses on actionable security evidence.</td>
+            </tr>
+        </table>
+    </div>
+
+</section>
+
+<section class="content-section" id="fundamentals">
+
+    <h2>3. Detection Fundamentals</h2>
+
+    <h3>What Is a Detection Rule?</h3>
+
+    <p>
+        A detection rule is a set of conditions used to identify
+        activity that may indicate a security problem.
+    </p>
+
+    <p>A basic detection rule generally contains:</p>
+
+    <ul>
+        <li><strong>Data Source:</strong> Where the event originates.</li>
+        <li><strong>Event Selection:</strong> Which events are relevant.</li>
+        <li><strong>Conditions:</strong> What behaviour should be identified.</li>
+        <li><strong>Threshold:</strong> How frequently an event must occur.</li>
+        <li><strong>Alert:</strong> What happens when conditions are met.</li>
+        <li><strong>Context:</strong> Information needed by an analyst.</li>
+    </ul>
+
+    <h3>Common Detection Categories</h3>
+
+    <div class="table-wrapper">
+        <table>
+            <tr>
+                <th>Category</th>
+                <th>Example Activity</th>
+            </tr>
+            <tr>
+                <td>Authentication</td>
+                <td>Repeated failed login attempts.</td>
+            </tr>
+            <tr>
+                <td>Endpoint</td>
+                <td>Unexpected process execution.</td>
+            </tr>
+            <tr>
+                <td>Network</td>
+                <td>Unexpected outbound connections.</td>
+            </tr>
+            <tr>
+                <td>Privilege</td>
+                <td>Unexpected administrative activity.</td>
+            </tr>
+            <tr>
+                <td>Persistence</td>
+                <td>Unexpected scheduled task creation.</td>
+            </tr>
+            <tr>
+                <td>Data Access</td>
+                <td>Unusual access to sensitive resources.</td>
+            </tr>
+        </table>
+    </div>
+
+</section>
+
+<section class="content-section" id="telemetry">
+
+    <h2>4. Understanding Security Telemetry</h2>
+
+    <p>
+        Telemetry is the information generated by systems and security
+        devices that helps security teams understand what happened.
+    </p>
+
+    <h3>Common Telemetry Sources</h3>
+
+    <ul>
+        <li><strong>Windows Event Logs:</strong> Authentication and system activity.</li>
+        <li><strong>Linux Logs:</strong> Authentication, processes and system events.</li>
+        <li><strong>Firewall Logs:</strong> Allowed and blocked network traffic.</li>
+        <li><strong>DNS Logs:</strong> Domain lookup activity.</li>
+        <li><strong>EDR Data:</strong> Endpoint processes and behaviour.</li>
+        <li><strong>Web Server Logs:</strong> HTTP requests and response information.</li>
+        <li><strong>Cloud Audit Logs:</strong> Cloud resource and account activity.</li>
+    </ul>
+
+    <h3>Example Security Event</h3>
+
+    <div class="code-block">
+<pre>{
+  "timestamp": "2026-01-15T10:30:00Z",
+  "hostname": "WORKSTATION-01",
+  "username": "analyst01",
+  "event_type": "authentication",
+  "event_id": 4625,
+  "source_ip": "192.0.2.45",
+  "status": "failure"
+}</pre>
+    </div>
+
+    <p>
+        This synthetic event represents a failed Windows authentication
+        attempt. Event ID 4625 is associated with failed logon events.
+    </p>
+
+    <h3>Why Data Quality Matters</h3>
+
+    <ul>
+        <li>Missing timestamps make event correlation difficult.</li>
+        <li>Incorrect time zones affect investigation timelines.</li>
+        <li>Missing usernames reduce attribution capabilities.</li>
+        <li>Inconsistent field names make queries unreliable.</li>
+        <li>Incomplete event collection creates detection blind spots.</li>
+    </ul>
+
+    <div class="warning-card">
+        <p>
+            <strong>Detection limitation:</strong>
+            A detection rule cannot reliably identify activity that its
+            underlying data source does not record or collect.
+        </p>
+    </div>
+
+</section>
+
+<section class="content-section" id="lifecycle">
+
+    <h2>5. Detection Engineering Lifecycle</h2>
+
+    <p>
+        Detection engineering is a continuous improvement process.
+        A rule should not be considered complete simply because it
+        generates an alert.
+    </p>
+
+    <ol>
+        <li><strong>Understand the Threat:</strong> Identify the behaviour you want to detect.</li>
+        <li><strong>Identify Telemetry:</strong> Determine which logs contain relevant evidence.</li>
+        <li><strong>Develop Logic:</strong> Define the detection conditions.</li>
+        <li><strong>Implement:</strong> Write the rule or SIEM query.</li>
+        <li><strong>Test:</strong> Validate against representative sample events.</li>
+        <li><strong>Evaluate:</strong> Review true positives and false positives.</li>
+        <li><strong>Document:</strong> Record assumptions, coverage and limitations.</li>
+        <li><strong>Improve:</strong> Update the detection as environments change.</li>
+    </ol>
+
+    <div class="info-card">
+        <p>
+            <strong>Engineering Principle:</strong>
+            A detection rule must be testable, explainable, maintainable
+            and supported by observable evidence.
+        </p>
+    </div>
+
+</section>
+
+<section class="content-section" id="mitre">
+
+    <h2>6. MITRE ATT&CK Mapping</h2>
+
+    <p>
+        <a href="https://attack.mitre.org/" target="_blank" rel="noopener noreferrer">
+            MITRE ATT&CK
+        </a>
+        is a knowledge base that describes adversary tactics and techniques.
+        It helps security teams understand and classify attacker behaviour.
+    </p>
+
+    <h3>Important Terminology</h3>
+
+    <ul>
+        <li><strong>Tactic:</strong> The attacker's objective.</li>
+        <li><strong>Technique:</strong> The method used to achieve that objective.</li>
+        <li><strong>Sub-technique:</strong> A more specific variation of a technique.</li>
+    </ul>
+
+    <h3>Example Mapping</h3>
+
+    <div class="table-wrapper">
+        <table>
+            <tr>
+                <th>Activity</th>
+                <th>ATT&CK Technique</th>
+                <th>ID</th>
+            </tr>
+            <tr>
+                <td>Brute-force attempts</td>
+                <td>Brute Force</td>
+                <td>T1110</td>
+            </tr>
+            <tr>
+                <td>Suspicious PowerShell execution</td>
+                <td>PowerShell</td>
+                <td>T1059.001</td>
+            </tr>
+            <tr>
+                <td>Unusual scheduled task creation</td>
+                <td>Scheduled Task/Job</td>
+                <td>T1053</td>
+            </tr>
+            <tr>
+                <td>Credential dumping behaviour</td>
+                <td>OS Credential Dumping</td>
+                <td>T1003</td>
+            </tr>
+        </table>
+    </div>
+
+    <p>
+        Mapping a detection to ATT&CK helps communicate what behaviour
+        the rule is designed to identify. It does not establish that
+        the entire technique is covered.
+    </p>
+
+</section>
+
+<section class="content-section" id="sigma">
+
+    <h2>7. Introduction to Sigma Rules</h2>
+
+    <p>
+        Sigma is an open detection-rule format that allows security
+        analysts and engineers to describe log-based detection logic
+        in a platform-independent way.
+    </p>
+
+    <p>
+        Sigma rules can be converted into queries for supported
+        security platforms using compatible conversion tools.
+    </p>
+
+    <h3>Basic Sigma Rule Structure</h3>
+
+    <div class="code-block">
+<pre>title: Multiple Failed Authentication Attempts
+id: 11111111-1111-4111-8111-111111111111
+status: experimental
+
+description: >
+  Identifies failed authentication events
+  for further investigation.
+
+logsource:
+    product: windows
+    service: security
+
+detection:
+    selection:
+        EventID: 4625
+
+    condition: selection
+
+level: medium
+
+tags:
+    - attack.credential-access
+    - attack.t1110</pre>
+    </div>
+
+    <h3>Understanding the Fields</h3>
+
+    <div class="table-wrapper">
+        <table>
+            <tr>
+                <th>Field</th>
+                <th>Purpose</th>
+            </tr>
+            <tr>
+                <td>title</td>
+                <td>Human-readable detection name.</td>
+            </tr>
+            <tr>
+                <td>id</td>
+                <td>Unique identifier for the rule.</td>
+            </tr>
+            <tr>
+                <td>status</td>
+                <td>Development or validation status.</td>
+            </tr>
+            <tr>
+                <td>description</td>
+                <td>Explains the detection purpose.</td>
+            </tr>
+            <tr>
+                <td>logsource</td>
+                <td>Describes the relevant event source.</td>
+            </tr>
+            <tr>
+                <td>detection</td>
+                <td>Contains the selection and matching conditions.</td>
+            </tr>
+            <tr>
+                <td>level</td>
+                <td>Indicates the rule's severity classification.</td>
+            </tr>
+            <tr>
+                <td>tags</td>
+                <td>Provides classification and ATT&CK mapping.</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="warning-card">
+        <p>
+            <strong>Important:</strong>
+            This is an illustrative starter rule, not a complete
+            brute-force detection. It identifies individual failed
+            authentication events. Correlation, thresholds, field
+            mapping and testing must be implemented separately.
+        </p>
+    </div>
+
+</section>
+
+<section class="content-section" id="siem">
+
+    <h2>8. Detection Using SIEM Queries</h2>
+
+    <p>
+        Security Information and Event Management (SIEM) platforms
+        collect and analyse events from different systems.
+    </p>
+
+    <p>
+        Detection engineers use query languages to search, filter,
+        correlate and investigate this information.
+    </p>
+
+    <h3>Example: Splunk SPL</h3>
+
+    <div class="code-block">
+<pre>index=windows
+EventCode=4625
+| stats count by user, src_ip
+| where count >= 5
+| sort - count</pre>
+    </div>
+
+    <p>
+        This illustrative query groups failed logon events by username
+        and source IP and displays groups containing five or more events.
+    </p>
+
+    <h3>Example: Microsoft Sentinel KQL</h3>
+
+    <div class="code-block">
+<pre>SecurityEvent
+| where EventID == 4625
+| summarize FailedAttempts = count()
+    by Account, IpAddress, bin(TimeGenerated, 10m)
+| where FailedAttempts >= 5
+| order by FailedAttempts desc</pre>
+    </div>
+
+    <p>
+        This query groups failed logon events into ten-minute intervals
+        and identifies groups with at least five failures.
+    </p>
+
+    <div class="info-card">
+        <p>
+            <strong>Platform dependency:</strong>
+            Field names, data availability and query behaviour depend
+            on the SIEM schema and log ingestion configuration.
+        </p>
+    </div>
+
+</section>
+
+<section class="content-section" id="false-positives">
+
+    <h2>9. False Positives and Detection Quality</h2>
+
+    <p>
+        A false positive occurs when a detection identifies activity
+        as suspicious even though investigation shows that the activity
+        is legitimate.
+    </p>
+
+    <p>
+        For example, five failed logins may result from an employee
+        entering an incorrect password repeatedly.
+    </p>
+
+    <h3>Detection Outcomes</h3>
+
+    <div class="table-wrapper">
+        <table>
+            <tr>
+                <th>Outcome</th>
+                <th>Meaning</th>
+            </tr>
+            <tr>
+                <td>True Positive</td>
+                <td>A relevant security event was correctly identified.</td>
+            </tr>
+            <tr>
+                <td>False Positive</td>
+                <td>Legitimate activity generated an incorrect alert.</td>
+            </tr>
+            <tr>
+                <td>True Negative</td>
+                <td>Normal activity was correctly not alerted.</td>
+            </tr>
+            <tr>
+                <td>False Negative</td>
+                <td>A relevant security event was missed.</td>
+            </tr>
+        </table>
+    </div>
+
+    <h3>Ways to Improve Detection Quality</h3>
+
+    <ul>
+        <li>Use appropriate event thresholds.</li>
+        <li>Include relevant user and asset context.</li>
+        <li>Validate detection logic against legitimate activity.</li>
+        <li>Review repeated alert patterns.</li>
+        <li>Document approved exceptions.</li>
+        <li>Test rule changes before production deployment.</li>
+    </ul>
+
+    <div class="warning-card">
+        <p>
+            <strong>Trade-off:</strong>
+            Making a rule too restrictive can reduce false positives
+            while increasing false negatives. Detection tuning must
+            balance both risks.
+        </p>
+    </div>
+
+</section>
+
+<section class="content-section" id="practical">
+
+    <h2>10. Practical Labs</h2>
+
+    <p>
+        The following exercises use synthetic security events.
+        Perform them in a controlled learning environment.
+        Do not generate unauthorized authentication attempts or
+        access third-party systems.
+    </p>
+
+    <div class="task-card">
+
+        <h3>Lab 01: Security Event Analysis</h3>
+
+        <p><strong>Objective:</strong> Understand authentication event patterns.</p>
+
+        <p><strong>Sample dataset:</strong></p>
+
+        <div class="code-block">
+<pre>timestamp,user,source_ip,event_id,status
+10:00:01,admin,192.0.2.10,4625,failure
+10:00:05,admin,192.0.2.10,4625,failure
+10:00:09,admin,192.0.2.10,4625,failure
+10:01:10,analyst,192.0.2.20,4624,success
+10:02:00,admin,192.0.2.10,4624,success
+10:05:00,user01,192.0.2.30,4625,failure</pre>
+        </div>
+
+        <p><strong>Tasks:</strong></p>
+
+        <ol>
+            <li>Identify failed authentication events.</li>
+            <li>Count failures for each user.</li>
+            <li>Identify repeated failures from one source IP.</li>
+            <li>Find whether a successful login followed the failures.</li>
+            <li>Document what additional information an analyst needs.</li>
+        </ol>
+
+        <p><strong>Expected Evidence:</strong> Event analysis report and findings.</p>
+
+    </div>
+
+    <div class="task-card">
+
+        <h3>Lab 02: Build a Sigma Detection Rule</h3>
+
+        <p><strong>Objective:</strong> Develop a basic log-based detection.</p>
+
+        <p><strong>Tasks:</strong></p>
+
+        <ol>
+            <li>Review the failed authentication event structure.</li>
+            <li>Identify the appropriate log source.</li>
+            <li>Create a Sigma YAML rule for Event ID 4625.</li>
+            <li>Give the rule a unique identifier.</li>
+            <li>Add a meaningful description and severity.</li>
+            <li>Map the relevant behaviour to ATT&CK.</li>
+            <li>Validate the YAML syntax.</li>
+        </ol>
+
+        <p><strong>Expected Evidence:</strong> Sigma rule file and validation output.</p>
+
+    </div>
+
+    <div class="task-card">
+
+        <h3>Lab 03: Detection Query Development</h3>
+
+        <p><strong>Objective:</strong> Identify repeated failed authentication activity.</p>
+
+        <p><strong>Tasks:</strong></p>
+
+        <ol>
+            <li>Load the synthetic authentication dataset.</li>
+            <li>Write a query that groups events by user and IP address.</li>
+            <li>Apply a threshold of five failures.</li>
+            <li>Compare results against the original dataset.</li>
+            <li>Identify limitations of the query.</li>
+        </ol>
+
+        <p><strong>Expected Evidence:</strong> Query file and result screenshots.</p>
+
+    </div>
+
+    <div class="task-card">
+
+        <h3>Lab 04: False Positive Analysis</h3>
+
+        <p><strong>Objective:</strong> Understand the limitations of a detection rule.</p>
+
+        <p><strong>Tasks:</strong></p>
+
+        <ol>
+            <li>Review the events generated by Lab 01.</li>
+            <li>Identify which alerts require investigation.</li>
+            <li>Identify possible legitimate explanations.</li>
+            <li>Suggest improvements to the detection.</li>
+            <li>Explain the risk of excessive filtering.</li>
+        </ol>
+
+        <p><strong>Expected Evidence:</strong> False-positive analysis report.</p>
+
+    </div>
+
+</section>
+
+<section class="content-section" id="investigation">
+
+    <h2>11. Detection Investigation and Reporting</h2>
+
+    <p>
+        Detection development does not end when a rule generates an alert.
+        Engineers must document what the rule detects, how it works and
+        what an analyst should investigate.
+    </p>
+
+    <h3>Recommended Detection Documentation</h3>
+
+    <div class="table-wrapper">
+        <table>
+            <tr>
+                <th>Field</th>
+                <th>Required Information</th>
+            </tr>
+            <tr>
+                <td>Detection Name</td>
+                <td>Unique and understandable name.</td>
+            </tr>
+            <tr>
+                <td>Objective</td>
+                <td>What behaviour is being detected.</td>
+            </tr>
+            <tr>
+                <td>Data Source</td>
+                <td>Relevant event source and fields.</td>
+            </tr>
+            <tr>
+                <td>Detection Logic</td>
+                <td>Rule or query implementation.</td>
+            </tr>
+            <tr>
+                <td>ATT&CK Mapping</td>
+                <td>Relevant tactic and technique.</td>
+            </tr>
+            <tr>
+                <td>Testing</td>
+                <td>Test dataset and validation results.</td>
+            </tr>
+            <tr>
+                <td>Limitations</td>
+                <td>Known gaps and assumptions.</td>
+            </tr>
+            <tr>
+                <td>Response Guidance</td>
+                <td>Recommended investigation steps.</td>
+            </tr>
+        </table>
+    </div>
+
+    <h3>Investigation Questions</h3>
+
+    <ul>
+        <li>Which user or system generated the event?</li>
+        <li>When did the activity occur?</li>
+        <li>Which source IP or endpoint was involved?</li>
+        <li>Were there related events before or after the alert?</li>
+        <li>Does the behaviour match expected business activity?</li>
+        <li>What additional evidence is required?</li>
+    </ul>
+
+</section>
+
+<section class="content-section" id="evidence">
+
+    <h2>12. Evidence and Submission Requirements</h2>
+
+    <p>
+        GraySentinel evaluates practical capability through verifiable
+        work. Your submission should demonstrate the actual work performed,
+        not simply screenshots of completed tutorials.
+    </p>
+
+    <h3>Required Deliverables</h3>
+
+    <ol>
+        <li>Security event analysis report.</li>
+        <li>Working Sigma YAML detection rule.</li>
+        <li>SIEM query implementation.</li>
+        <li>Detection testing evidence.</li>
+        <li>False-positive analysis.</li>
+        <li>MITRE ATT&CK mapping.</li>
+        <li>Detection documentation.</li>
+        <li>Final investigation report.</li>
+    </ol>
+
+    <h3>Suggested GitHub Structure</h3>
+
+    <div class="code-block">
+<pre>08-detection-engineering/
+│
+├── README.md
+│
+├── datasets/
+│   └── authentication-events.csv
+│
+├── sigma-rules/
+│   └── failed-authentication.yml
+│
+├── siem-queries/
+│   ├── splunk.spl
+│   └── sentinel.kql
+│
+├── analysis/
+│   ├── event-analysis.md
+│   └── false-positive-analysis.md
+│
+├── evidence/
+│   └── validation-results.md
+│
+└── reports/
+    └── detection-report.md</pre>
+    </div>
+
+    <div class="success-card">
+        <p>
+            <strong>Proof of Work:</strong>
+            A reviewer should be able to inspect your repository,
+            understand your detection logic, reproduce your tests
+            using the supplied synthetic data and evaluate your conclusions.
+        </p>
+    </div>
+
+</section>
+
+<section class="content-section" id="checklist">
+
+    <h2>13. Learning Progress Checklist</h2>
+
+    <p>Mark each activity after completing it.</p>
+
+    <div id="checklistContainer">
+
+        <label class="check-item">
+            <input type="checkbox" class="module-check" data-id="1">
+            Understand Detection Engineering fundamentals.
+        </label>
+
+        <label class="check-item">
+            <input type="checkbox" class="module-check" data-id="2">
+            Understand security telemetry and event sources.
+        </label>
+
+        <label class="check-item">
+            <input type="checkbox" class="module-check" data-id="3">
+            Understand the detection engineering lifecycle.
+        </label>
+
+        <label class="check-item">
+            <input type="checkbox" class="module-check" data-id="4">
+            Map detection behaviour to MITRE ATT&CK.
+        </label>
+
+        <label class="check-item">
+            <input type="checkbox" class="module-check" data-id="5">
+            Create and validate a Sigma rule.
+        </label>
+
+        <label class="check-item">
+            <input type="checkbox" class="module-check" data-id="6">
+            Write and test a SIEM query.
+        </label>
+
+        <label class="check-item">
+            <input type="checkbox" class="module-check" data-id="7">
+            Analyse false positives and detection limitations.
+        </label>
+
+        <label class="check-item">
+            <input type="checkbox" class="module-check" data-id="8">
+            Complete and document the practical submissions.
+        </label>
+
+    </div>
+
+</section>
+
+<section class="content-section" id="assessment">
+
+    <h2>14. Knowledge Assessment</h2>
+
+    <p>
+        Complete all eight questions to assess your understanding.
+        Each question carries one mark.
+    </p>
+
+    <form id="quizForm">
+
+        <div class="quiz-question">
+            <h3>Q1. What is the primary purpose of Detection Engineering?</h3>
+
+            <label><input type="radio" name="q1" value="a"> Collecting more storage.</label>
+            <label><input type="radio" name="q1" value="b"> Developing and improving security detection logic.</label>
+            <label><input type="radio" name="q1" value="c"> Managing employee attendance.</label>
+            <label><input type="radio" name="q1" value="d"> Encrypting every network connection.</label>
+        </div>
+
+        <div class="quiz-question">
+            <h3>Q2. What is security telemetry?</h3>
+
+            <label><input type="radio" name="q2" value="a"> Information generated by systems and security devices.</label>
+            <label><input type="radio" name="q2" value="b"> A firewall password.</label>
+            <label><input type="radio" name="q2" value="c"> A programming language.</label>
+            <label><input type="radio" name="q2" value="d"> An antivirus subscription.</label>
+        </div>
+
+        <div class="quiz-question">
+            <h3>Q3. What is the purpose of Sigma?</h3>
+
+            <label><input type="radio" name="q3" value="a"> Creating network cables.</label>
+            <label><input type="radio" name="q3" value="b"> Managing operating system updates.</label>
+            <label><input type="radio" name="q3" value="c"> Defining portable log-based detection rules.</label>
+            <label><input type="radio" name="q3" value="d"> Encrypting database backups.</label>
+        </div>
+
+        <div class="quiz-question">
+            <h3>Q4. What does MITRE ATT&CK provide?</h3>
+
+            <label><input type="radio" name="q4" value="a"> A complete SIEM platform.</label>
+            <label><input type="radio" name="q4" value="b"> A knowledge base of adversary tactics and techniques.</label>
+            <label><input type="radio" name="q4" value="c"> A password management service.</label>
+            <label><input type="radio" name="q4" value="d"> An operating system.</label>
+        </div>
+
+        <div class="quiz-question">
+            <h3>Q5. What is a false positive?</h3>
+
+            <label><input type="radio" name="q5" value="a"> A legitimate event incorrectly identified as suspicious.</label>
+            <label><input type="radio" name="q5" value="b"> A missed malicious event.</label>
+            <label><input type="radio" name="q5" value="c"> A successful security investigation.</label>
+            <label><input type="radio" name="q5" value="d"> An encrypted log file.</label>
+        </div>
+
+        <div class="quiz-question">
+            <h3>Q6. Which Windows Event ID represents a failed logon?</h3>
+
+            <label><input type="radio" name="q6" value="a"> 4624</label>
+            <label><input type="radio" name="q6" value="b"> 4625</label>
+            <label><input type="radio" name="q6" value="c"> 4688</label>
+            <label><input type="radio" name="q6" value="d"> 1102</label>
+        </div>
+
+        <div class="quiz-question">
+            <h3>Q7. Why should detection rules be tested?</h3>
+
+            <label><input type="radio" name="q7" value="a"> To increase file sizes.</label>
+            <label><input type="radio" name="q7" value="b"> To avoid documenting the rule.</label>
+            <label><input type="radio" name="q7" value="c"> To validate accuracy and identify limitations.</label>
+            <label><input type="radio" name="q7" value="d"> To disable security monitoring.</label>
+        </div>
+
+        <div class="quiz-question">
+            <h3>Q8. What makes a detection engineering submission verifiable?</h3>
+
+            <label><input type="radio" name="q8" value="a"> A certificate alone.</label>
+            <label><input type="radio" name="q8" value="b"> A list of tools used.</label>
+            <label><input type="radio" name="q8" value="c"> A screenshot without supporting work.</label>
+            <label><input type="radio" name="q8" value="d"> Reproducible rules, tests, results and documentation.</label>
+        </div>
+
+        <button type="submit" class="primary-btn">
+            Submit Assessment
+        </button>
+
+    </form>
+
+    <div class="quiz-result" id="quizResult"></div>
+
+</section>
+
+<section class="content-section resource-list" id="resources">
+
+    <h2>15. Learning Resources</h2>
+
+    <p>
+        Use these official documentation sources to deepen your
+        understanding and explore real detection engineering workflows.
+    </p>
+
+    <ul>
+        <li>
+            <a href="https://attack.mitre.org/" target="_blank" rel="noopener noreferrer">
+                MITRE ATT&CK Framework
+            </a>
+            <p>Understand adversary behaviour, tactics and techniques.</p>
+        </li>
+
+        <li>
+            <a href="https://sigmahq.io/" target="_blank" rel="noopener noreferrer">
+                Sigma Official Website
+            </a>
+            <p>Learn portable log-based detection rules.</p>
+        </li>
+
+        <li>
+            <a href="https://github.com/SigmaHQ/sigma" target="_blank" rel="noopener noreferrer">
+                SigmaHQ GitHub Repository
+            </a>
+            <p>Explore community-maintained detection rules.</p>
+        </li>
+
+        <li>
+            <a href="https://learn.microsoft.com/en-us/azure/sentinel/" target="_blank" rel="noopener noreferrer">
+                Microsoft Sentinel Documentation
+            </a>
+            <p>Learn SIEM concepts and security analytics.</p>
+        </li>
+
+        <li>
+            <a href="https://docs.splunk.com/Documentation/Splunk/latest/SearchReference/WhatsInThisManual" target="_blank" rel="noopener noreferrer">
+                Splunk Search Reference
+            </a>
+            <p>Understand Splunk Search Processing Language.</p>
+        </li>
+
+        <li>
+            <a href="https://www.elastic.co/guide/en/security/current/index.html" target="_blank" rel="noopener noreferrer">
+                Elastic Security Documentation
+            </a>
+            <p>Explore security detection and investigation workflows.</p>
+        </li>
+
+        <li>
+            <a href="https://github.com/SigmaHQ/pySigma" target="_blank" rel="noopener noreferrer">
+                pySigma
+            </a>
+            <p>Explore Sigma rule processing and conversion.</p>
+        </li>
+    </ul>
+
+</section>
+
+<div class="content-section">
+
+    <h2>Module Completion</h2>
+
+    <p>
+        You have reached the end of Module 08.
+        Review your practical submissions, validate your detection
+        logic and ensure your evidence is available in your repository.
+    </p>
+
+    <div class="success-card">
+        <p>
+            <strong>GraySentinel Philosophy:</strong>
+            Proof Over Certificates.
+            Your ability should be demonstrated through practical work,
+            reproducible evidence and technical reasoning.
+        </p>
+    </div>
+
+    <a href="../README.md" class="primary-btn" style="display:inline-block;text-decoration:none;">
+        Back to All Modules
+    </a>
+
+    <a href="../../roadmap.html" class="primary-btn" style="display:inline-block;text-decoration:none;margin-left:8px;">
+        View Learning Roadmap
+    </a>
+
+</div>
+
+</div>
+</div>
+</section>
+
+</main>
+
+<footer class="module-footer">
+    <div class="container">
+
+        <strong>GraySentinel Cyber Defence Lab</strong>
+
+        <p>
+            Proof Over Certificates · Security Skills. Shown, Not Claimed.
+        </p>
+
+        <p>
+            <a href="../../roadmap.html">Roadmap</a> |
+            <a href="../../CONTRIBUTING.md">Contribute</a> |
+            <a href="../../SECURITY.md">Security</a>
+        </p>
+
+        <p>© 2026 GraySentinel Cyber Defence Lab.</p>
+
+    </div>
+</footer>
+
+<script>
+(function () {
+
+    const STORAGE_KEY = "graysentinel_module08_progress";
+
+    const checkboxes = document.querySelectorAll(".module-check");
+    const progressFill = document.getElementById("progressFill");
+    const progressText = document.getElementById("progressText");
+
+    function loadProgress() {
+
+        let saved = {};
+
+        try {
+            saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+        } catch (error) {
+            saved = {};
+        }
+
+        checkboxes.forEach(function (checkbox) {
+            checkbox.checked = saved[checkbox.dataset.id] === true;
+        });
+
+        updateProgress();
+    }
+
+    function updateProgress() {
+
+        const completed = Array.from(checkboxes)
+            .filter(function (checkbox) {
+                return checkbox.checked;
+            }).length;
+
+        const percentage = Math.round((completed / 8) * 100);
+
+        progressFill.style.width = percentage + "%";
+
+        progressText.textContent =
+            completed + " of 8 completed (" + percentage + "%)";
+
+        const saved = {};
+
+        checkboxes.forEach(function (checkbox) {
+            saved[checkbox.dataset.id] = checkbox.checked;
+        });
+
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+        } catch (error) {
+            console.warn("Progress could not be saved locally.");
+        }
+    }
+
+    checkboxes.forEach(function (checkbox) {
+        checkbox.addEventListener("change", updateProgress);
+    });
+
+    loadProgress();
+
+    const answers = {
+        q1: "b",
+        q2: "a",
+        q3: "c",
+        q4: "b",
+        q5: "a",
+        q6: "b",
+        q7: "c",
+        q8: "d"
+    };
+
+    const quizForm = document.getElementById("quizForm");
+    const quizResult = document.getElementById("quizResult");
+
+    quizForm.addEventListener("submit", function (event) {
+
+        event.preventDefault();
+
+        let score = 0;
+        let unanswered = 0;
+
+        Object.keys(answers).forEach(function (question) {
+
+            const selected = quizForm.querySelector(
+                'input[name="' + question + '"]:checked'
+            );
+
+            if (!selected) {
+                unanswered++;
+                return;
+            }
+
+            if (selected.value === answers[question]) {
+                score++;
+            }
+
+        });
+
+        if (unanswered > 0) {
+
+            quizResult.style.display = "block";
+            quizResult.textContent =
+                "Please answer all 8 questions before submitting.";
+
+            return;
+        }
+
+        const percentage = (score / 8) * 100;
+
+        quizResult.style.display = "block";
+
+        quizResult.innerHTML =
+            "<h3>Assessment Result</h3>" +
+            "<p><strong>Score:</strong> " + score + "/8</p>" +
+            "<p><strong>Percentage:</strong> " + percentage + "%</p>" +
+            "<p>" +
+            (score >= 6
+                ? "Good work. Review your practical tasks and continue strengthening your detection engineering skills."
+                : "Review the learning material and attempt the assessment again.") +
+            "</p>";
+
+        quizResult.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+
+    });
+
+})();
+</script>
+
+</body>
+</html>
