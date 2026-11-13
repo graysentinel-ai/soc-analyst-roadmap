@@ -1,12 +1,758 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="A structured, evidence-first SOC Analyst learning roadmap with practical labs, investigation exercises and portfolio projects by GraySentinel Cyber Defence Lab."><meta name="theme-color" content="#0b1830"><title>SOC Analyst Roadmap | GraySentinel</title><link rel="stylesheet" href="assets/style.css"></head>
-<body><header class="topbar"><a class="brand" href="#home"><span class="brand-mark">GS</span><span><strong>GraySentinel</strong><small>CYBER DEFENCE LAB</small></span></a><nav><a href="#roadmap">Roadmap</a><a href="#labs">Practical learning</a><a href="#projects">Projects</a><a href="#contribute">Contribute</a></nav><a class="top-cta" href="https://cyberdefencelab.co.in/tracks">Explore programmes</a></header>
-<main id="home"><section class="hero"><div class="eyebrow">OPEN CYBERSECURITY LEARNING RESOURCE</div><h1>Build your SOC Analyst foundation.<br><em>Prove what you practise.</em></h1><p class="lead">A structured learning path covering security fundamentals, logs, alert triage, SIEM concepts, investigation, detection engineering and portfolio projects.</p><div class="actions"><a class="button primary" href="#roadmap">Explore the roadmap</a><a class="button secondary" href="ROADMAP.md">Read full roadmap</a></div><p class="note">Free learning resource · Self-paced · Practical evidence focused</p></section>
-<section class="stats"><div><b>9</b><span>Learning stages</span></div><div><b>3</b><span>Learning paths</span></div><div><b>4</b><span>Project starting points</span></div><div><b>Open</b><span>Community contributions</span></div></section>
-<section class="section" id="roadmap"><div class="eyebrow">YOUR LEARNING PATH</div><h2>From foundations to investigation</h2><p class="muted">Move at your own pace. Complete each stage by explaining and documenting what you learned.</p><div class="grid">
-<article><i>01</i><h3>Networking foundations</h3><p>TCP/IP, DNS, DHCP, HTTP/S, ports and packet basics.</p></article><article><i>02</i><h3>Operating systems</h3><p>Linux, Windows, processes, services, permissions and events.</p></article><article><i>03</i><h3>Security fundamentals</h3><p>Identity, common threats, IOCs and security principles.</p></article><article><i>04</i><h3>Logs and event analysis</h3><p>Event fields, timestamps, sources and investigation context.</p></article><article><i>05</i><h3>SOC operations</h3><p>Alert triage, severity, prioritisation and escalation.</p></article><article><i>06</i><h3>SIEM concepts</h3><p>Data ingestion, searches, dashboards and alerting.</p></article><article><i>07</i><h3>Incident investigation</h3><p>Timeline building, evidence correlation and reporting.</p></article><article><i>08</i><h3>Detection engineering</h3><p>Detection logic, Sigma concepts, test cases and tuning.</p></article><article><i>09</i><h3>Portfolio projects</h3><p>Turn practical work into clear, reproducible evidence.</p></article></div></section>
-<section class="section split" id="labs"><div><div class="eyebrow">PRACTISE SAFELY</div><h2>Learning should produce evidence.</h2><p>Use isolated labs, synthetic datasets and systems you own or are explicitly authorised to test. Record your method, observations, conclusions and limitations.</p><a href="RESOURCES.md">Explore learning resources →</a></div><div class="panel"><small>INVESTIGATION WORKFLOW</small><p>01 &nbsp; Identify the event source</p><p>02 &nbsp; Establish timeline and context</p><p>03 &nbsp; Correlate available evidence</p><p>04 &nbsp; Document findings and limits</p><strong>Evidence before conclusions.</strong></div></section>
-<section class="section" id="projects"><div class="eyebrow">BUILD YOUR PORTFOLIO</div><h2>Four project starting points</h2><div class="grid two"><article><i>PROJECT 01</i><h3>Authentication event investigation</h3><p>Analyse fictional authentication events and write a concise investigation report.</p></article><article><i>PROJECT 02</i><h3>Suspicious process triage</h3><p>Review safe sample telemetry and explain suspicious indicators and limitations.</p></article><article><i>PROJECT 03</i><h3>Detection rule with test cases</h3><p>Create a documented detection for a lab scenario and test expected matches and misses.</p></article><article><i>PROJECT 04</i><h3>Incident timeline</h3><p>Correlate supplied events into a timeline and communicate findings clearly.</p></article></div></section>
-<section class="section contribute" id="contribute"><div><div class="eyebrow">BUILD WITH THE COMMUNITY</div><h2>Make this roadmap better.</h2><p>Improve explanations, add safe lab exercises, test instructions or fix outdated references. Contributions are reviewed before acceptance.</p></div><div class="actions vertical"><a class="button primary" href="CONTRIBUTING.md">Read contribution guide</a><a class="button secondary" href="https://surveyheart.com/form/69c44a4912230713173b9ba7">Join Talent & Contributor Network</a></div></section>
-<section class="section cta"><div class="eyebrow">CONTINUE YOUR JOURNEY</div><h2>Want structured learning or practical skill evaluation?</h2><p>Explore GraySentinel programmes or take the free Skill Check. Both are optional; this public learning resource remains independently accessible.</p><div class="actions centered"><a class="button primary" href="https://cyberdefencelab.co.in/tracks">Explore programmes</a><a class="button secondary dark" href="https://form.svhrt.com/69ce8645001e39939d471236">Take free Skill Check</a><a class="button secondary dark" href="https://cyberdefencelab.co.in/proof-score">Explore Proof Score</a></div></section></main>
-<footer><b>GraySentinel Cyber Defence Lab</b><p>Proof Over Certificates. Security Skills. Shown, Not Claimed.</p><div><a href="https://cyberdefencelab.co.in">Main website</a><a href="https://github.com/GraySentinel">GitHub organisation</a><a href="SECURITY.md">Safety and security</a></div><small>Educational resource. No employment or job-readiness guarantee.</small></footer></body></html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="description" content="Explore the GraySentinel SOC Analyst Roadmap. Learn networking, security fundamentals, log analysis, SIEM, alert triage, incident response and detection engineering through practical learning.">
+
+  <meta name="keywords" content="SOC Analyst Roadmap, SOC Analyst Learning, Cybersecurity, Blue Team, SIEM, Log Analysis, Incident Response, Detection Engineering">
+
+  <meta name="author" content="GraySentinel Cyber Defence Lab">
+  <meta name="theme-color" content="#0B1830">
+
+  <title>SOC Analyst Roadmap | GraySentinel Cyber Defence Lab</title>
+
+  <link rel="icon" href="assets/images/favicon.png" type="image/png">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+</head>
+
+<body>
+
+  <!-- HEADER -->
+
+  <header class="site-header">
+
+    <div class="container header-container">
+
+      <a href="#home" class="brand">
+
+        <span class="brand-symbol">GS</span>
+
+        <span class="brand-name">
+          <strong>GraySentinel</strong>
+          <small>CYBER DEFENCE LAB</small>
+        </span>
+
+      </a>
+
+      <nav class="main-nav" aria-label="Main navigation">
+
+        <a href="#roadmap">Roadmap</a>
+        <a href="#learning">Learning</a>
+        <a href="#projects">Projects</a>
+        <a href="#contribute">Contribute</a>
+
+      </nav>
+
+      <a
+        href="https://cyberdefencelab.co.in/tracks"
+        class="header-button"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Explore Programmes
+      </a>
+
+    </div>
+
+  </header>
+
+
+  <main>
+
+    <!-- HERO SECTION -->
+
+    <section class="hero" id="home">
+
+      <div class="container hero-container">
+
+        <div class="hero-content">
+
+          <span class="eyebrow">
+            GRAYSENTINEL OPEN LEARNING RESOURCE
+          </span>
+
+          <h1>
+            Become a Better
+            <span>SOC Analyst.</span>
+          </h1>
+
+          <p class="hero-description">
+
+            Learn how security operations work, understand security
+            events, investigate alerts and develop practical defensive
+            cybersecurity skills.
+
+            Build your knowledge through structured learning,
+            practical exercises and portfolio projects.
+
+          </p>
+
+          <div class="hero-actions">
+
+            <a href="#roadmap" class="button button-primary">
+              Explore Learning Roadmap
+            </a>
+
+            <a
+              href="https://github.com/graysentinel-ai/soc-analyst-roadmap"
+              class="button button-outline"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View GitHub Repository
+            </a>
+
+          </div>
+
+          <div class="hero-note">
+
+            <span></span>
+            Open educational resource · Self-paced learning
+
+          </div>
+
+        </div>
+
+        <div class="hero-visual">
+
+          <div class="visual-card">
+
+            <div class="visual-header">
+              <span class="status-indicator"></span>
+              SOC LEARNING FRAMEWORK
+            </div>
+
+            <div class="visual-item">
+              <span class="visual-number">01</span>
+              <span>Understand Security Events</span>
+              <span class="visual-check">✓</span>
+            </div>
+
+            <div class="visual-item">
+              <span class="visual-number">02</span>
+              <span>Investigate Alerts</span>
+              <span class="visual-check">✓</span>
+            </div>
+
+            <div class="visual-item">
+              <span class="visual-number">03</span>
+              <span>Analyse Security Logs</span>
+              <span class="visual-check">✓</span>
+            </div>
+
+            <div class="visual-item">
+              <span class="visual-number">04</span>
+              <span>Understand SIEM</span>
+              <span class="visual-check">✓</span>
+            </div>
+
+            <div class="visual-item">
+              <span class="visual-number">05</span>
+              <span>Build Detection Content</span>
+              <span class="visual-check">✓</span>
+            </div>
+
+            <div class="visual-footer">
+              LEARN · PRACTISE · DOCUMENT · IMPROVE
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- RESOURCE OVERVIEW -->
+
+    <section class="overview-section">
+
+      <div class="container overview-grid">
+
+        <div class="overview-item">
+          <strong>08</strong>
+          <span>Core Learning Modules</span>
+        </div>
+
+        <div class="overview-item">
+          <strong>Practical</strong>
+          <span>Exercise-Based Learning</span>
+        </div>
+
+        <div class="overview-item">
+          <strong>Portfolio</strong>
+          <span>Evidence-Focused Projects</span>
+        </div>
+
+        <div class="overview-item">
+          <strong>Open</strong>
+          <span>Community Contributions</span>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ROADMAP -->
+
+    <section class="section roadmap-section" id="roadmap">
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <span class="eyebrow">YOUR LEARNING JOURNEY</span>
+
+          <h2>
+            SOC Analyst Learning Roadmap
+          </h2>
+
+          <p>
+            Build your understanding step by step, from cybersecurity
+            foundations to security investigation and detection.
+          </p>
+
+        </div>
+
+
+        <div class="roadmap-grid">
+
+          <article class="roadmap-card">
+
+            <span class="module-number">MODULE 01</span>
+
+            <h3>Networking Foundations</h3>
+
+            <p>
+              Understand how computers communicate, how networks
+              operate and how common protocols work.
+            </p>
+
+            <ul>
+              <li>TCP/IP and OSI Model</li>
+              <li>DNS, DHCP and HTTP/S</li>
+              <li>Ports and Protocols</li>
+              <li>Network Traffic Basics</li>
+            </ul>
+
+            <a href="modules/01-networking/">
+              Explore Module →
+            </a>
+
+          </article>
+
+
+          <article class="roadmap-card">
+
+            <span class="module-number">MODULE 02</span>
+
+            <h3>Operating Systems</h3>
+
+            <p>
+              Learn the fundamentals of Linux and Windows systems
+              used in security operations.
+            </p>
+
+            <ul>
+              <li>Linux Commands</li>
+              <li>Windows Fundamentals</li>
+              <li>Processes and Services</li>
+              <li>Users and Permissions</li>
+            </ul>
+
+            <a href="modules/02-operating-systems/">
+              Explore Module →
+            </a>
+
+          </article>
+
+
+          <article class="roadmap-card">
+
+            <span class="module-number">MODULE 03</span>
+
+            <h3>Security Fundamentals</h3>
+
+            <p>
+              Understand common cyber threats, security principles
+              and basic defensive concepts.
+            </p>
+
+            <ul>
+              <li>CIA Triad</li>
+              <li>Authentication and Access</li>
+              <li>Common Cyber Threats</li>
+              <li>Indicators of Compromise</li>
+            </ul>
+
+            <a href="modules/03-security-fundamentals/">
+              Explore Module →
+            </a>
+
+          </article>
+
+
+          <article class="roadmap-card">
+
+            <span class="module-number">MODULE 04</span>
+
+            <h3>Log Analysis</h3>
+
+            <p>
+              Understand system events, log sources and how
+              security analysts investigate event data.
+            </p>
+
+            <ul>
+              <li>Windows Event Logs</li>
+              <li>Linux System Logs</li>
+              <li>Authentication Events</li>
+              <li>Event Correlation</li>
+            </ul>
+
+            <a href="modules/04-log-analysis/">
+              Explore Module →
+            </a>
+
+          </article>
+
+
+          <article class="roadmap-card">
+
+            <span class="module-number">MODULE 05</span>
+
+            <h3>SOC Operations</h3>
+
+            <p>
+              Understand how a Security Operations Centre
+              monitors, investigates and responds to alerts.
+            </p>
+
+            <ul>
+              <li>SOC Roles and Responsibilities</li>
+              <li>Alert Triage</li>
+              <li>Severity and Prioritisation</li>
+              <li>Escalation and Documentation</li>
+            </ul>
+
+            <a href="modules/05-soc-operations/">
+              Explore Module →
+            </a>
+
+          </article>
+
+
+          <article class="roadmap-card">
+
+            <span class="module-number">MODULE 06</span>
+
+            <h3>SIEM Fundamentals</h3>
+
+            <p>
+              Learn how security information and event
+              management platforms support investigations.
+            </p>
+
+            <ul>
+              <li>Data Ingestion</li>
+              <li>Search and Queries</li>
+              <li>Dashboards and Alerts</li>
+              <li>Detection Concepts</li>
+            </ul>
+
+            <a href="modules/06-siem/">
+              Explore Module →
+            </a>
+
+          </article>
+
+
+          <article class="roadmap-card">
+
+            <span class="module-number">MODULE 07</span>
+
+            <h3>Incident Response</h3>
+
+            <p>
+              Learn how to investigate suspicious activity,
+              organise evidence and document findings.
+            </p>
+
+            <ul>
+              <li>Incident Identification</li>
+              <li>Evidence Collection</li>
+              <li>Timeline Analysis</li>
+              <li>Incident Reporting</li>
+            </ul>
+
+            <a href="modules/07-incident-response/">
+              Explore Module →
+            </a>
+
+          </article>
+
+
+          <article class="roadmap-card">
+
+            <span class="module-number">MODULE 08</span>
+
+            <h3>Detection Engineering</h3>
+
+            <p>
+              Understand how detection rules are created,
+              tested and improved.
+            </p>
+
+            <ul>
+              <li>Detection Logic</li>
+              <li>Sigma Fundamentals</li>
+              <li>Rule Testing</li>
+              <li>False Positive Reduction</li>
+            </ul>
+
+            <a href="modules/08-detection-engineering/">
+              Explore Module →
+            </a>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- LEARNING APPROACH -->
+
+    <section class="section learning-section" id="learning">
+
+      <div class="container learning-grid">
+
+        <div class="learning-content">
+
+          <span class="eyebrow">LEARN THROUGH PRACTICE</span>
+
+          <h2>
+            Knowledge becomes valuable when you can demonstrate it.
+          </h2>
+
+          <p>
+            Reading concepts is only one part of learning.
+            Practical exercises help you understand how security
+            operations work and how to explain your findings.
+          </p>
+
+          <p>
+            Use safe lab environments, analyse sample events,
+            document your methodology and build reproducible work.
+          </p>
+
+          <a href="labs/" class="text-link">
+            Explore Practical Labs →
+          </a>
+
+        </div>
+
+
+        <div class="learning-panel">
+
+          <div class="terminal-heading">
+            <span></span>
+            <span></span>
+            <span></span>
+            <small>LEARNING WORKFLOW</small>
+          </div>
+
+          <div class="workflow-step">
+            <b>01</b>
+            <span>Understand the Mission</span>
+          </div>
+
+          <div class="workflow-step">
+            <b>02</b>
+            <span>Execute the Exercise</span>
+          </div>
+
+          <div class="workflow-step">
+            <b>03</b>
+            <span>Collect Evidence</span>
+          </div>
+
+          <div class="workflow-step">
+            <b>04</b>
+            <span>Create an Artifact</span>
+          </div>
+
+          <div class="workflow-step">
+            <b>05</b>
+            <span>Review and Improve</span>
+          </div>
+
+          <div class="workflow-result">
+            PRACTICAL KNOWLEDGE · DOCUMENTED EVIDENCE
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- PROJECTS -->
+
+    <section class="section projects-section" id="projects">
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <span class="eyebrow">BUILD YOUR PORTFOLIO</span>
+
+          <h2>Practical Project Ideas</h2>
+
+          <p>
+            Use these projects to practise investigation,
+            analysis and technical documentation.
+          </p>
+
+        </div>
+
+
+        <div class="projects-grid">
+
+          <article class="project-card">
+
+            <span>PROJECT 01</span>
+
+            <h3>Authentication Event Investigation</h3>
+
+            <p>
+              Analyse a fictional authentication dataset,
+              identify unusual patterns and document your findings.
+            </p>
+
+          </article>
+
+
+          <article class="project-card">
+
+            <span>PROJECT 02</span>
+
+            <h3>Suspicious Process Analysis</h3>
+
+            <p>
+              Review safe sample telemetry and explain
+              suspicious process behaviour.
+            </p>
+
+          </article>
+
+
+          <article class="project-card">
+
+            <span>PROJECT 03</span>
+
+            <h3>Detection Rule Development</h3>
+
+            <p>
+              Develop and validate a detection rule
+              against a controlled lab scenario.
+            </p>
+
+          </article>
+
+
+          <article class="project-card">
+
+            <span>PROJECT 04</span>
+
+            <h3>Incident Investigation Report</h3>
+
+            <p>
+              Build an event timeline and prepare
+              a structured incident investigation report.
+            </p>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- CONTRIBUTION -->
+
+    <section class="section contribution-section" id="contribute">
+
+      <div class="container contribution-container">
+
+        <div>
+
+          <span class="eyebrow">OPEN CONTRIBUTION</span>
+
+          <h2>
+            Learn Together. Build Together.
+          </h2>
+
+          <p>
+            Help improve this learning resource through
+            documentation, research, testing, practical labs
+            and technical contributions.
+          </p>
+
+        </div>
+
+        <div class="contribution-actions">
+
+          <a
+            href="https://github.com/graysentinel-ai/soc-analyst-roadmap/blob/main/CONTRIBUTING.md"
+            class="button button-primary"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Read Contribution Guidelines
+          </a>
+
+          <a
+            href="https://surveyheart.com/form/69c44a4912230713173b9ba7"
+            class="button button-outline"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Join Talent & Contributor Network
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- GRAYSENTINEL CTA -->
+
+    <section class="section final-section">
+
+      <div class="container final-container">
+
+        <span class="eyebrow">CONTINUE YOUR CYBERSECURITY JOURNEY</span>
+
+        <h2>
+          Want to evaluate and develop your practical skills?
+        </h2>
+
+        <p>
+          Explore GraySentinel's cybersecurity learning
+          programmes and take the free Skill Check.
+        </p>
+
+        <div class="final-actions">
+
+          <a
+            href="https://cyberdefencelab.co.in/tracks"
+            class="button button-primary"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Explore Programmes
+          </a>
+
+          <a
+            href="https://form.svhrt.com/69ce8645001e39939d471236"
+            class="button button-dark"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Take Free Skill Check
+          </a>
+
+          <a
+            href="https://cyberdefencelab.co.in/proof-score"
+            class="button button-dark"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Explore Proof Score
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- FOOTER -->
+
+  <footer class="site-footer">
+
+    <div class="container footer-container">
+
+      <div class="footer-brand">
+
+        <strong>GraySentinel Cyber Defence Lab</strong>
+
+        <p>
+          Proof Over Certificates.
+          Security Skills. Shown, Not Claimed.
+        </p>
+
+      </div>
+
+
+      <div class="footer-links">
+
+        <a href="https://cyberdefencelab.co.in">
+          Website
+        </a>
+
+        <a href="https://github.com/graysentinel-ai">
+          GitHub
+        </a>
+
+        <a href="README.md">
+          About This Roadmap
+        </a>
+
+        <a href="SECURITY.md">
+          Security Policy
+        </a>
+
+      </div>
+
+
+      <div class="footer-bottom">
+
+        <p>
+          © 2026 GraySentinel Cyber Defence Lab.
+          Educational resource.
+        </p>
+
+        <p>
+          No employment or job-readiness guarantee.
+        </p>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <script src="assets/js/app.js"></script>
+
+</body>
+</html>
