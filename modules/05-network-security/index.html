@@ -1,0 +1,1471 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Learn practical network security, TCP/IP, ports, protocols, firewall analysis, DNS, packet inspection and network investigation with GraySentinel.">
+  <meta name="theme-color" content="#0B1830">
+  <title>Module 05: Network Security | GraySentinel</title>
+  <link rel="stylesheet" href="../../assets/css/style.css">
+
+  <style>
+    :root {
+      --navy: #0b1830;
+      --cyan: #18c7d8;
+      --orange: #f28a38;
+      --ink: #172940;
+      --muted: #64748b;
+      --border: #dce4ed;
+      --bg: #f4f7fb;
+      --green: #16865b;
+      --red: #c43d4b;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.65;
+    }
+
+    a { color: #087d9a; }
+
+    .shell {
+      width: min(1180px, calc(100% - 36px));
+      margin: auto;
+    }
+
+    .topbar {
+      background: var(--navy);
+      color: white;
+      padding: 13px 0;
+    }
+
+    .topbar-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .brand {
+      color: white;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .brand span { color: var(--cyan); }
+
+    .back-link {
+      color: #dce8f5;
+      text-decoration: none;
+      font-size: .9rem;
+    }
+
+    .hero {
+      background: var(--navy);
+      color: white;
+      padding: 58px 0;
+      border-bottom: 5px solid var(--cyan);
+    }
+
+    .eyebrow {
+      color: var(--cyan);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      max-width: 800px;
+      margin: 12px 0;
+      font-size: clamp(2.1rem, 5vw, 3.6rem);
+      line-height: 1.1;
+    }
+
+    .hero p {
+      max-width: 760px;
+      color: #d2ddec;
+      font-size: 1.08rem;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 23px;
+    }
+
+    .meta span {
+      border: 1px solid #40516a;
+      border-radius: 5px;
+      padding: 6px 11px;
+      color: #e7eff8;
+      font-size: .84rem;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 245px minmax(0, 1fr);
+      gap: 30px;
+      align-items: start;
+      padding-top: 32px;
+      padding-bottom: 60px;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 20px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 20px;
+    }
+
+    .sidebar h2 {
+      margin: 0 0 12px;
+      font-size: .9rem;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 8px 0;
+      color: #42536b;
+      font-size: .9rem;
+      text-decoration: none;
+      border-bottom: 1px solid #edf1f5;
+    }
+
+    .sidebar a:hover { color: #087d9a; }
+
+    .content { min-width: 0; }
+
+    .section {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 27px;
+      margin-bottom: 22px;
+      scroll-margin-top: 20px;
+    }
+
+    .section h2 {
+      margin: 0 0 14px;
+      color: var(--navy);
+      font-size: 1.45rem;
+      line-height: 1.3;
+    }
+
+    .section h3 {
+      color: var(--navy);
+      margin: 22px 0 8px;
+      font-size: 1.08rem;
+    }
+
+    .section p { color: #43536a; }
+
+    .callout {
+      border-left: 4px solid var(--cyan);
+      background: #edfafd;
+      padding: 14px 17px;
+      border-radius: 0 6px 6px 0;
+      margin: 18px 0;
+      color: #25465a;
+    }
+
+    .warning {
+      border-left-color: var(--orange);
+      background: #fff6ed;
+      color: #69421e;
+    }
+
+    .concept-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 13px;
+      margin-top: 17px;
+    }
+
+    .concept {
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 16px;
+      background: #fbfcfe;
+    }
+
+    .concept strong {
+      display: block;
+      color: var(--navy);
+      margin-bottom: 5px;
+    }
+
+    .concept p {
+      margin: 0;
+      font-size: .92rem;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin: 16px 0;
+    }
+
+    table {
+      width: 100%;
+      min-width: 570px;
+      border-collapse: collapse;
+      font-size: .9rem;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 11px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #edf2f7;
+      color: var(--navy);
+    }
+
+    code {
+      background: #edf2f7;
+      padding: 2px 5px;
+      border-radius: 3px;
+      font-size: .88em;
+    }
+
+    pre {
+      overflow-x: auto;
+      background: #101c2e;
+      color: #d8e7f5;
+      border-radius: 7px;
+      padding: 17px;
+      font-size: .84rem;
+      line-height: 1.65;
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+    }
+
+    .lab {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin: 18px 0;
+      overflow: hidden;
+    }
+
+    .lab-header {
+      background: #edf2f7;
+      padding: 14px 17px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .lab-header strong { color: var(--navy); }
+
+    .lab-body { padding: 17px; }
+
+    .tag {
+      display: inline-block;
+      border-radius: 4px;
+      padding: 3px 8px;
+      font-size: .75rem;
+      font-weight: 800;
+      background: #e6f5f8;
+      color: #08677a;
+    }
+
+    .tag.warning {
+      background: #fff0d9;
+      color: #8a4b08;
+      border: 0;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 14px 0;
+    }
+
+    .module-button {
+      border: 0;
+      border-radius: 5px;
+      padding: 10px 15px;
+      background: var(--navy);
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .module-button.secondary {
+      background: #e8eef5;
+      color: var(--navy);
+      border: 1px solid var(--border);
+    }
+
+    .module-button:hover { opacity: .88; }
+
+    .filter-input {
+      width: 100%;
+      max-width: 440px;
+      padding: 11px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 5px;
+      font: inherit;
+      background: white;
+      color: var(--ink);
+    }
+
+    .output {
+      max-height: 350px;
+      overflow: auto;
+      background: #101c2e;
+      color: #d8e7f5;
+      border-radius: 7px;
+      padding: 13px;
+      font: .8rem/1.7 Consolas, Monaco, monospace;
+    }
+
+    .output-line {
+      display: block;
+      padding: 4px 5px;
+      border-bottom: 1px solid #24364d;
+      overflow-wrap: anywhere;
+    }
+
+    .output-line.alert {
+      background: #522d34;
+      color: #ffd9d9;
+    }
+
+    .quiz-question {
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .quiz-question:last-child { border-bottom: 0; }
+
+    .quiz-question p {
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    .quiz-question label {
+      display: block;
+      padding: 5px 0;
+      color: #43536a;
+      cursor: pointer;
+    }
+
+    .quiz-question input { margin-right: 8px; }
+
+    .result {
+      min-height: 24px;
+      font-weight: 700;
+      margin-top: 10px;
+    }
+
+    .success { color: var(--green); }
+    .error { color: var(--red); }
+
+    .progress-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .progress-list li { margin: 11px 0; }
+
+    .progress-list label {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      cursor: pointer;
+    }
+
+    .progress-list input { margin-top: 6px; }
+
+    .progress-track {
+      height: 9px;
+      background: #e6edf4;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 13px 0;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      background: var(--green);
+      transition: width .2s ease;
+    }
+
+    .next-module {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .next-module a {
+      display: inline-block;
+      background: var(--navy);
+      color: white;
+      text-decoration: none;
+      padding: 11px 16px;
+      border-radius: 5px;
+      font-weight: 700;
+    }
+
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 24px 0;
+      color: var(--muted);
+      font-size: .88rem;
+    }
+
+    @media (max-width: 800px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+      .sidebar nav {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0 15px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .shell { width: min(100% - 24px, 1180px); }
+      .hero { padding: 42px 0; }
+      .section { padding: 19px; }
+      .concept-grid { grid-template-columns: 1fr; }
+      .sidebar nav { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="shell topbar-inner">
+    <a class="brand" href="../../index.html">GRAY<span>SENTINEL</span></a>
+    <a class="back-link" href="../../index.html">← Back to Cybersecurity Roadmap</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="shell">
+    <div class="eyebrow">Cybersecurity Learning Roadmap · Module 05</div>
+    <h1>Network Security</h1>
+    <p>
+      Understand how networks communicate, how defenders protect traffic,
+      and how to investigate unusual connections using network records and
+      packet-analysis concepts.
+    </p>
+    <div class="meta">
+      <span>Level: Beginner to Intermediate</span>
+      <span>Focus: Network Defence</span>
+      <span>Practice: Synthetic Traffic</span>
+      <span>Evidence: Network Investigation Report</span>
+    </div>
+  </div>
+</section>
+
+<main class="shell layout">
+
+  <aside class="sidebar">
+    <h2>In this module</h2>
+    <nav>
+      <a href="#objectives">Learning objectives</a>
+      <a href="#fundamentals">Network fundamentals</a>
+      <a href="#models">Network models</a>
+      <a href="#protocols">Protocols and ports</a>
+      <a href="#controls">Security controls</a>
+      <a href="#traffic">Traffic analysis</a>
+      <a href="#lab1">Lab 1: Traffic review</a>
+      <a href="#lab2">Lab 2: Firewall review</a>
+      <a href="#lab3">Lab 3: DNS investigation</a>
+      <a href="#tools">Network tools</a>
+      <a href="#report">Investigation report</a>
+      <a href="#quiz">Knowledge check</a>
+      <a href="#evidence">Evidence checklist</a>
+      <a href="#resources">Resources</a>
+    </nav>
+  </aside>
+
+  <div class="content">
+
+    <section class="section" id="objectives">
+      <h2>1. Learning objectives</h2>
+      <p>By the end of this module, you should be able to:</p>
+      <ul>
+        <li>Explain basic network communication and common network components.</li>
+        <li>Understand the OSI and TCP/IP models at a practical level.</li>
+        <li>Identify common protocols, ports and their purposes.</li>
+        <li>Explain how firewalls, segmentation and secure protocols reduce risk.</li>
+        <li>Interpret basic network connection and DNS records.</li>
+        <li>Recognise traffic patterns that deserve further investigation.</li>
+        <li>Document network observations with supporting evidence.</li>
+      </ul>
+      <div class="callout">
+        <strong>Defender's mindset:</strong> Network security is not simply
+        blocking everything unfamiliar. It is understanding what should
+        communicate, why it should communicate, and whether the observed
+        activity matches the approved design.
+      </div>
+    </section>
+
+    <section class="section" id="fundamentals">
+      <h2>2. Network fundamentals</h2>
+      <p>
+        A computer network connects devices so they can exchange information.
+        Communication uses agreed rules called protocols. Security teams
+        monitor and control this communication to reduce unauthorised access,
+        data exposure and service disruption.
+      </p>
+
+      <div class="concept-grid">
+        <div class="concept">
+          <strong>IP address</strong>
+          <p>A logical address used to identify an interface on an IP network.</p>
+        </div>
+        <div class="concept">
+          <strong>MAC address</strong>
+          <p>A link-layer address associated with a network interface.</p>
+        </div>
+        <div class="concept">
+          <strong>Router</strong>
+          <p>Forwards packets between different networks.</p>
+        </div>
+        <div class="concept">
+          <strong>Switch</strong>
+          <p>Connects devices within a local network, commonly using MAC addresses.</p>
+        </div>
+        <div class="concept">
+          <strong>DNS</strong>
+          <p>Resolves domain names into records such as IP addresses.</p>
+        </div>
+        <div class="concept">
+          <strong>DHCP</strong>
+          <p>Automatically provides network configuration to clients.</p>
+        </div>
+        <div class="concept">
+          <strong>Gateway</strong>
+          <p>The next-hop device used to reach networks outside the local subnet.</p>
+        </div>
+        <div class="concept">
+          <strong>Subnet</strong>
+          <p>A defined IP network range used to organise and route addresses.</p>
+        </div>
+      </div>
+
+      <h3>Private IPv4 address ranges</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Range</th><th>CIDR</th><th>Typical use</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>10.0.0.0 to 10.255.255.255</td><td>10.0.0.0/8</td><td>Private enterprise networks</td></tr>
+            <tr><td>172.16.0.0 to 172.31.255.255</td><td>172.16.0.0/12</td><td>Private networks and segments</td></tr>
+            <tr><td>192.168.0.0 to 192.168.255.255</td><td>192.168.0.0/16</td><td>Home and small office networks</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        The documentation ranges <code>192.0.2.0/24</code>,
+        <code>198.51.100.0/24</code> and <code>203.0.113.0/24</code>
+        are reserved for examples and documentation. They are used in this
+        module's synthetic datasets.
+      </p>
+    </section>
+
+    <section class="section" id="models">
+      <h2>3. OSI and TCP/IP models</h2>
+      <p>
+        Network models help describe where communication functions happen.
+        The OSI model has seven conceptual layers. The TCP/IP model groups
+        networking functions into a smaller set of layers.
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>OSI layer</th><th>Function</th><th>Examples</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>7. Application</td><td>Application-level network services</td><td>HTTP, DNS, SMTP</td></tr>
+            <tr><td>6. Presentation</td><td>Data representation and encryption concepts</td><td>Encoding, TLS-related functions</td></tr>
+            <tr><td>5. Session</td><td>Session establishment and management concepts</td><td>Session coordination</td></tr>
+            <tr><td>4. Transport</td><td>End-to-end transport</td><td>TCP, UDP</td></tr>
+            <tr><td>3. Network</td><td>Logical addressing and routing</td><td>IPv4, IPv6, ICMP</td></tr>
+            <tr><td>2. Data Link</td><td>Local network frame delivery</td><td>Ethernet, Wi-Fi MAC</td></tr>
+            <tr><td>1. Physical</td><td>Transmission of raw bits</td><td>Cables, radio signals</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>TCP/IP model overview</h3>
+      <div class="concept-grid">
+        <div class="concept">
+          <strong>Application</strong>
+          <p>Application protocols such as HTTP, DNS, SMTP and SSH.</p>
+        </div>
+        <div class="concept">
+          <strong>Transport</strong>
+          <p>TCP and UDP communication between endpoints.</p>
+        </div>
+        <div class="concept">
+          <strong>Internet</strong>
+          <p>IP addressing, packet forwarding and routing.</p>
+        </div>
+        <div class="concept">
+          <strong>Network Access</strong>
+          <p>Local network communication and physical transmission.</p>
+        </div>
+      </div>
+
+      <div class="callout">
+        Models are learning tools. Real protocols and implementations do not
+        always fit perfectly into one simplified layer.
+      </div>
+    </section>
+
+    <section class="section" id="protocols">
+      <h2>4. Common protocols and ports</h2>
+      <p>
+        A port identifies an application endpoint on a transport-layer
+        connection. A familiar port number can suggest a service, but it
+        does not prove which application is actually running.
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Protocol / Service</th><th>Common port</th><th>Purpose</th><th>Security consideration</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>HTTP</td><td>TCP 80</td><td>Web traffic</td><td>Unencrypted application traffic</td></tr>
+            <tr><td>HTTPS</td><td>TCP 443</td><td>Protected web traffic</td><td>Validate TLS configuration and certificates</td></tr>
+            <tr><td>SSH</td><td>TCP 22</td><td>Secure remote administration</td><td>Restrict access and use strong authentication</td></tr>
+            <tr><td>DNS</td><td>UDP/TCP 53</td><td>Name resolution</td><td>Monitor unusual queries and unexpected resolvers</td></tr>
+            <tr><td>SMTP</td><td>TCP 25</td><td>Mail transfer</td><td>Restrict relaying and protect mail infrastructure</td></tr>
+            <tr><td>SMB</td><td>TCP 445</td><td>Windows file and printer sharing</td><td>Limit exposure and enforce access controls</td></tr>
+            <tr><td>RDP</td><td>TCP/UDP 3389</td><td>Remote desktop access</td><td>Restrict exposure and require strong authentication</td></tr>
+            <tr><td>NTP</td><td>UDP 123</td><td>Time synchronisation</td><td>Use trusted time sources</td></tr>
+            <tr><td>DHCP</td><td>UDP 67/68</td><td>Dynamic address configuration</td><td>Protect against unauthorised DHCP services</td></tr>
+            <tr><td>SNMP</td><td>UDP 161/162</td><td>Network monitoring and management</td><td>Use secure versions and restrict management access</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout warning">
+        A port being open is not automatically a vulnerability. Investigate
+        whether the service is expected, exposed appropriately, configured
+        securely and required for the asset's role.
+      </div>
+    </section>
+
+    <section class="section" id="controls">
+      <h2>5. Network security controls</h2>
+
+      <div class="concept-grid">
+        <div class="concept">
+          <strong>Firewall</strong>
+          <p>Applies rules to allow, deny or inspect network traffic.</p>
+        </div>
+        <div class="concept">
+          <strong>Network segmentation</strong>
+          <p>Separates systems into controlled network zones.</p>
+        </div>
+        <div class="concept">
+          <strong>IDS</strong>
+          <p>Detects activity that matches known or configured suspicious patterns.</p>
+        </div>
+        <div class="concept">
+          <strong>IPS</strong>
+          <p>Can actively block or prevent selected suspicious traffic.</p>
+        </div>
+        <div class="concept">
+          <strong>VPN</strong>
+          <p>Provides an encrypted tunnel across an underlying network.</p>
+        </div>
+        <div class="concept">
+          <strong>Network Access Control</strong>
+          <p>Applies access decisions based on device or user policy.</p>
+        </div>
+      </div>
+
+      <h3>Firewall rule components</h3>
+      <p>A firewall policy may consider:</p>
+      <ul>
+        <li>Source address or network.</li>
+        <li>Destination address or network.</li>
+        <li>Protocol, such as TCP, UDP or ICMP.</li>
+        <li>Source and destination ports.</li>
+        <li>Direction and network interface.</li>
+        <li>Action, such as allow, deny or log.</li>
+      </ul>
+
+      <h3>Example policy</h3>
+      <pre><code>Rule 1:
+Source: 10.10.10.0/24
+Destination: 10.10.20.10
+Protocol: TCP
+Destination port: 443
+Action: ALLOW
+Purpose: Approved application access
+
+Rule 2:
+Source: ANY
+Destination: 10.10.20.10
+Protocol: ANY
+Action: DENY
+Purpose: Deny other unapproved traffic</code></pre>
+
+      <p>
+        This is an illustrative policy, not a production-ready firewall
+        configuration. Real rule ordering, state handling, return traffic,
+        management access and change approvals must be considered.
+      </p>
+
+      <h3>Principles of secure network design</h3>
+      <ul>
+        <li>Allow only required communication.</li>
+        <li>Separate user, server, management and sensitive environments.</li>
+        <li>Restrict administrative access to approved management paths.</li>
+        <li>Use secure protocols and appropriate encryption.</li>
+        <li>Log important network decisions and review them.</li>
+        <li>Review firewall rules periodically and remove obsolete access.</li>
+      </ul>
+    </section>
+
+    <section class="section" id="traffic">
+      <h2>6. Network traffic analysis</h2>
+      <p>
+        Network traffic analysis examines communication records or packet
+        captures to understand what devices are communicating, which
+        protocols they use and whether the activity is expected.
+      </p>
+
+      <h3>What is a packet?</h3>
+      <p>
+        A packet is a formatted unit of data carried across a network.
+        Packet headers contain information used for delivery, such as
+        source and destination addresses. The exact fields depend on
+        the protocol.
+      </p>
+
+      <h3>Connection metadata to review</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Field</th><th>Investigation question</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Source IP</td><td>Which device initiated or sent the traffic?</td></tr>
+            <tr><td>Destination IP</td><td>Which system received the traffic?</td></tr>
+            <tr><td>Source port</td><td>Which source endpoint port was used?</td></tr>
+            <tr><td>Destination port</td><td>Which destination service may be involved?</td></tr>
+            <tr><td>Protocol</td><td>Was the communication TCP, UDP, ICMP or another protocol?</td></tr>
+            <tr><td>Bytes / packets</td><td>How much data or how many packets were observed?</td></tr>
+            <tr><td>Duration</td><td>How long did the observed connection last?</td></tr>
+            <tr><td>Direction</td><td>Was the traffic inbound, outbound or internal?</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>TCP connection basics</h3>
+      <p>
+        TCP commonly establishes a connection using a three-way handshake:
+      </p>
+      <pre><code>Client                 Server
+  |                       |
+  |------ SYN ----------->|
+  |                       |
+  |<----- SYN-ACK --------|
+  |                       |
+  |------ ACK ----------->|
+  |                       |
+  |   Connection ready    |</code></pre>
+
+      <p>
+        Repeated connection attempts, incomplete handshakes or unexpected
+        connection patterns may deserve investigation. They can also occur
+        because of normal application behaviour, network errors or scanning.
+      </p>
+
+      <h3>Packet capture and inspection</h3>
+      <ul>
+        <li>Capture only traffic you are authorised to inspect.</li>
+        <li>Choose a clear interface, time range and capture filter.</li>
+        <li>Protect packet captures because they may contain sensitive information.</li>
+        <li>Use display filters to focus on relevant protocols or endpoints.</li>
+        <li>Preserve the original capture and document analysis steps.</li>
+      </ul>
+
+      <div class="callout warning">
+        Encrypted traffic may reveal useful metadata while keeping application
+        content unreadable. Do not assume that a packet capture exposes the
+        contents of a properly encrypted session.
+      </div>
+    </section>
+
+    <section class="section" id="lab1">
+      <h2>7. Practical Lab 1: Network connection review</h2>
+      <p>
+        <span class="tag">Synthetic dataset</span>
+        Inspect the connection records and identify activity that needs
+        additional context.
+      </p>
+
+      <div class="lab">
+        <div class="lab-header">
+          <strong>Scenario: Unexpected connections from a workstation</strong>
+          <span class="tag warning">Investigation exercise</span>
+        </div>
+        <div class="lab-body">
+          <p>
+            A workstation is reported to have generated unusual outbound
+            connections. Review the synthetic records below.
+          </p>
+
+          <label for="trafficFilter"><strong>Filter traffic records</strong></label><br>
+          <input class="filter-input" id="trafficFilter" type="search"
+                 placeholder="Try: 10.10.10.25, 443, denied, TCP">
+
+          <div class="controls">
+            <button class="module-button" type="button" id="trafficAll">Show all</button>
+            <button class="module-button secondary" type="button" id="trafficAllowed">Allowed</button>
+            <button class="module-button secondary" type="button" id="trafficDenied">Denied</button>
+          </div>
+
+          <div class="output" id="trafficOutput" aria-live="polite"></div>
+
+          <h3>Questions</h3>
+          <ol>
+            <li>Which source device appears in the records?</li>
+            <li>Which destination ports are present?</li>
+            <li>Which connection attempts were denied?</li>
+            <li>Which destinations would you validate against the network baseline?</li>
+            <li>What additional records would help explain the activity?</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="lab2">
+      <h2>8. Practical Lab 2: Firewall policy review</h2>
+      <p>
+        Review the fictional policy below. Identify whether each rule follows
+        least privilege and whether its purpose is clear.
+      </p>
+
+      <div class="lab">
+        <div class="lab-header">
+          <strong>Scenario: Review before a firewall change approval</strong>
+          <span class="tag">Policy analysis</span>
+        </div>
+        <div class="lab-body">
+          <pre><code>Rule A
+Source: 10.10.10.0/24
+Destination: 10.10.20.15
+Protocol: TCP
+Port: 443
+Action: ALLOW
+Purpose: Approved internal application
+
+Rule B
+Source: ANY
+Destination: 10.10.20.15
+Protocol: ANY
+Port: ANY
+Action: ALLOW
+Purpose: Not documented
+
+Rule C
+Source: 10.10.30.0/24
+Destination: 10.10.40.10
+Protocol: TCP
+Port: 22
+Action: ALLOW
+Purpose: Approved administrator access
+
+Rule D
+Source: ANY
+Destination: 10.10.40.10
+Protocol: ANY
+Port: ANY
+Action: DENY
+Purpose: Restrict other access</code></pre>
+
+          <h3>Questions</h3>
+          <ol>
+            <li>Which rule is the broadest and why?</li>
+            <li>Which rule has an undocumented purpose?</li>
+            <li>What evidence would you request before approving Rule C?</li>
+            <li>Why should rule order and return traffic be reviewed?</li>
+            <li>What would you recommend changing before approval?</li>
+          </ol>
+
+          <div class="callout warning">
+            Do not edit a live firewall based on this exercise. Real changes
+            require authorised ownership, impact assessment, testing,
+            approval and a rollback plan.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="lab3">
+      <h2>9. Practical Lab 3: DNS investigation</h2>
+      <p>
+        DNS records help analysts understand which domain names devices
+        attempted to resolve. The records below are fictional.
+      </p>
+
+      <div class="lab">
+        <div class="lab-header">
+          <strong>Scenario: Unusual domain queries</strong>
+          <span class="tag">DNS analysis</span>
+        </div>
+        <div class="lab-body">
+          <pre><code>2026-10-14T11:00:02Z client=10.10.10.25 query=portal.example.test type=A response=192.0.2.10
+2026-10-14T11:00:08Z client=10.10.10.25 query=updates.example.test type=A response=192.0.2.20
+2026-10-14T11:00:15Z client=10.10.10.25 query=unknown-domain.test type=A response=NXDOMAIN
+2026-10-14T11:00:19Z client=10.10.10.25 query=unknown-domain.test type=A response=NXDOMAIN
+2026-10-14T11:00:35Z client=10.10.10.25 query=mail.example.test type=MX response=mail.example.test
+2026-10-14T11:01:10Z client=10.10.10.25 query=portal.example.test type=A response=192.0.2.10</code></pre>
+
+          <h3>Questions</h3>
+          <ol>
+            <li>Which client generated the queries?</li>
+            <li>Which domain returned NXDOMAIN?</li>
+            <li>What does NXDOMAIN mean?</li>
+            <li>Does repeated NXDOMAIN activity prove malicious behaviour?</li>
+            <li>What other data would help establish whether the domain is suspicious?</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="tools">
+      <h2>10. Network analysis tools</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Tool</th><th>Typical use</th><th>Learning focus</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Wireshark</td><td>Graphical packet inspection</td><td>Packet fields, protocols and display filters</td></tr>
+            <tr><td>tcpdump</td><td>Command-line packet capture and filtering</td><td>Capture interfaces and filter expressions</td></tr>
+            <tr><td>tshark</td><td>Command-line packet analysis</td><td>Extracting fields and automating analysis</td></tr>
+            <tr><td>ping</td><td>Basic reachability testing</td><td>ICMP behaviour and connectivity checks</td></tr>
+            <tr><td>traceroute / tracert</td><td>Path discovery</td><td>Understanding network hops</td></tr>
+            <tr><td>nslookup / dig</td><td>DNS queries</td><td>Domain resolution and DNS records</td></tr>
+            <tr><td>ss / netstat</td><td>Local socket and connection inspection</td><td>Listening services and active connections</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Example commands</h3>
+      <p>These are basic inspection commands for systems you own or are authorised to administer.</p>
+
+      <pre><code># Display IP configuration
+ip addr
+
+# Display routing information
+ip route
+
+# Check DNS resolution
+nslookup example.com
+
+# Display listening TCP and UDP sockets
+ss -tuln
+
+# Display active TCP connections
+ss -tn
+
+# Capture traffic on an authorised interface
+sudo tcpdump -i eth0
+
+# Capture DNS traffic for analysis
+sudo tcpdump -i eth0 port 53</code></pre>
+
+      <div class="callout warning">
+        Packet capture can expose credentials, personal information and
+        confidential communications. Follow organisational policy and
+        obtain explicit authorisation before capturing traffic.
+      </div>
+    </section>
+
+    <section class="section" id="report">
+      <h2>11. Network investigation report</h2>
+      <p>Use a repeatable report structure so another analyst can reproduce your reasoning.</p>
+
+      <ol>
+        <li><strong>Investigation question:</strong> What activity are you checking?</li>
+        <li><strong>Authorisation and scope:</strong> Which systems and networks are in scope?</li>
+        <li><strong>Data sources:</strong> Firewall, DNS, packet capture, endpoint or other records.</li>
+        <li><strong>Time context:</strong> Time range, time zone and clock considerations.</li>
+        <li><strong>Method:</strong> Filters, queries, tools and analysis steps.</li>
+        <li><strong>Observations:</strong> What the available records directly show.</li>
+        <li><strong>Assessment:</strong> What the observations may indicate and confidence level.</li>
+        <li><strong>Limitations:</strong> Missing data, encryption or incomplete visibility.</li>
+        <li><strong>Recommendations:</strong> Specific authorised next steps.</li>
+        <li><strong>Evidence references:</strong> File names, hashes where appropriate and record references.</li>
+      </ol>
+
+      <h3>Example finding</h3>
+      <pre><code>Observation:
+The synthetic firewall records show repeated outbound connection
+attempts from workstation 10.10.10.25 to multiple destinations.
+
+Assessment:
+The activity deserves validation against the workstation's role
+and approved application inventory. The records alone do not
+establish malicious intent.
+
+Next checks:
+Review DNS queries, endpoint process telemetry, asset ownership,
+firewall policy and the organisation's normal traffic baseline.</code></pre>
+
+      <h3>Suggested portfolio structure</h3>
+      <pre><code>network-security-investigation/
+├── README.md
+├── evidence/
+│   ├── synthetic-traffic.csv
+│   ├── firewall-records.txt
+│   └── dns-records.txt
+├── analysis/
+│   ├── traffic-observations.md
+│   ├── firewall-review.md
+│   └── dns-analysis.md
+└── report/
+    └── network-investigation-report.md</code></pre>
+
+      <p>
+        Publish only synthetic or properly authorised evidence. Remove
+        internal IP plans, hostnames, credentials and confidential
+        network details before making a repository public.
+      </p>
+    </section>
+
+    <section class="section" id="quiz">
+      <h2>12. Knowledge check</h2>
+      <p>Choose one answer for each question and submit your responses.</p>
+
+      <form id="moduleQuiz">
+
+        <div class="quiz-question">
+          <p>1. Which device commonly forwards packets between networks?</p>
+          <label><input type="radio" name="q1" value="a"> Switch</label>
+          <label><input type="radio" name="q1" value="b"> Router</label>
+          <label><input type="radio" name="q1" value="c"> Keyboard</label>
+        </div>
+
+        <div class="quiz-question">
+          <p>2. Which protocol is commonly used for secure web traffic?</p>
+          <label><input type="radio" name="q2" value="a"> HTTP</label>
+          <label><input type="radio" name="q2" value="b"> Telnet</label>
+          <label><input type="radio" name="q2" value="c"> HTTPS</label>
+        </div>
+
+        <div class="quiz-question">
+          <p>3. Which port is commonly associated with SSH?</p>
+          <label><input type="radio" name="q3" value="a"> TCP 22</label>
+          <label><input type="radio" name="q3" value="b"> TCP 80</label>
+          <label><input type="radio" name="q3" value="c"> UDP 123</label>
+        </div>
+
+        <div class="quiz-question">
+          <p>4. What is the primary purpose of DNS?</p>
+          <label><input type="radio" name="q4" value="a"> Encrypting files</label>
+          <label><input type="radio" name="q4" value="b"> Resolving domain names into DNS records</label>
+          <label><input type="radio" name="q4" value="c"> Blocking all network traffic</label>
+        </div>
+
+        <div class="quiz-question">
+          <p>5. What does network segmentation help achieve?</p>
+          <label><input type="radio" name="q5" value="a"> Separation of network zones and controlled communication</label>
+          <label><input type="radio" name="q5" value="b"> Automatic removal of all malware</label>
+          <label><input type="radio" name="q5" value="c"> Elimination of all network logs</label>
+        </div>
+
+        <div class="quiz-question">
+          <p>6. What does a packet capture contain?</p>
+          <label><input type="radio" name="q6" value="a"> Only user passwords</label>
+          <label><input type="radio" name="q6" value="b"> A record of captured network packets</label>
+          <label><input type="radio" name="q6" value="c"> Only firewall rules</label>
+        </div>
+
+        <div class="quiz-question">
+          <p>7. Does an open port automatically mean a vulnerability exists?</p>
+          <label><input type="radio" name="q7" value="a"> Yes, always</label>
+          <label><input type="radio" name="q7" value="b"> No, service context and configuration matter</label>
+          <label><input type="radio" name="q7" value="c"> Only for TCP</label>
+        </div>
+
+        <div class="quiz-question">
+          <p>8. What should you do before capturing network traffic?</p>
+          <label><input type="radio" name="q8" value="a"> Capture every network without permission</label>
+          <label><input type="radio" name="q8" value="b"> Disable all network controls</label>
+          <label><input type="radio" name="q8" value="c"> Confirm authorisation and scope</label>
+        </div>
+
+        <div class="controls">
+          <button class="module-button" type="submit">Submit answers</button>
+          <button class="module-button secondary" type="reset">Reset</button>
+        </div>
+
+        <div class="result" id="quizResult" role="status" aria-live="polite"></div>
+      </form>
+    </section>
+
+    <section class="section" id="evidence">
+      <h2>13. Module completion checklist</h2>
+      <p>Track your own progress through the learning activities.</p>
+
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <p id="progressText">0 of 8 activities completed</p>
+
+      <ul class="progress-list" id="progressList">
+        <li><label><input type="checkbox" data-module-progress="1"> I can explain basic network components and IP addressing.</label></li>
+        <li><label><input type="checkbox" data-module-progress="2"> I can describe the OSI and TCP/IP models.</label></li>
+        <li><label><input type="checkbox" data-module-progress="3"> I can identify common protocols and ports.</label></li>
+        <li><label><input type="checkbox" data-module-progress="4"> I can explain firewall and segmentation principles.</label></li>
+        <li><label><input type="checkbox" data-module-progress="5"> I reviewed the synthetic network traffic dataset.</label></li>
+        <li><label><input type="checkbox" data-module-progress="6"> I completed the firewall and DNS exercises.</label></li>
+        <li><label><input type="checkbox" data-module-progress="7"> I prepared a network investigation report.</label></li>
+        <li><label><input type="checkbox" data-module-progress="8"> I completed and reviewed the knowledge check.</label></li>
+      </ul>
+
+      <div class="callout warning">
+        This checklist stores self-reported progress in your browser. It does
+        not independently verify technical ability or certify completion.
+      </div>
+
+      <h3>Expected submission evidence</h3>
+      <ul>
+        <li>Network connection analysis notes.</li>
+        <li>Firewall rule review with recommendations.</li>
+        <li>DNS investigation notes.</li>
+        <li>Network investigation report.</li>
+        <li>Relevant filters, commands or analysis steps.</li>
+      </ul>
+    </section>
+
+    <section class="section" id="resources">
+      <h2>14. Further learning resources</h2>
+      <ul>
+        <li><a href="https://www.wireshark.org/docs/" target="_blank" rel="noopener noreferrer">Wireshark documentation</a></li>
+        <li><a href="https://www.tcpdump.org/manpages/tcpdump.1.html" target="_blank" rel="noopener noreferrer">tcpdump manual</a></li>
+        <li><a href="https://www.rfc-editor.org/rfc/rfc791" target="_blank" rel="noopener noreferrer">RFC 791: Internet Protocol</a></li>
+        <li><a href="https://www.rfc-editor.org/rfc/rfc9293" target="_blank" rel="noopener noreferrer">RFC 9293: Transmission Control Protocol</a></li>
+        <li><a href="https://www.rfc-editor.org/rfc/rfc1035" target="_blank" rel="noopener noreferrer">RFC 1035: Domain Names</a></li>
+        <li><a href="https://www.cisa.gov/secure-our-world" target="_blank" rel="noopener noreferrer">CISA cybersecurity guidance</a></li>
+        <li><a href="https://attack.mitre.org/" target="_blank" rel="noopener noreferrer">MITRE ATT&CK</a></li>
+        <li><a href="https://www.nist.gov/cyberframework" target="_blank" rel="noopener noreferrer">NIST Cybersecurity Framework</a></li>
+      </ul>
+    </section>
+
+    <section class="section next-module">
+      <div>
+        <strong>Module 05 complete?</strong>
+        <p>Next: Module 06, Endpoint Security.</p>
+      </div>
+      <a href="../06-endpoint-security/">Continue to Module 06 →</a>
+    </section>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="shell">
+    <strong>GraySentinel Cyber Defence Lab</strong>
+    <p>Proof Over Certificates · Security Skills. Shown, Not Claimed.</p>
+    <a href="../../index.html">Return to roadmap home</a>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  // Synthetic network connection records.
+  const trafficData = [
+    {
+      time: "2026-10-14T10:05:02Z",
+      source: "10.10.10.25",
+      destination: "192.0.2.10",
+      protocol: "TCP",
+      port: "443",
+      action: "allowed",
+      note: "HTTPS connection"
+    },
+    {
+      time: "2026-10-14T10:05:11Z",
+      source: "10.10.10.25",
+      destination: "198.51.100.40",
+      protocol: "TCP",
+      port: "22",
+      action: "denied",
+      note: "SSH connection denied"
+    },
+    {
+      time: "2026-10-14T10:05:18Z",
+      source: "10.10.10.25",
+      destination: "203.0.113.15",
+      protocol: "UDP",
+      port: "53",
+      action: "allowed",
+      note: "DNS query"
+    },
+    {
+      time: "2026-10-14T10:05:26Z",
+      source: "10.10.10.25",
+      destination: "198.51.100.60",
+      protocol: "TCP",
+      port: "3389",
+      action: "denied",
+      note: "Remote desktop connection denied"
+    },
+    {
+      time: "2026-10-14T10:05:42Z",
+      source: "10.10.10.25",
+      destination: "192.0.2.20",
+      protocol: "TCP",
+      port: "443",
+      action: "allowed",
+      note: "HTTPS connection"
+    },
+    {
+      time: "2026-10-14T10:06:01Z",
+      source: "10.10.10.25",
+      destination: "203.0.113.25",
+      protocol: "TCP",
+      port: "445",
+      action: "denied",
+      note: "SMB connection denied"
+    },
+    {
+      time: "2026-10-14T10:06:17Z",
+      source: "10.10.10.25",
+      destination: "192.0.2.30",
+      protocol: "TCP",
+      port: "443",
+      action: "allowed",
+      note: "HTTPS connection"
+    }
+  ];
+
+  const trafficOutput = document.getElementById("trafficOutput");
+  const trafficFilter = document.getElementById("trafficFilter");
+  let trafficMode = "all";
+
+  function renderTraffic() {
+    if (!trafficOutput || !trafficFilter) return;
+
+    const query = trafficFilter.value.trim().toLowerCase();
+
+    const records = trafficData.filter(function (record) {
+      const matchesMode =
+        trafficMode === "all" || record.action === trafficMode;
+
+      const searchable = Object.values(record).join(" ").toLowerCase();
+
+      return matchesMode && searchable.includes(query);
+    });
+
+    trafficOutput.replaceChildren();
+
+    if (!records.length) {
+      const empty = document.createElement("span");
+      empty.className = "output-line";
+      empty.textContent = "No matching records.";
+      trafficOutput.appendChild(empty);
+      return;
+    }
+
+    records.forEach(function (record) {
+      const line = document.createElement("span");
+
+      line.className = "output-line" +
+        (record.action === "denied" ? " alert" : "");
+
+      line.textContent =
+        record.time +
+        " | " + record.source +
+        " -> " + record.destination +
+        " | " + record.protocol +
+        "/" + record.port +
+        " | " + record.action.toUpperCase() +
+        " | " + record.note;
+
+      trafficOutput.appendChild(line);
+    });
+  }
+
+  if (trafficOutput && trafficFilter) {
+    trafficFilter.addEventListener("input", renderTraffic);
+
+    document.getElementById("trafficAll").addEventListener("click", function () {
+      trafficMode = "all";
+      renderTraffic();
+    });
+
+    document.getElementById("trafficAllowed").addEventListener("click", function () {
+      trafficMode = "allowed";
+      renderTraffic();
+    });
+
+    document.getElementById("trafficDenied").addEventListener("click", function () {
+      trafficMode = "denied";
+      renderTraffic();
+    });
+
+    renderTraffic();
+  }
+
+  // Knowledge check.
+  const answers = {
+    q1: "b",
+    q2: "c",
+    q3: "a",
+    q4: "b",
+    q5: "a",
+    q6: "b",
+    q7: "b",
+    q8: "c"
+  };
+
+  const quiz = document.getElementById("moduleQuiz");
+  const quizResult = document.getElementById("quizResult");
+
+  if (quiz && quizResult) {
+    quiz.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      let score = 0;
+      let unanswered = 0;
+
+      Object.keys(answers).forEach(function (question) {
+        const selected = quiz.querySelector(
+          'input[name="' + question + '"]:checked'
+        );
+
+        if (!selected) {
+          unanswered++;
+        } else if (selected.value === answers[question]) {
+          score++;
+        }
+      });
+
+      if (unanswered > 0) {
+        quizResult.className = "result error";
+        quizResult.textContent =
+          "Answer all questions before submitting. Unanswered: " +
+          unanswered + ".";
+        return;
+      }
+
+      quizResult.className =
+        "result " + (score >= 6 ? "success" : "error");
+
+      quizResult.textContent =
+        "Your score: " + score + "/8. " +
+        (score >= 6
+          ? "Good work. Review any incorrect answers."
+          : "Revisit the relevant sections and try again.");
+    });
+
+    quiz.addEventListener("reset", function () {
+      quizResult.textContent = "";
+      quizResult.className = "result";
+    });
+  }
+
+  // Local self-reported progress.
+  const progressItems = Array.from(
+    document.querySelectorAll("[data-module-progress]")
+  );
+
+  const progressFill = document.getElementById("progressFill");
+  const progressText = document.getElementById("progressText");
+  const storageKey = "graysentinel-module-05-progress";
+
+  function updateProgress() {
+    const completed = progressItems.filter(function (item) {
+      return item.checked;
+    }).length;
+
+    const total = progressItems.length;
+    const percentage = total ? (completed / total) * 100 : 0;
+
+    if (progressFill) {
+      progressFill.style.width = percentage + "%";
+    }
+
+    if (progressText) {
+      progressText.textContent =
+        completed + " of " + total + " activities completed";
+    }
+
+    try {
+      localStorage.setItem(
+        storageKey,
+        JSON.stringify(
+          progressItems.map(function (item) {
+            return item.checked;
+          })
+        )
+      );
+    } catch (error) {
+      // Progress remains usable for the current page session.
+    }
+  }
+
+  try {
+    const saved = JSON.parse(
+      localStorage.getItem(storageKey) || "null"
+    );
+
+    if (Array.isArray(saved)) {
+      progressItems.forEach(function (item, index) {
+        item.checked = saved[index] === true;
+      });
+    }
+  } catch (error) {
+    // Continue without persisted progress.
+  }
+
+  progressItems.forEach(function (item) {
+    item.addEventListener("change", updateProgress);
+  });
+
+  updateProgress();
+})();
+</script>
+
+</body>
+</html>
