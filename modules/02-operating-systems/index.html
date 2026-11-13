@@ -1,0 +1,2621 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Operating Systems | GraySentinel SOC Analyst Roadmap</title>
+
+  <meta name="description" content="Learn Linux and Windows operating system fundamentals for SOC Analysts. Explore users, permissions, processes, services, commands and security logs.">
+
+  <meta name="keywords" content="Linux Fundamentals, Windows Fundamentals, SOC Analyst, Windows Event Viewer, Linux Logs, Cybersecurity, GraySentinel">
+
+  <meta name="author" content="GraySentinel Cyber Defence Lab">
+  <meta name="theme-color" content="#0B1830">
+
+  <link rel="stylesheet" href="../../assets/css/style.css">
+
+  <style>
+    :root {
+      --navy: #0B1830;
+      --navy-light: #142746;
+      --cyan: #18C7D8;
+      --orange: #F28A38;
+      --bg: #F5F8FC;
+      --white: #FFFFFF;
+      --text: #24344D;
+      --muted: #65758B;
+      --border: #DFE6EF;
+      --green: #18865B;
+      --code: #101D32;
+      --radius: 12px;
+      --shadow: 0 5px 20px rgba(11, 24, 48, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 90px;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.7;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .module-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-inner {
+      max-width: 1180px;
+      min-height: 70px;
+      padding: 12px 24px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--navy);
+      text-decoration: none;
+      font-weight: 800;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      background: var(--navy);
+      color: var(--cyan);
+      font-weight: 800;
+    }
+
+    .brand small {
+      display: block;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: 1px;
+    }
+
+    .header-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .header-links a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    .header-links a:hover {
+      color: var(--navy);
+    }
+
+    .module-hero {
+      background: var(--navy);
+      color: white;
+      padding: 66px 24px 58px;
+    }
+
+    .hero-inner {
+      max-width: 1120px;
+      margin: auto;
+    }
+
+    .breadcrumb {
+      margin-bottom: 24px;
+      color: #B5C4D8;
+      font-size: 13px;
+    }
+
+    .breadcrumb a {
+      color: var(--cyan);
+      text-decoration: none;
+    }
+
+    .module-label {
+      display: inline-block;
+      padding: 6px 11px;
+      border: 1px solid rgba(24, 199, 216, 0.5);
+      border-radius: 5px;
+      color: var(--cyan);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .module-hero h1 {
+      max-width: 780px;
+      margin: 18px 0 14px;
+      font-size: clamp(34px, 5vw, 54px);
+      line-height: 1.12;
+      letter-spacing: -1.8px;
+    }
+
+    .hero-description {
+      max-width: 720px;
+      color: #D1DBE9;
+      font-size: 17px;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 22px;
+      margin-top: 28px;
+      color: #D1DBE9;
+      font-size: 13px;
+    }
+
+    .hero-meta strong {
+      color: white;
+    }
+
+    .module-layout {
+      max-width: 1180px;
+      margin: 36px auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 250px minmax(0, 1fr);
+      align-items: start;
+      gap: 28px;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 94px;
+      padding: 20px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .sidebar h3 {
+      margin: 0 0 14px;
+      color: var(--navy);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+    }
+
+    .sidebar nav a {
+      display: block;
+      padding: 8px 10px;
+      margin: 3px 0;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13px;
+      border-radius: 6px;
+    }
+
+    .sidebar nav a:hover {
+      background: #EDF8FA;
+      color: var(--navy);
+    }
+
+    .sidebar nav a.active {
+      background: #E6F8FA;
+      color: var(--navy);
+      font-weight: 800;
+      border-left: 3px solid var(--cyan);
+    }
+
+    .sidebar-divider {
+      height: 1px;
+      margin: 15px 0;
+      background: var(--border);
+    }
+
+    .sidebar-note {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .content {
+      min-width: 0;
+    }
+
+    .content-section {
+      margin-bottom: 22px;
+      padding: 28px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .section-kicker {
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .content-section h2 {
+      margin: 5px 0 16px;
+      color: var(--navy);
+      font-size: 25px;
+      line-height: 1.3;
+    }
+
+    .content-section h3 {
+      margin: 26px 0 10px;
+      color: var(--navy);
+      font-size: 18px;
+    }
+
+    .content-section h4 {
+      margin: 18px 0 7px;
+      color: var(--navy);
+      font-size: 15px;
+    }
+
+    .content-section p {
+      color: var(--text);
+    }
+
+    .content-section ul,
+    .content-section ol {
+      padding-left: 23px;
+    }
+
+    .content-section li {
+      margin: 7px 0;
+    }
+
+    .info-box {
+      margin: 20px 0;
+      padding: 17px 18px;
+      border-left: 4px solid var(--cyan);
+      border-radius: 5px;
+      background: #EDF9FB;
+    }
+
+    .info-box strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--navy);
+    }
+
+    .warning-box {
+      margin: 20px 0;
+      padding: 17px 18px;
+      border-left: 4px solid var(--orange);
+      border-radius: 5px;
+      background: #FFF5EB;
+    }
+
+    .warning-box strong {
+      display: block;
+      margin-bottom: 5px;
+      color: #85430D;
+    }
+
+    .topic-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 13px;
+      margin-top: 18px;
+    }
+
+    .topic-card {
+      padding: 17px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: #FCFDFE;
+    }
+
+    .topic-card strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--navy);
+    }
+
+    .topic-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .data-table {
+      width: 100%;
+      margin: 18px 0;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .data-table th,
+    .data-table td {
+      padding: 12px;
+      text-align: left;
+      border: 1px solid var(--border);
+    }
+
+    .data-table th {
+      background: #EDF2F8;
+      color: var(--navy);
+    }
+
+    .data-table tr:nth-child(even) td {
+      background: #FAFBFD;
+    }
+
+    .code-block {
+      overflow-x: auto;
+      margin: 14px 0;
+      padding: 18px;
+      border-radius: 8px;
+      background: var(--code);
+      color: #D8E8F6;
+      font-family: Consolas, Monaco, monospace;
+      font-size: 13px;
+      line-height: 1.8;
+      white-space: pre;
+    }
+
+    .workflow {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin: 22px 0;
+    }
+
+    .workflow-item {
+      padding: 15px 10px;
+      text-align: center;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #FAFCFE;
+    }
+
+    .workflow-item strong {
+      display: block;
+      color: var(--navy);
+      font-size: 13px;
+    }
+
+    .workflow-item span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .exercise {
+      margin: 18px 0;
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+    }
+
+    .exercise-label {
+      display: inline-block;
+      margin-bottom: 9px;
+      padding: 4px 8px;
+      background: #E6F8FA;
+      color: #11616B;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .exercise h3 {
+      margin: 0 0 10px;
+    }
+
+    .task-list {
+      list-style: none;
+      padding: 0 !important;
+    }
+
+    .task-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin: 11px 0;
+    }
+
+    .task-list input {
+      width: 17px;
+      height: 17px;
+      margin-top: 4px;
+      accent-color: var(--green);
+      flex-shrink: 0;
+    }
+
+    .quiz-question {
+      margin: 22px 0;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+    }
+
+    .quiz-question p {
+      margin-top: 0;
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    .quiz-question label {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      margin: 11px 0;
+      color: var(--text);
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .quiz-question input {
+      margin-top: 5px;
+      accent-color: var(--green);
+    }
+
+    .primary-button {
+      display: inline-block;
+      padding: 12px 19px;
+      border: 0;
+      border-radius: 6px;
+      background: var(--navy);
+      color: white;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .primary-button:hover {
+      background: var(--navy-light);
+    }
+
+    .quiz-result {
+      display: none;
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 8px;
+      font-weight: 700;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      margin: 12px 0;
+      overflow: hidden;
+      border-radius: 20px;
+      background: #E8EDF3;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: var(--green);
+      transition: width 0.2s ease;
+    }
+
+    .evidence-card {
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: #FCFDFE;
+    }
+
+    .evidence-card h3 {
+      margin-top: 0;
+    }
+
+    .resource-list a {
+      color: #086F83;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .resource-list a:hover {
+      text-decoration: underline;
+    }
+
+    .next-module {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding: 24px;
+      border-radius: var(--radius);
+      background: var(--navy);
+      color: white;
+    }
+
+    .next-module h3 {
+      margin: 0 0 5px;
+      color: white;
+    }
+
+    .next-module p {
+      margin: 0;
+      color: #C6D5E7;
+      font-size: 13px;
+    }
+
+    .next-module a {
+      flex-shrink: 0;
+      padding: 11px 15px;
+      border-radius: 6px;
+      background: var(--cyan);
+      color: var(--navy);
+      font-size: 12px;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .module-footer {
+      padding: 28px 24px;
+      background: var(--navy);
+      color: #D1DBE9;
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .module-footer a {
+      color: var(--cyan);
+      text-decoration: none;
+    }
+
+    @media (max-width: 900px) {
+      .module-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+      }
+
+      .sidebar nav {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 3px;
+      }
+
+      .workflow {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 600px) {
+      .header-inner {
+        padding: 10px 15px;
+      }
+
+      .header-links {
+        gap: 10px;
+        font-size: 11px;
+      }
+
+      .module-hero {
+        padding: 42px 18px;
+      }
+
+      .module-layout {
+        padding: 0 14px;
+        margin: 20px auto;
+      }
+
+      .content-section {
+        padding: 20px 17px;
+      }
+
+      .content-section h2 {
+        font-size: 21px;
+      }
+
+      .topic-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .data-table {
+        display: block;
+        overflow-x: auto;
+      }
+
+      .next-module {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="module-header">
+    <div class="header-inner">
+
+      <a class="brand" href="../../index.html">
+        <span class="brand-mark">GS</span>
+        <span>
+          GRAYSENTINEL
+          <small>CYBER DEFENCE LAB</small>
+        </span>
+      </a>
+
+      <nav class="header-links" aria-label="Main navigation">
+        <a href="../../index.html">Home</a>
+        <a href="../../ROADMAP.md">Roadmap</a>
+        <a href="../../modules/README.md">Modules</a>
+      </nav>
+
+    </div>
+  </header>
+
+
+  <!-- HERO -->
+  <section class="module-hero">
+    <div class="hero-inner">
+
+      <div class="breadcrumb">
+        <a href="../../index.html">Home</a>
+        /
+        <a href="../../ROADMAP.md">SOC Analyst Roadmap</a>
+        /
+        Module 02
+      </div>
+
+      <span class="module-label">Module 02 · Technical Foundations</span>
+
+      <h1>Operating Systems</h1>
+
+      <p class="hero-description">
+        Understand Linux and Windows environments, explore users,
+        permissions, processes and services, and learn how operating
+        system logs support security investigations.
+      </p>
+
+      <div class="hero-meta">
+        <span><strong>Level:</strong> Beginner</span>
+        <span><strong>Focus:</strong> Linux + Windows</span>
+        <span><strong>Format:</strong> Concepts + Practical Exercises</span>
+        <span><strong>Module:</strong> 02 of 08</span>
+      </div>
+
+    </div>
+  </section>
+
+
+  <main class="module-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+      <h3>Module Navigation</h3>
+
+      <nav aria-label="Module sections">
+        <a href="#overview" class="active">01. Overview</a>
+        <a href="#objectives">02. Objectives</a>
+        <a href="#os-fundamentals">03. OS Fundamentals</a>
+        <a href="#linux">04. Linux</a>
+        <a href="#linux-users">05. Linux Users</a>
+        <a href="#windows">06. Windows</a>
+        <a href="#windows-users">07. Windows Accounts</a>
+        <a href="#processes">08. Processes</a>
+        <a href="#services">09. Services</a>
+        <a href="#logs">10. System Logs</a>
+        <a href="#practical">11. Practical Exercises</a>
+        <a href="#assessment">12. Knowledge Check</a>
+        <a href="#evidence">13. Evidence</a>
+        <a href="#completion">14. Completion</a>
+      </nav>
+
+      <div class="sidebar-divider"></div>
+
+      <h3>Learning Progress</h3>
+
+      <div id="progressText" class="sidebar-note">
+        0 of 8 learning tasks completed
+      </div>
+
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+
+      <div class="sidebar-divider"></div>
+
+      <p class="sidebar-note">
+        Complete the exercises and document your work.
+        Your checklist is saved locally in this browser.
+      </p>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <div class="content">
+
+
+      <!-- OVERVIEW -->
+      <section class="content-section" id="overview">
+
+        <span class="section-kicker">Start Here</span>
+
+        <h2>Module Overview</h2>
+
+        <p>
+          An operating system manages a computer's hardware,
+          applications, files, users and system resources.
+          It provides the environment in which software runs
+          and system activity is recorded.
+        </p>
+
+        <p>
+          For a SOC Analyst, operating system knowledge is essential.
+          Security investigations often involve understanding login
+          events, running processes, service activity, account
+          changes and system logs.
+        </p>
+
+        <div class="info-box">
+          <strong>Why does a SOC Analyst need operating system knowledge?</strong>
+          When an alert reports unusual activity, an analyst may need
+          to identify the affected user, inspect a process, understand
+          a service, review authentication records and determine
+          what happened on the endpoint.
+        </div>
+
+        <h3>What You Will Learn</h3>
+
+        <div class="topic-grid">
+
+          <div class="topic-card">
+            <strong>Operating System Fundamentals</strong>
+            <p>Understand the role of an operating system and its components.</p>
+          </div>
+
+          <div class="topic-card">
+            <strong>Linux Fundamentals</strong>
+            <p>Navigate directories, inspect files and use terminal commands.</p>
+          </div>
+
+          <div class="topic-card">
+            <strong>Users and Permissions</strong>
+            <p>Understand identities, groups and access control.</p>
+          </div>
+
+          <div class="topic-card">
+            <strong>Windows Fundamentals</strong>
+            <p>Explore Windows administration and security features.</p>
+          </div>
+
+          <div class="topic-card">
+            <strong>Processes and Services</strong>
+            <p>Understand running programs and background services.</p>
+          </div>
+
+          <div class="topic-card">
+            <strong>System Logs</strong>
+            <p>Explore Linux logs and Windows Event Viewer.</p>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- OBJECTIVES -->
+      <section class="content-section" id="objectives">
+
+        <span class="section-kicker">Learning Outcomes</span>
+
+        <h2>Learning Objectives</h2>
+
+        <p>By the end of this module, you should be able to:</p>
+
+        <ul>
+          <li>Explain the purpose and basic components of an operating system.</li>
+          <li>Understand the Linux filesystem structure.</li>
+          <li>Navigate Linux directories and inspect files.</li>
+          <li>Understand Linux users, groups and file permissions.</li>
+          <li>Use basic Linux commands to inspect processes and services.</li>
+          <li>Understand Windows users, groups and security features.</li>
+          <li>Explore Windows processes and services.</li>
+          <li>Navigate Windows Event Viewer.</li>
+          <li>Identify common authentication and system log sources.</li>
+          <li>Document operating system observations responsibly.</li>
+        </ul>
+
+        <div class="info-box">
+          <strong>Completion expectation</strong>
+          You should be able to use basic operating system tools,
+          interpret their output and explain how the information
+          may support a security investigation.
+        </div>
+
+      </section>
+
+
+      <!-- OS FUNDAMENTALS -->
+      <section class="content-section" id="os-fundamentals">
+
+        <span class="section-kicker">Topic 01</span>
+
+        <h2>Operating System Fundamentals</h2>
+
+        <p>
+          An operating system is system software that manages
+          hardware resources and provides services to applications.
+        </p>
+
+        <h3>Major Operating System Responsibilities</h3>
+
+        <div class="topic-grid">
+
+          <div class="topic-card">
+            <strong>Process Management</strong>
+            <p>Manages running programs and their execution.</p>
+          </div>
+
+          <div class="topic-card">
+            <strong>Memory Management</strong>
+            <p>Allocates and manages system memory.</p>
+          </div>
+
+          <div class="topic-card">
+            <strong>File Management</strong>
+            <p>Organises files, directories and storage access.</p>
+          </div>
+
+          <div class="topic-card">
+            <strong>User Management</strong>
+            <p>Manages accounts, identities and permissions.</p>
+          </div>
+
+          <div class="topic-card">
+            <strong>Device Management</strong>
+            <p>Coordinates hardware devices and drivers.</p>
+          </div>
+
+          <div class="topic-card">
+            <strong>Security Management</strong>
+            <p>Supports authentication, access control and security auditing.</p>
+          </div>
+
+        </div>
+
+        <h3>Common Operating Systems</h3>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Operating System</th>
+              <th>Common Use</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>Windows</td>
+              <td>Personal computers, enterprise endpoints and servers.</td>
+            </tr>
+
+            <tr>
+              <td>Linux</td>
+              <td>Servers, cloud infrastructure, workstations and security labs.</td>
+            </tr>
+
+            <tr>
+              <td>macOS</td>
+              <td>Apple desktop and laptop systems.</td>
+            </tr>
+
+            <tr>
+              <td>Unix-like systems</td>
+              <td>Servers, infrastructure and specialised computing environments.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="info-box">
+          <strong>SOC perspective</strong>
+          Different operating systems produce different logs and
+          expose different investigation tools. An analyst must
+          understand the environment before interpreting its events.
+        </div>
+
+      </section>
+
+
+      <!-- LINUX -->
+      <section class="content-section" id="linux">
+
+        <span class="section-kicker">Topic 02</span>
+
+        <h2>Linux Fundamentals</h2>
+
+        <p>
+          Linux is an open-source operating system kernel used
+          in many server, cloud, embedded and workstation environments.
+          Linux distributions combine the kernel with other software
+          to provide a complete operating system.
+        </p>
+
+        <h3>Common Linux Distributions</h3>
+
+        <ul>
+          <li>Ubuntu.</li>
+          <li>Debian.</li>
+          <li>Fedora.</li>
+          <li>Red Hat Enterprise Linux.</li>
+          <li>Rocky Linux.</li>
+          <li>AlmaLinux.</li>
+        </ul>
+
+        <h3>Linux Filesystem Structure</h3>
+
+        <p>
+          Linux organises files and directories under a single
+          directory tree that begins at the root directory.
+        </p>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Directory</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>/</td>
+              <td>Root of the filesystem.</td>
+            </tr>
+
+            <tr>
+              <td>/home</td>
+              <td>Home directories for regular users.</td>
+            </tr>
+
+            <tr>
+              <td>/root</td>
+              <td>Home directory of the root account.</td>
+            </tr>
+
+            <tr>
+              <td>/etc</td>
+              <td>System-wide configuration files.</td>
+            </tr>
+
+            <tr>
+              <td>/var</td>
+              <td>Variable data such as logs and application data.</td>
+            </tr>
+
+            <tr>
+              <td>/var/log</td>
+              <td>Common location for system and application logs.</td>
+            </tr>
+
+            <tr>
+              <td>/tmp</td>
+              <td>Temporary files.</td>
+            </tr>
+
+            <tr>
+              <td>/usr</td>
+              <td>Many user-space programs, libraries and shared resources.</td>
+            </tr>
+
+            <tr>
+              <td>/bin</td>
+              <td>Essential command binaries on systems using this layout.</td>
+            </tr>
+
+            <tr>
+              <td>/dev</td>
+              <td>Device files.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Essential Linux Commands</h3>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Command</th>
+              <th>Purpose</th>
+              <th>Example</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>pwd</td>
+              <td>Show current directory.</td>
+              <td>pwd</td>
+            </tr>
+
+            <tr>
+              <td>ls</td>
+              <td>List directory contents.</td>
+              <td>ls -la</td>
+            </tr>
+
+            <tr>
+              <td>cd</td>
+              <td>Change directory.</td>
+              <td>cd /var/log</td>
+            </tr>
+
+            <tr>
+              <td>cat</td>
+              <td>Display file contents.</td>
+              <td>cat file.txt</td>
+            </tr>
+
+            <tr>
+              <td>less</td>
+              <td>Read long files interactively.</td>
+              <td>less file.txt</td>
+            </tr>
+
+            <tr>
+              <td>grep</td>
+              <td>Search text patterns.</td>
+              <td>grep "error" file.log</td>
+            </tr>
+
+            <tr>
+              <td>find</td>
+              <td>Search for files and directories.</td>
+              <td>find /var/log -name "*.log"</td>
+            </tr>
+
+            <tr>
+              <td>whoami</td>
+              <td>Show current user identity.</td>
+              <td>whoami</td>
+            </tr>
+
+            <tr>
+              <td>id</td>
+              <td>Show user and group identifiers.</td>
+              <td>id</td>
+            </tr>
+
+            <tr>
+              <td>ps</td>
+              <td>Display process information.</td>
+              <td>ps aux</td>
+            </tr>
+
+            <tr>
+              <td>top</td>
+              <td>Monitor running processes.</td>
+              <td>top</td>
+            </tr>
+
+            <tr>
+              <td>df</td>
+              <td>Show filesystem space usage.</td>
+              <td>df -h</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Understanding Command Output</h3>
+
+        <p>For example, consider:</p>
+
+        <div class="code-block">whoami</div>
+
+        <p>
+          This command displays the username associated with
+          the current shell session.
+        </p>
+
+        <p>Another example:</p>
+
+        <div class="code-block">ps aux</div>
+
+        <p>
+          This displays process information, including users,
+          process identifiers and resource usage.
+        </p>
+
+        <div class="info-box">
+          <strong>Analyst habit</strong>
+          Never interpret a command result without understanding
+          which user executed it, which system it ran on and
+          when the observation was collected.
+        </div>
+
+      </section>
+
+
+      <!-- LINUX USERS -->
+      <section class="content-section" id="linux-users">
+
+        <span class="section-kicker">Topic 03</span>
+
+        <h2>Linux Users and Permissions</h2>
+
+        <p>
+          Linux uses user and group identities to control access
+          to files, directories and system resources.
+        </p>
+
+        <h3>Important Concepts</h3>
+
+        <ul>
+          <li><strong>Root:</strong> The administrative superuser account.</li>
+          <li><strong>Regular User:</strong> An account used for normal system activity.</li>
+          <li><strong>Group:</strong> A collection of users used for access management.</li>
+          <li><strong>UID:</strong> Numeric user identifier.</li>
+          <li><strong>GID:</strong> Numeric group identifier.</li>
+          <li><strong>sudo:</strong> A mechanism for executing permitted commands with elevated privileges.</li>
+        </ul>
+
+        <h3>File Permissions</h3>
+
+        <p>
+          Linux file permissions commonly distinguish three classes:
+        </p>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Class</th>
+              <th>Meaning</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>u</td>
+              <td>Owner or user.</td>
+            </tr>
+
+            <tr>
+              <td>g</td>
+              <td>Group.</td>
+            </tr>
+
+            <tr>
+              <td>o</td>
+              <td>Others.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Permission Types</h3>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Permission</th>
+              <th>Symbol</th>
+              <th>Numeric Value</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>Read</td>
+              <td>r</td>
+              <td>4</td>
+            </tr>
+
+            <tr>
+              <td>Write</td>
+              <td>w</td>
+              <td>2</td>
+            </tr>
+
+            <tr>
+              <td>Execute</td>
+              <td>x</td>
+              <td>1</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Example Permission</h3>
+
+        <div class="code-block">-rwxr-xr--</div>
+
+        <p>This represents:</p>
+
+        <ul>
+          <li>Owner: read, write and execute.</li>
+          <li>Group: read and execute.</li>
+          <li>Others: read only.</li>
+        </ul>
+
+        <h3>Useful Commands</h3>
+
+        <div class="code-block">whoami
+id
+groups
+ls -l
+chmod 640 file.txt
+chown user:group file.txt</div>
+
+        <div class="warning-box">
+          <strong>Permission safety</strong>
+          Do not change permissions on system files while learning.
+          Use a test directory and files you own. Commands such
+          as chmod and chown can affect system security and availability.
+        </div>
+
+        <h3>Understanding sudo</h3>
+
+        <p>
+          The sudo command allows an authorised user to execute
+          a command with elevated privileges according to the
+          system's sudo policy.
+        </p>
+
+        <div class="code-block">sudo command</div>
+
+        <p>
+          Elevated privileges should be used only when necessary
+          and within an authorised environment.
+        </p>
+
+      </section>
+
+
+      <!-- WINDOWS -->
+      <section class="content-section" id="windows">
+
+        <span class="section-kicker">Topic 04</span>
+
+        <h2>Windows Fundamentals</h2>
+
+        <p>
+          Windows is widely used in enterprise environments.
+          SOC Analysts frequently investigate Windows endpoints,
+          servers, authentication activity, processes and
+          security events.
+        </p>
+
+        <h3>Important Windows Components</h3>
+
+        <div class="topic-grid">
+
+          <div class="topic-card">
+            <strong>File Explorer</strong>
+            <p>Navigate files, directories and storage locations.</p>
+          </div>
+
+          <div class="topic-card">
+            <strong>Task Manager</strong>
+            <p>Inspect processes, performance and running applications.</p>
+          </div>
+
+          <div class="topic-card">
+            <strong>Services</strong>
+            <p>Manage background services running on the system.</p>
+          </div>
+
+          <div class="topic-card">
+            <strong>Event Viewer</strong>
+            <p>Inspect recorded system, application and security events.</p>
+          </div>
+
+          <div class="topic-card">
+            <strong>Windows Defender</strong>
+            <p>Explore built-in security and threat protection features.</p>
+          </div>
+
+          <div class="topic-card">
+            <strong>PowerShell</strong>
+            <p>Use a command-line shell and scripting environment for administration.</p>
+          </div>
+
+        </div>
+
+        <h3>Important Windows Directories</h3>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Location</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>C:\Windows</td>
+              <td>Windows operating system files.</td>
+            </tr>
+
+            <tr>
+              <td>C:\Windows\System32</td>
+              <td>Important system binaries and components.</td>
+            </tr>
+
+            <tr>
+              <td>C:\Users</td>
+              <td>User profile directories.</td>
+            </tr>
+
+            <tr>
+              <td>C:\Program Files</td>
+              <td>Common location for installed applications.</td>
+            </tr>
+
+            <tr>
+              <td>C:\ProgramData</td>
+              <td>Application data shared across users.</td>
+            </tr>
+
+            <tr>
+              <td>C:\Windows\System32\winevt\Logs</td>
+              <td>Common location for Windows event log files.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Windows Command Line</h3>
+
+        <p>Useful Command Prompt commands:</p>
+
+        <div class="code-block">whoami
+hostname
+systeminfo
+ipconfig /all
+tasklist
+netstat -ano
+dir
+cd
+type</div>
+
+        <h3>PowerShell Fundamentals</h3>
+
+        <p>
+          PowerShell provides commands known as cmdlets for
+          interacting with Windows and other supported systems.
+        </p>
+
+        <div class="code-block">Get-ComputerInfo
+Get-Process
+Get-Service
+Get-ChildItem
+Get-Date
+Get-EventLog -LogName System -Newest 10</div>
+
+        <p>
+          PowerShell commands and available parameters may differ
+          between Windows PowerShell and PowerShell versions.
+          Verify the documentation for the environment you use.
+        </p>
+
+        <div class="info-box">
+          <strong>SOC perspective</strong>
+          Understanding Task Manager, PowerShell and Windows
+          administrative tools helps analysts investigate endpoint
+          activity and interpret security alerts.
+        </div>
+
+      </section>
+
+
+      <!-- WINDOWS USERS -->
+      <section class="content-section" id="windows-users">
+
+        <span class="section-kicker">Topic 05</span>
+
+        <h2>Windows Accounts and Access Control</h2>
+
+        <p>
+          Windows uses security identities and access control
+          mechanisms to determine what users and processes
+          are permitted to do.
+        </p>
+
+        <h3>Common Account Types</h3>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Account Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>Standard User</td>
+              <td>Performs ordinary activities with limited permissions.</td>
+            </tr>
+
+            <tr>
+              <td>Administrator</td>
+              <td>Has elevated administrative permissions.</td>
+            </tr>
+
+            <tr>
+              <td>Local Account</td>
+              <td>Account managed on an individual Windows system.</td>
+            </tr>
+
+            <tr>
+              <td>Domain Account</td>
+              <td>Account managed through an organisational identity environment.</td>
+            </tr>
+
+            <tr>
+              <td>Service Account</td>
+              <td>Identity used by a service or application.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Useful Commands</h3>
+
+        <div class="code-block">whoami
+whoami /groups
+whoami /priv
+net user
+net localgroup</div>
+
+        <p>
+          These commands can provide information about the
+          current identity, group memberships, privileges
+          and local accounts.
+        </p>
+
+        <h3>Access Control Concepts</h3>
+
+        <ul>
+          <li><strong>Authentication:</strong> Verifying an identity.</li>
+          <li><strong>Authorisation:</strong> Determining permitted actions.</li>
+          <li><strong>Least Privilege:</strong> Providing only the access needed for a task.</li>
+          <li><strong>Security Identifier:</strong> A Windows identifier used to represent security principals.</li>
+          <li><strong>Access Control List:</strong> Rules describing access permissions for an object.</li>
+        </ul>
+
+        <div class="info-box">
+          <strong>Investigation example</strong>
+          If an alert indicates an unexpected account change,
+          an analyst may review account management events,
+          group membership and relevant administrative activity.
+        </div>
+
+      </section>
+
+
+      <!-- PROCESSES -->
+      <section class="content-section" id="processes">
+
+        <span class="section-kicker">Topic 06</span>
+
+        <h2>Processes and Process Investigation</h2>
+
+        <p>
+          A process is a running instance of a program.
+          Operating systems manage processes and allocate
+          resources such as CPU time and memory.
+        </p>
+
+        <h3>Important Process Information</h3>
+
+        <ul>
+          <li>Process name.</li>
+          <li>Process identifier (PID).</li>
+          <li>Parent process identifier (PPID), where available.</li>
+          <li>Process owner or security context.</li>
+          <li>Executable path.</li>
+          <li>Command-line arguments, where available.</li>
+          <li>Resource usage.</li>
+          <li>Start time and execution context, where available.</li>
+        </ul>
+
+        <h3>Linux Process Commands</h3>
+
+        <div class="code-block">ps aux
+top
+pgrep process_name
+pstree
+pidof process_name</div>
+
+        <h3>Windows Process Commands</h3>
+
+        <div class="code-block">tasklist
+Get-Process
+Get-CimInstance Win32_Process</div>
+
+        <h3>Parent and Child Processes</h3>
+
+        <p>
+          A parent process may create one or more child processes.
+          Understanding process relationships can help analysts
+          reconstruct execution activity.
+        </p>
+
+        <div class="code-block">Parent Process
+      |
+      +-- Child Process A
+      |
+      +-- Child Process B
+                 |
+                 +-- Child Process C</div>
+
+        <h3>What Should an Analyst Examine?</h3>
+
+        <ul>
+          <li>Is the process expected on this system?</li>
+          <li>Does the executable path make sense?</li>
+          <li>Which user or security context launched it?</li>
+          <li>What is its parent process?</li>
+          <li>Are the command-line arguments expected?</li>
+          <li>Is there supporting evidence of suspicious activity?</li>
+        </ul>
+
+        <div class="warning-box">
+          <strong>Important</strong>
+          A familiar process name does not prove that a process
+          is legitimate. Likewise, an unfamiliar process name
+          does not automatically indicate malware. Examine
+          multiple evidence sources before drawing conclusions.
+        </div>
+
+      </section>
+
+
+      <!-- SERVICES -->
+      <section class="content-section" id="services">
+
+        <span class="section-kicker">Topic 07</span>
+
+        <h2>Operating System Services</h2>
+
+        <p>
+          Services are background components that provide
+          functionality to an operating system or applications.
+        </p>
+
+        <h3>Linux Services</h3>
+
+        <p>
+          Many Linux distributions use systemd to manage system
+          services.
+        </p>
+
+        <div class="code-block">systemctl status service_name
+systemctl list-units --type=service
+systemctl is-active service_name
+systemctl is-enabled service_name</div>
+
+        <p>
+          These commands help inspect service status, active
+          units and startup configuration.
+        </p>
+
+        <h3>Windows Services</h3>
+
+        <p>
+          Windows services run in the background and may start
+          automatically, manually or through other configured
+          startup triggers.
+        </p>
+
+        <div class="code-block">Get-Service
+Get-Service -Name "Spooler"
+sc query</div>
+
+        <h3>What Should a SOC Analyst Check?</h3>
+
+        <ul>
+          <li>Service name and description.</li>
+          <li>Current status.</li>
+          <li>Startup configuration.</li>
+          <li>Associated executable or service process.</li>
+          <li>Service account or execution identity.</li>
+          <li>Recent configuration or state changes.</li>
+        </ul>
+
+        <div class="info-box">
+          <strong>Security investigation example</strong>
+          An unexpected service may require investigation.
+          Check its configuration, executable location,
+          associated account and creation or modification
+          events before deciding whether it is suspicious.
+        </div>
+
+      </section>
+
+
+      <!-- LOGS -->
+      <section class="content-section" id="logs">
+
+        <span class="section-kicker">Topic 08</span>
+
+        <h2>Operating System Logs</h2>
+
+        <p>
+          Operating systems record events that describe system
+          activity. These records can support troubleshooting,
+          auditing and security investigations.
+        </p>
+
+        <h3>Linux Logs</h3>
+
+        <p>
+          Many Linux systems store log files under
+          <strong>/var/log</strong>. Exact locations and log
+          formats depend on the distribution and configuration.
+        </p>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Log Source</th>
+              <th>Typical Purpose</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>/var/log/auth.log</td>
+              <td>Authentication-related activity on systems using this log file.</td>
+            </tr>
+
+            <tr>
+              <td>/var/log/secure</td>
+              <td>Authentication and security-related activity on systems using this log file.</td>
+            </tr>
+
+            <tr>
+              <td>/var/log/syslog</td>
+              <td>General system messages on systems using this log file.</td>
+            </tr>
+
+            <tr>
+              <td>/var/log/messages</td>
+              <td>General system messages on systems using this log file.</td>
+            </tr>
+
+            <tr>
+              <td>systemd journal</td>
+              <td>Structured system and service logs on systemd-based systems.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Useful Linux Log Commands</h3>
+
+        <div class="code-block">ls -lah /var/log
+journalctl
+journalctl -b
+journalctl -u service_name
+journalctl --since "1 hour ago"
+grep "failed" /var/log/auth.log</div>
+
+        <p>
+          The last example assumes the system uses
+          <strong>/var/log/auth.log</strong> and that the user
+          has permission to read it.
+        </p>
+
+        <h3>Windows Event Viewer</h3>
+
+        <p>
+          Windows Event Viewer is a built-in tool used to inspect
+          recorded events.
+        </p>
+
+        <p>Common event log categories include:</p>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Log</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>Application</td>
+              <td>Events generated by applications.</td>
+            </tr>
+
+            <tr>
+              <td>System</td>
+              <td>Events generated by Windows system components.</td>
+            </tr>
+
+            <tr>
+              <td>Security</td>
+              <td>Audited security activity, depending on audit configuration.</td>
+            </tr>
+
+            <tr>
+              <td>Setup</td>
+              <td>Installation and setup-related events.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Useful Windows Security Event IDs</h3>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Event ID</th>
+              <th>Meaning</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>4624</td>
+              <td>An account was successfully logged on.</td>
+            </tr>
+
+            <tr>
+              <td>4625</td>
+              <td>An account failed to log on.</td>
+            </tr>
+
+            <tr>
+              <td>4634</td>
+              <td>An account was logged off.</td>
+            </tr>
+
+            <tr>
+              <td>4648</td>
+              <td>A logon was attempted using explicit credentials.</td>
+            </tr>
+
+            <tr>
+              <td>4720</td>
+              <td>A user account was created.</td>
+            </tr>
+
+            <tr>
+              <td>4722</td>
+              <td>A user account was enabled.</td>
+            </tr>
+
+            <tr>
+              <td>4724</td>
+              <td>An attempt was made to reset an account password.</td>
+            </tr>
+
+            <tr>
+              <td>4732</td>
+              <td>A member was added to a security-enabled local group.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="warning-box">
+          <strong>Event interpretation matters</strong>
+          Event IDs are useful references, but their meaning
+          depends on the event details, audit configuration,
+          system role and surrounding activity. A failed login
+          is not automatically evidence of an attack.
+        </div>
+
+        <h3>Example: Inspect Windows Events with PowerShell</h3>
+
+        <div class="code-block">Get-WinEvent -LogName Security -MaxEvents 10
+
+Get-WinEvent -FilterHashtable @{
+    LogName = 'Security'
+    Id = 4625
+} -MaxEvents 10</div>
+
+        <p>
+          The second example searches for recent failed logon
+          events in the local Security log. Access permissions
+          and audit configuration affect the available results.
+        </p>
+
+      </section>
+
+
+      <!-- PRACTICAL -->
+      <section class="content-section" id="practical">
+
+        <span class="section-kicker">Hands-on Learning</span>
+
+        <h2>Practical Exercises</h2>
+
+        <p>
+          Perform these activities on your own device or an
+          authorised training machine. Use a standard account
+          wherever possible.
+        </p>
+
+        <div class="exercise">
+
+          <span class="exercise-label">Exercise 01</span>
+
+          <h3>Explore the Linux Filesystem</h3>
+
+          <p><strong>Objective:</strong> Understand the Linux directory structure.</p>
+
+          <p><strong>Commands:</strong></p>
+
+          <div class="code-block">pwd
+ls -la
+cd /var/log
+ls -lah
+find /var/log -maxdepth 1 -type f</div>
+
+          <p><strong>Tasks:</strong></p>
+
+          <ol>
+            <li>Identify your current directory.</li>
+            <li>List visible and hidden files.</li>
+            <li>Explore the /var/log directory.</li>
+            <li>Identify a few available log files.</li>
+            <li>Explain the purpose of three directories.</li>
+          </ol>
+
+          <p><strong>Evidence:</strong> Linux filesystem exploration notes.</p>
+
+        </div>
+
+
+        <div class="exercise">
+
+          <span class="exercise-label">Exercise 02</span>
+
+          <h3>Inspect Linux Users and Permissions</h3>
+
+          <p><strong>Objective:</strong> Understand the current user and file access permissions.</p>
+
+          <p><strong>Commands:</strong></p>
+
+          <div class="code-block">whoami
+id
+groups
+ls -l</div>
+
+          <p><strong>Tasks:</strong></p>
+
+          <ol>
+            <li>Identify the current user.</li>
+            <li>Record the user's UID and GID.</li>
+            <li>Identify the user's groups.</li>
+            <li>Inspect permissions of files in a test directory.</li>
+            <li>Explain the owner, group and others permission fields.</li>
+          </ol>
+
+          <p><strong>Evidence:</strong> User and permission analysis worksheet.</p>
+
+          <div class="warning-box">
+            Do not modify system accounts or permissions during
+            this exercise. Use your own test files.
+          </div>
+
+        </div>
+
+
+        <div class="exercise">
+
+          <span class="exercise-label">Exercise 03</span>
+
+          <h3>Inspect Linux Processes and Services</h3>
+
+          <p><strong>Objective:</strong> Identify running processes and service status.</p>
+
+          <p><strong>Commands:</strong></p>
+
+          <div class="code-block">ps aux
+top
+systemctl list-units --type=service
+systemctl status cron</div>
+
+          <p>
+            The service name may differ across distributions.
+            If cron is unavailable, select an existing service.
+          </p>
+
+          <p><strong>Tasks:</strong></p>
+
+          <ol>
+            <li>Identify five running processes.</li>
+            <li>Record their PIDs.</li>
+            <li>Observe their user or execution identity.</li>
+            <li>Identify a running service.</li>
+            <li>Explain the difference between a process and a service.</li>
+          </ol>
+
+          <p><strong>Evidence:</strong> Linux process and service observation report.</p>
+
+        </div>
+
+
+        <div class="exercise">
+
+          <span class="exercise-label">Exercise 04</span>
+
+          <h3>Explore Windows Processes and Services</h3>
+
+          <p><strong>Objective:</strong> Understand how Windows exposes process and service information.</p>
+
+          <p><strong>PowerShell commands:</strong></p>
+
+          <div class="code-block">Get-Process
+Get-Service
+Get-ComputerInfo</div>
+
+          <p><strong>Tasks:</strong></p>
+
+          <ol>
+            <li>Identify five running processes.</li>
+            <li>Record their process IDs.</li>
+            <li>Identify five Windows services.</li>
+            <li>Record the status of each service.</li>
+            <li>Explain the difference between a process and a service.</li>
+          </ol>
+
+          <p><strong>Evidence:</strong> Windows process and service worksheet.</p>
+
+        </div>
+
+
+        <div class="exercise">
+
+          <span class="exercise-label">Exercise 05</span>
+
+          <h3>Investigate Windows Event Viewer</h3>
+
+          <p><strong>Objective:</strong> Explore Windows Security and System event logs.</p>
+
+          <p><strong>Instructions:</strong></p>
+
+          <ol>
+            <li>Open the Windows Start menu.</li>
+            <li>Search for Event Viewer.</li>
+            <li>Open Windows Logs.</li>
+            <li>Select Security.</li>
+            <li>Inspect available authentication events.</li>
+            <li>Open an event and examine its details.</li>
+            <li>Record its timestamp, event ID and relevant fields.</li>
+          </ol>
+
+          <p><strong>Evidence:</strong> Sanitised Windows event analysis worksheet.</p>
+
+        </div>
+
+
+        <div class="exercise">
+
+          <span class="exercise-label">Exercise 06</span>
+
+          <h3>Explore Linux Authentication Logs</h3>
+
+          <p><strong>Objective:</strong> Understand how Linux records authentication activity.</p>
+
+          <p><strong>Commands:</strong></p>
+
+          <div class="code-block">journalctl
+journalctl --since "1 hour ago"
+journalctl -u ssh
+journalctl -u sshd</div>
+
+          <p>
+            The SSH service name and available records vary
+            between distributions and system configurations.
+          </p>
+
+          <p><strong>Tasks:</strong></p>
+
+          <ol>
+            <li>Identify the available authentication log source.</li>
+            <li>Find relevant login or authentication messages.</li>
+            <li>Record timestamps and available user information.</li>
+            <li>Identify whether an event indicates success or failure.</li>
+            <li>Explain what additional evidence might be needed.</li>
+          </ol>
+
+          <p><strong>Evidence:</strong> Linux authentication log analysis report.</p>
+
+        </div>
+
+      </section>
+
+
+      <!-- ASSESSMENT -->
+      <section class="content-section" id="assessment">
+
+        <span class="section-kicker">Knowledge Validation</span>
+
+        <h2>Module Knowledge Check</h2>
+
+        <p>
+          Answer all questions to check your understanding.
+          This quiz is a learning activity and does not independently
+          verify practical operating system skills.
+        </p>
+
+        <form id="quizForm">
+
+          <div class="quiz-question">
+            <p>1. Which Linux directory commonly contains system-wide configuration files?</p>
+
+            <label><input type="radio" name="q1" value="a"> /home</label>
+            <label><input type="radio" name="q1" value="b"> /etc</label>
+            <label><input type="radio" name="q1" value="c"> /tmp</label>
+            <label><input type="radio" name="q1" value="d"> /media</label>
+          </div>
+
+          <div class="quiz-question">
+            <p>2. Which Linux command displays the current username?</p>
+
+            <label><input type="radio" name="q2" value="a"> pwd</label>
+            <label><input type="radio" name="q2" value="b"> ls</label>
+            <label><input type="radio" name="q2" value="c"> whoami</label>
+            <label><input type="radio" name="q2" value="d"> df</label>
+          </div>
+
+          <div class="quiz-question">
+            <p>3. What does the Linux permission value 4 represent?</p>
+
+            <label><input type="radio" name="q3" value="a"> Execute</label>
+            <label><input type="radio" name="q3" value="b"> Write</label>
+            <label><input type="radio" name="q3" value="c"> Read</label>
+            <label><input type="radio" name="q3" value="d"> Delete</label>
+          </div>
+
+          <div class="quiz-question">
+            <p>4. Which command displays Linux process information?</p>
+
+            <label><input type="radio" name="q4" value="a"> ps aux</label>
+            <label><input type="radio" name="q4" value="b"> chmod</label>
+            <label><input type="radio" name="q4" value="c"> mkdir</label>
+            <label><input type="radio" name="q4" value="d"> hostname</label>
+          </div>
+
+          <div class="quiz-question">
+            <p>5. What is the purpose of Windows Event Viewer?</p>
+
+            <label><input type="radio" name="q5" value="a"> Edit images</label>
+            <label><input type="radio" name="q5" value="b"> Inspect recorded system and application events</label>
+            <label><input type="radio" name="q5" value="c"> Compile software</label>
+            <label><input type="radio" name="q5" value="d"> Manage web domains</label>
+          </div>
+
+          <div class="quiz-question">
+            <p>6. Which Windows command can display running processes?</p>
+
+            <label><input type="radio" name="q6" value="a"> Get-Process</label>
+            <label><input type="radio" name="q6" value="b"> Get-Help</label>
+            <label><input type="radio" name="q6" value="c"> Get-Date</label>
+            <label><input type="radio" name="q6" value="d"> Get-Location</label>
+          </div>
+
+          <div class="quiz-question">
+            <p>7. Which Windows Security Event ID commonly represents a failed logon?</p>
+
+            <label><input type="radio" name="q7" value="a"> 4624</label>
+            <label><input type="radio" name="q7" value="b"> 4625</label>
+            <label><input type="radio" name="q7" value="c"> 4634</label>
+            <label><input type="radio" name="q7" value="d"> 4720</label>
+          </div>
+
+          <div class="quiz-question">
+            <p>8. What is the difference between a process and a service?</p>
+
+            <label><input type="radio" name="q8" value="a"> They always mean exactly the same thing.</label>
+            <label><input type="radio" name="q8" value="b"> A process is a running program instance; a service is a background component providing functionality.</label>
+            <label><input type="radio" name="q8" value="c"> A service is always a user account.</label>
+            <label><input type="radio" name="q8" value="d"> A process can only run on Linux.</label>
+          </div>
+
+          <button class="primary-button" type="submit">
+            Check My Answers
+          </button>
+
+          <div class="quiz-result" id="quizResult" role="status" aria-live="polite"></div>
+
+        </form>
+
+      </section>
+
+
+      <!-- EVIDENCE -->
+      <section class="content-section" id="evidence">
+
+        <span class="section-kicker">Proof of Work</span>
+
+        <h2>Required Evidence and Deliverables</h2>
+
+        <p>
+          Prepare the following practical documents for your
+          learning portfolio.
+        </p>
+
+        <div class="evidence-card">
+
+          <h3>Module 02 Deliverables</h3>
+
+          <ul>
+            <li>Operating system fundamentals notes.</li>
+            <li>Linux filesystem exploration worksheet.</li>
+            <li>Linux users and permissions analysis.</li>
+            <li>Linux process and service observation report.</li>
+            <li>Windows process and service worksheet.</li>
+            <li>Windows Event Viewer analysis.</li>
+            <li>Linux authentication log analysis.</li>
+            <li>Knowledge check result.</li>
+          </ul>
+
+        </div>
+
+        <h3>Suggested Portfolio Structure</h3>
+
+        <div class="code-block">soc-analyst-portfolio/
+│
+├── 01-networking/
+│   └── README.md
+│
+├── 02-operating-systems/
+│   ├── README.md
+│   ├── linux-filesystem.md
+│   ├── linux-users-permissions.md
+│   ├── linux-processes-services.md
+│   ├── windows-processes-services.md
+│   ├── windows-event-analysis.md
+│   └── linux-authentication-analysis.md
+│
+└── evidence/
+    └── sanitised-screenshots/</div>
+
+        <div class="info-box">
+          <strong>Proof Over Certificates</strong>
+          Explain which commands you used, what the output
+          demonstrated, what you observed and what conclusions
+          are supported by the evidence.
+        </div>
+
+      </section>
+
+
+      <!-- COMPLETION -->
+      <section class="content-section" id="completion">
+
+        <span class="section-kicker">Module Review</span>
+
+        <h2>Module Completion Checklist</h2>
+
+        <p>
+          Mark each task after completing the actual learning
+          activity. Your checklist is saved locally in this browser.
+        </p>
+
+        <ul class="task-list">
+
+          <li>
+            <input type="checkbox" data-module-progress="1">
+            <label>Understand operating system fundamentals and components.</label>
+          </li>
+
+          <li>
+            <input type="checkbox" data-module-progress="2">
+            <label>Explore the Linux filesystem and essential commands.</label>
+          </li>
+
+          <li>
+            <input type="checkbox" data-module-progress="3">
+            <label>Inspect Linux users, groups and permissions.</label>
+          </li>
+
+          <li>
+            <input type="checkbox" data-module-progress="4">
+            <label>Inspect Linux processes and services.</label>
+          </li>
+
+          <li>
+            <input type="checkbox" data-module-progress="5">
+            <label>Understand Windows components and administration tools.</label>
+          </li>
+
+          <li>
+            <input type="checkbox" data-module-progress="6">
+            <label>Explore Windows accounts, processes and services.</label>
+          </li>
+
+          <li>
+            <input type="checkbox" data-module-progress="7">
+            <label>Inspect Windows and Linux system logs.</label>
+          </li>
+
+          <li>
+            <input type="checkbox" data-module-progress="8">
+            <label>Prepare and review the required portfolio evidence.</label>
+          </li>
+
+        </ul>
+
+        <div class="progress-track">
+          <div class="progress-fill" id="completionFill"></div>
+        </div>
+
+        <p id="completionText" class="sidebar-note">
+          0 of 8 tasks completed.
+        </p>
+
+        <div class="warning-box">
+          <strong>Important</strong>
+          This checklist records self-reported progress.
+          It does not independently verify that exercises
+          were performed or that competency was demonstrated.
+        </div>
+
+      </section>
+
+
+      <!-- RESOURCES -->
+      <section class="content-section" id="resources">
+
+        <span class="section-kicker">Further Learning</span>
+
+        <h2>Recommended Learning Resources</h2>
+
+        <p>
+          Use official documentation and maintained references
+          to strengthen your understanding.
+        </p>
+
+        <ul class="resource-list">
+
+          <li>
+            <a href="https://www.kernel.org/doc/html/latest/"
+               target="_blank" rel="noopener noreferrer">
+              Linux Kernel Documentation
+            </a>
+          </li>
+
+          <li>
+            <a href="https://man7.org/linux/man-pages/"
+               target="_blank" rel="noopener noreferrer">
+              Linux Manual Pages
+            </a>
+          </li>
+
+          <li>
+            <a href="https://ubuntu.com/tutorials/command-line-for-beginners"
+               target="_blank" rel="noopener noreferrer">
+              Ubuntu: Linux Command Line for Beginners
+            </a>
+          </li>
+
+          <li>
+            <a href="https://learn.microsoft.com/en-us/windows/"
+               target="_blank" rel="noopener noreferrer">
+              Microsoft Learn: Windows Documentation
+            </a>
+          </li>
+
+          <li>
+            <a href="https://learn.microsoft.com/en-us/powershell/"
+               target="_blank" rel="noopener noreferrer">
+              Microsoft Learn: PowerShell
+            </a>
+          </li>
+
+          <li>
+            <a href="https://learn.microsoft.com/en-us/windows/security/"
+               target="_blank" rel="noopener noreferrer">
+              Microsoft Learn: Windows Security
+            </a>
+          </li>
+
+          <li>
+            <a href="https://learn.microsoft.com/en-us/windows/win32/eventlog/event-logging"
+               target="_blank" rel="noopener noreferrer">
+              Microsoft: Event Logging
+            </a>
+          </li>
+
+        </ul>
+
+      </section>
+
+
+      <!-- NEXT MODULE -->
+      <section class="next-module">
+
+        <div>
+          <h3>Ready for Module 03?</h3>
+
+          <p>
+            Next: Security Fundamentals. Learn security principles,
+            common threats and defensive security concepts.
+          </p>
+        </div>
+
+        <a href="../03-security-fundamentals/">
+          Next Module →
+        </a>
+
+      </section>
+
+    </div>
+
+  </main>
+
+
+  <!-- FOOTER -->
+  <footer class="module-footer">
+
+    <p><strong>GraySentinel Cyber Defence Lab</strong></p>
+
+    <p>
+      Proof Over Certificates · Security Skills. Shown, Not Claimed.
+    </p>
+
+    <p>
+      <a href="../../index.html">Main Roadmap</a>
+      |
+      <a href="../../CONTRIBUTING.md">Contribute</a>
+      |
+      <a href="../../SECURITY.md">Security Policy</a>
+    </p>
+
+    <p>© 2026 GraySentinel Cyber Defence Lab.</p>
+
+  </footer>
+
+
+  <!-- MODULE JAVASCRIPT -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+      const progressBoxes = document.querySelectorAll(
+        "[data-module-progress]"
+      );
+
+      const progressFill = document.getElementById("progressFill");
+      const completionFill = document.getElementById("completionFill");
+      const progressText = document.getElementById("progressText");
+      const completionText = document.getElementById("completionText");
+
+      const storageKey = "graysentinel-module-02-progress";
+
+      function loadProgress() {
+        try {
+          const saved = JSON.parse(
+            localStorage.getItem(storageKey) || "{}"
+          );
+
+          progressBoxes.forEach(function (checkbox) {
+            const key = checkbox.dataset.moduleProgress;
+            checkbox.checked = saved[key] === true;
+          });
+
+        } catch (error) {
+          console.warn("Could not load saved module progress:", error);
+        }
+      }
+
+      function updateProgress() {
+
+        const total = progressBoxes.length;
+
+        const completed = Array.from(progressBoxes).filter(
+          checkbox => checkbox.checked
+        ).length;
+
+        const percentage = total
+          ? Math.round((completed / total) * 100)
+          : 0;
+
+        if (progressFill) {
+          progressFill.style.width = percentage + "%";
+        }
+
+        if (completionFill) {
+          completionFill.style.width = percentage + "%";
+        }
+
+        if (progressText) {
+          progressText.textContent =
+            completed + " of " + total + " learning tasks completed";
+        }
+
+        if (completionText) {
+          completionText.textContent =
+            completed + " of " + total +
+            " tasks completed (" + percentage + "%).";
+        }
+
+        const saved = {};
+
+        progressBoxes.forEach(function (checkbox) {
+          saved[checkbox.dataset.moduleProgress] = checkbox.checked;
+        });
+
+        try {
+          localStorage.setItem(storageKey, JSON.stringify(saved));
+        } catch (error) {
+          console.warn("Could not save module progress:", error);
+        }
+      }
+
+      loadProgress();
+      updateProgress();
+
+      progressBoxes.forEach(function (checkbox) {
+        checkbox.addEventListener("change", updateProgress);
+      });
+
+
+      // Knowledge Check
+
+      const quizForm = document.getElementById("quizForm");
+      const quizResult = document.getElementById("quizResult");
+
+      const correctAnswers = {
+        q1: "b",
+        q2: "c",
+        q3: "c",
+        q4: "a",
+        q5: "b",
+        q6: "a",
+        q7: "b",
+        q8: "b"
+      };
+
+      if (quizForm) {
+
+        quizForm.addEventListener("submit", function (event) {
+
+          event.preventDefault();
+
+          let score = 0;
+          let answered = 0;
+
+          const total = Object.keys(correctAnswers).length;
+
+          Object.keys(correctAnswers).forEach(function (question) {
+
+            const selected = quizForm.querySelector(
+              'input[name="' + question + '"]:checked'
+            );
+
+            if (selected) {
+
+              answered++;
+
+              if (selected.value === correctAnswers[question]) {
+                score++;
+              }
+
+            }
+
+          });
+
+          if (answered < total) {
+
+            quizResult.style.display = "block";
+            quizResult.style.background = "#FFF5EB";
+            quizResult.style.color = "#85430D";
+
+            quizResult.textContent =
+              "Please answer all " + total +
+              " questions. You have answered " +
+              answered + " of " + total + ".";
+
+            return;
+          }
+
+          const percentage = Math.round((score / total) * 100);
+
+          quizResult.style.display = "block";
+          quizResult.style.background =
+            percentage >= 70 ? "#E8F7F0" : "#FFF5EB";
+
+          quizResult.style.color =
+            percentage >= 70 ? "#176C4A" : "#85430D";
+
+          let message = "";
+
+          if (percentage >= 85) {
+            message = "Strong understanding. Review the explanations and continue practising.";
+          } else if (percentage >= 70) {
+            message = "Good foundation. Revisit any topics where you were uncertain.";
+          } else {
+            message = "Review the module content and attempt the quiz again.";
+          }
+
+          quizResult.textContent =
+            "Your score: " + score + "/" + total +
+            " (" + percentage + "%). " + message;
+
+        });
+
+      }
+
+
+      // Sidebar active section
+
+      const sidebarLinks = document.querySelectorAll(
+        '.sidebar nav a[href^="#"]'
+      );
+
+      const sections = Array.from(sidebarLinks)
+        .map(link => document.querySelector(link.getAttribute("href")))
+        .filter(Boolean);
+
+      if ("IntersectionObserver" in window) {
+
+        const observer = new IntersectionObserver(function (entries) {
+
+          entries.forEach(function (entry) {
+
+            if (entry.isIntersecting) {
+
+              sidebarLinks.forEach(function (link) {
+                link.classList.remove("active");
+              });
+
+              const activeLink = document.querySelector(
+                '.sidebar nav a[href="#' + entry.target.id + '"]'
+              );
+
+              if (activeLink) {
+                activeLink.classList.add("active");
+              }
+
+            }
+
+          });
+
+        }, {
+          rootMargin: "-20% 0px -65% 0px"
+        });
+
+        sections.forEach(function (section) {
+          observer.observe(section);
+        });
+
+      }
+
+    });
+  </script>
+
+</body>
+</html>
