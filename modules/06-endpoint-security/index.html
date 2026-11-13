@@ -1,0 +1,1033 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Learn endpoint security, operating system hardening, antivirus, EDR, process monitoring, persistence indicators and endpoint investigation with GraySentinel.">
+  <meta name="theme-color" content="#0B1830">
+  <title>Module 06: Endpoint Security | GraySentinel</title>
+  <link rel="stylesheet" href="../../assets/css/style.css">
+  <style>
+    :root {
+      --navy: #0b1830;
+      --cyan: #18c7d8;
+      --orange: #f28a38;
+      --ink: #172940;
+      --muted: #64748b;
+      --border: #dce4ed;
+      --bg: #f4f7fb;
+      --green: #16865b;
+      --red: #c43d4b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--bg); color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif; line-height: 1.65;
+    }
+    a { color: #087d9a; }
+    .shell { width: min(1180px, calc(100% - 36px)); margin: auto; }
+    .topbar { background: var(--navy); color: white; padding: 13px 0; }
+    .topbar-inner {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 15px;
+    }
+    .brand { color: white; font-weight: 800; text-decoration: none; }
+    .brand span { color: var(--cyan); }
+    .back-link { color: #dce8f5; text-decoration: none; font-size: .9rem; }
+    .hero {
+      background: var(--navy); color: white; padding: 58px 0;
+      border-bottom: 5px solid var(--cyan);
+    }
+    .eyebrow {
+      color: var(--cyan); font-size: .78rem; font-weight: 800;
+      letter-spacing: 1.5px; text-transform: uppercase;
+    }
+    .hero h1 {
+      max-width: 800px; margin: 12px 0;
+      font-size: clamp(2.1rem, 5vw, 3.6rem); line-height: 1.1;
+    }
+    .hero p { max-width: 760px; color: #d2ddec; font-size: 1.08rem; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 23px; }
+    .meta span {
+      border: 1px solid #40516a; border-radius: 5px;
+      padding: 6px 11px; color: #e7eff8; font-size: .84rem;
+    }
+    .layout {
+      display: grid; grid-template-columns: 245px minmax(0, 1fr);
+      gap: 30px; align-items: start; padding-top: 32px; padding-bottom: 60px;
+    }
+    .sidebar {
+      position: sticky; top: 20px; background: white;
+      border: 1px solid var(--border); border-radius: 9px; padding: 20px;
+    }
+    .sidebar h2 {
+      margin: 0 0 12px; font-size: .9rem;
+      text-transform: uppercase; letter-spacing: .8px;
+    }
+    .sidebar a {
+      display: block; padding: 8px 0; color: #42536b;
+      font-size: .9rem; text-decoration: none; border-bottom: 1px solid #edf1f5;
+    }
+    .sidebar a:hover { color: #087d9a; }
+    .content { min-width: 0; }
+    .section {
+      background: white; border: 1px solid var(--border);
+      border-radius: 9px; padding: 27px; margin-bottom: 22px;
+      scroll-margin-top: 20px;
+    }
+    .section h2 {
+      margin: 0 0 14px; color: var(--navy);
+      font-size: 1.45rem; line-height: 1.3;
+    }
+    .section h3 { color: var(--navy); margin: 22px 0 8px; font-size: 1.08rem; }
+    .section p { color: #43536a; }
+    .callout {
+      border-left: 4px solid var(--cyan); background: #edfafd;
+      padding: 14px 17px; border-radius: 0 6px 6px 0;
+      margin: 18px 0; color: #25465a;
+    }
+    .warning { border-left-color: var(--orange); background: #fff6ed; color: #69421e; }
+    .concept-grid {
+      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 13px; margin-top: 17px;
+    }
+    .concept {
+      border: 1px solid var(--border); border-radius: 7px;
+      padding: 16px; background: #fbfcfe;
+    }
+    .concept strong { display: block; color: var(--navy); margin-bottom: 5px; }
+    .concept p { margin: 0; font-size: .92rem; }
+    .table-wrap { overflow-x: auto; margin: 16px 0; }
+    table { width: 100%; min-width: 560px; border-collapse: collapse; font-size: .9rem; }
+    th, td {
+      border: 1px solid var(--border); padding: 11px;
+      text-align: left; vertical-align: top;
+    }
+    th { background: #edf2f7; color: var(--navy); }
+    code { background: #edf2f7; padding: 2px 5px; border-radius: 3px; font-size: .88em; }
+    pre {
+      overflow-x: auto; background: #101c2e; color: #d8e7f5;
+      border-radius: 7px; padding: 17px; font-size: .84rem; line-height: 1.65;
+    }
+    pre code { background: transparent; color: inherit; padding: 0; }
+    .lab { border: 1px solid var(--border); border-radius: 8px; margin: 18px 0; overflow: hidden; }
+    .lab-header {
+      background: #edf2f7; padding: 14px 17px; display: flex;
+      justify-content: space-between; gap: 10px; align-items: center; flex-wrap: wrap;
+    }
+    .lab-header strong { color: var(--navy); }
+    .lab-body { padding: 17px; }
+    .tag {
+      display: inline-block; border-radius: 4px; padding: 3px 8px;
+      font-size: .75rem; font-weight: 800; background: #e6f5f8; color: #08677a;
+    }
+    .tag.warning { background: #fff0d9; color: #8a4b08; }
+    .controls { display: flex; flex-wrap: wrap; gap: 10px; margin: 14px 0; }
+    .module-button {
+      border: 0; border-radius: 5px; padding: 10px 15px;
+      background: var(--navy); color: white; font-weight: 700; cursor: pointer;
+    }
+    .module-button.secondary {
+      background: #e8eef5; color: var(--navy); border: 1px solid var(--border);
+    }
+    .module-button:hover { opacity: .88; }
+    .filter-input {
+      width: 100%; max-width: 440px; padding: 11px 12px;
+      border: 1px solid #cbd5e1; border-radius: 5px;
+      font: inherit; background: white; color: var(--ink);
+    }
+    .output {
+      max-height: 350px; overflow: auto; background: #101c2e;
+      color: #d8e7f5; border-radius: 7px; padding: 13px;
+      font: .8rem/1.7 Consolas, Monaco, monospace;
+    }
+    .output-line {
+      display: block; padding: 4px 5px;
+      border-bottom: 1px solid #24364d; overflow-wrap: anywhere;
+    }
+    .output-line.alert { background: #522d34; color: #ffd9d9; }
+    .quiz-question { padding: 16px 0; border-bottom: 1px solid var(--border); }
+    .quiz-question:last-child { border-bottom: 0; }
+    .quiz-question p { color: var(--navy); font-weight: 700; }
+    .quiz-question label { display: block; padding: 5px 0; color: #43536a; cursor: pointer; }
+    .quiz-question input { margin-right: 8px; }
+    .result { min-height: 24px; font-weight: 700; margin-top: 10px; }
+    .success { color: var(--green); }
+    .error { color: var(--red); }
+    .progress-list { list-style: none; padding: 0; }
+    .progress-list li { margin: 11px 0; }
+    .progress-list label { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; }
+    .progress-list input { margin-top: 6px; }
+    .progress-track { height: 9px; background: #e6edf4; border-radius: 10px; overflow: hidden; margin: 13px 0; }
+    .progress-fill { height: 100%; width: 0; background: var(--green); transition: width .2s ease; }
+    .next-module { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; align-items: center; }
+    .next-module a {
+      display: inline-block; background: var(--navy); color: white;
+      text-decoration: none; padding: 11px 16px; border-radius: 5px; font-weight: 700;
+    }
+    .footer { border-top: 1px solid var(--border); padding: 24px 0; color: var(--muted); font-size: .88rem; }
+    @media (max-width: 800px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+      .sidebar nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 15px; }
+    }
+    @media (max-width: 520px) {
+      .shell { width: min(100% - 24px, 1180px); }
+      .hero { padding: 42px 0; }
+      .section { padding: 19px; }
+      .concept-grid { grid-template-columns: 1fr; }
+      .sidebar nav { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="shell topbar-inner">
+    <a class="brand" href="../../index.html">GRAY<span>SENTINEL</span></a>
+    <a class="back-link" href="../../index.html">← Back to Cybersecurity Roadmap</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="shell">
+    <div class="eyebrow">Cybersecurity Learning Roadmap · Module 06</div>
+    <h1>Endpoint Security</h1>
+    <p>
+      Learn how to protect and investigate laptops, desktops and servers.
+      Understand endpoint hardening, security agents, process activity,
+      suspicious behaviour and incident response.
+    </p>
+    <div class="meta">
+      <span>Level: Beginner to Intermediate</span>
+      <span>Focus: Endpoint Defence</span>
+      <span>Practice: Synthetic Telemetry</span>
+      <span>Evidence: Endpoint Investigation Report</span>
+    </div>
+  </div>
+</section>
+
+<main class="shell layout">
+
+  <aside class="sidebar">
+    <h2>In this module</h2>
+    <nav>
+      <a href="#objectives">Learning objectives</a>
+      <a href="#fundamentals">Endpoint fundamentals</a>
+      <a href="#threats">Endpoint threats</a>
+      <a href="#hardening">Endpoint hardening</a>
+      <a href="#tools">AV, EDR and XDR</a>
+      <a href="#telemetry">Endpoint telemetry</a>
+      <a href="#lab1">Lab 1: Process review</a>
+      <a href="#lab2">Lab 2: Alert investigation</a>
+      <a href="#lab3">Lab 3: Incident timeline</a>
+      <a href="#response">Incident response</a>
+      <a href="#report">Investigation report</a>
+      <a href="#quiz">Knowledge check</a>
+      <a href="#evidence">Evidence checklist</a>
+      <a href="#resources">Resources</a>
+    </nav>
+  </aside>
+
+  <div class="content">
+
+    <section class="section" id="objectives">
+      <h2>1. Learning objectives</h2>
+      <p>By the end of this module, you should be able to:</p>
+      <ul>
+        <li>Explain the role of endpoint security in an organisation.</li>
+        <li>Identify common endpoint threats and attack surfaces.</li>
+        <li>Describe practical operating system hardening controls.</li>
+        <li>Differentiate antivirus, EDR and XDR.</li>
+        <li>Interpret process, authentication and endpoint alert records.</li>
+        <li>Identify suspicious patterns that require investigation.</li>
+        <li>Document an endpoint incident with evidence and limitations.</li>
+      </ul>
+      <div class="callout">
+        <strong>Core principle:</strong> An endpoint alert is a lead for
+        investigation, not automatic proof of compromise. Validate the process,
+        user, host, parent process, timing and surrounding activity.
+      </div>
+    </section>
+
+    <section class="section" id="fundamentals">
+      <h2>2. Endpoint security fundamentals</h2>
+      <p>
+        An endpoint is a device that connects to a network and runs applications
+        or services. Examples include employee laptops, workstations, servers
+        and virtual machines.
+      </p>
+
+      <div class="concept-grid">
+        <div class="concept">
+          <strong>Endpoint protection</strong>
+          <p>Controls that reduce the risk of malware, unauthorised access and misuse.</p>
+        </div>
+        <div class="concept">
+          <strong>Hardening</strong>
+          <p>Reducing unnecessary services, permissions, software and attack surface.</p>
+        </div>
+        <div class="concept">
+          <strong>Telemetry</strong>
+          <p>Recorded information about processes, users, files, connections and events.</p>
+        </div>
+        <div class="concept">
+          <strong>Detection</strong>
+          <p>Identifying activity that may violate security policy or indicate a threat.</p>
+        </div>
+        <div class="concept">
+          <strong>Containment</strong>
+          <p>Limiting the spread or impact of a confirmed or suspected incident.</p>
+        </div>
+        <div class="concept">
+          <strong>Recovery</strong>
+          <p>Restoring systems safely and verifying that required controls work.</p>
+        </div>
+      </div>
+
+      <h3>Endpoint security objectives</h3>
+      <ul>
+        <li>Protect data stored or processed on devices.</li>
+        <li>Control access to operating systems and applications.</li>
+        <li>Reduce exposure to malicious files and processes.</li>
+        <li>Monitor activity that may indicate compromise.</li>
+        <li>Support investigation and recovery when incidents occur.</li>
+      </ul>
+    </section>
+
+    <section class="section" id="threats">
+      <h2>3. Common endpoint threats</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Threat</th><th>What it involves</th><th>Defensive focus</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Malware</td><td>Software designed to perform harmful or unauthorised actions</td><td>Prevention, detection and safe analysis</td></tr>
+            <tr><td>Ransomware</td><td>Malicious activity that may encrypt or disrupt access to data</td><td>Backups, access control, monitoring and response</td></tr>
+            <tr><td>Credential theft</td><td>Unauthorised collection or use of authentication information</td><td>MFA, least privilege and identity monitoring</td></tr>
+            <tr><td>Privilege escalation</td><td>Obtaining higher permissions than initially authorised</td><td>Patch management and permission review</td></tr>
+            <tr><td>Persistence</td><td>Maintaining access across restarts or sessions</td><td>Startup, service and scheduled-task monitoring</td></tr>
+            <tr><td>Unwanted remote access</td><td>Unauthorised remote control or access mechanisms</td><td>Remote access restrictions and session monitoring</td></tr>
+            <tr><td>Data exfiltration</td><td>Unauthorised transfer of information out of an environment</td><td>Data controls and outbound activity monitoring</td></tr>
+            <tr><td>Insider misuse</td><td>Misuse of legitimate access by an authorised person</td><td>Access governance and audit trails</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout warning">
+        Many legitimate administrative tools can also be misused. A tool name
+        alone is not enough to classify activity as malicious. Investigate
+        execution context, ownership, authorisation and behaviour.
+      </div>
+    </section>
+
+    <section class="section" id="hardening">
+      <h2>4. Endpoint hardening</h2>
+      <p>
+        Hardening reduces unnecessary exposure before an incident occurs.
+        It should be based on the device's role and approved organisational policy.
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Control</th><th>Purpose</th><th>Evidence to review</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Patch management</td><td>Address known software vulnerabilities</td><td>Patch status and update records</td></tr>
+            <tr><td>Least privilege</td><td>Limit unnecessary administrative access</td><td>Local group and role membership</td></tr>
+            <tr><td>Disk encryption</td><td>Protect data stored on a device</td><td>Encryption policy and device status</td></tr>
+            <tr><td>Application control</td><td>Restrict unapproved software execution</td><td>Allowlist or application control policy</td></tr>
+            <tr><td>Host firewall</td><td>Control inbound and outbound device traffic</td><td>Firewall policy and event records</td></tr>
+            <tr><td>Secure configuration</td><td>Disable unnecessary features and insecure settings</td><td>Configuration baseline and compliance results</td></tr>
+            <tr><td>Endpoint monitoring</td><td>Record activity and support detection</td><td>Agent health and telemetry coverage</td></tr>
+            <tr><td>Backup and recovery</td><td>Restore data and services after disruption</td><td>Backup status and restore-test evidence</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Example hardening review checklist</h3>
+      <ul>
+        <li>Is the operating system supported and patched?</li>
+        <li>Are local administrator permissions justified?</li>
+        <li>Is disk encryption enabled where required?</li>
+        <li>Are unnecessary services disabled?</li>
+        <li>Is endpoint protection installed and reporting?</li>
+        <li>Are host firewall rules aligned with device purpose?</li>
+        <li>Are backups available and restore tests documented?</li>
+        <li>Are security events forwarded to the appropriate monitoring platform?</li>
+      </ul>
+    </section>
+
+    <section class="section" id="tools">
+      <h2>5. Antivirus, EDR and XDR</h2>
+
+      <div class="concept-grid">
+        <div class="concept">
+          <strong>Antivirus (AV)</strong>
+          <p>Primarily identifies and blocks known or suspicious malicious files and activity using detection methods that vary by product.</p>
+        </div>
+        <div class="concept">
+          <strong>Endpoint Detection and Response (EDR)</strong>
+          <p>Collects endpoint telemetry and supports investigation, detection and response actions.</p>
+        </div>
+        <div class="concept">
+          <strong>Extended Detection and Response (XDR)</strong>
+          <p>Correlates security information across multiple domains such as endpoints, identity, email and network systems.</p>
+        </div>
+        <div class="concept">
+          <strong>Security Information and Event Management (SIEM)</strong>
+          <p>Centralises and analyses security events from multiple sources to support monitoring and investigation.</p>
+        </div>
+      </div>
+
+      <h3>Comparison</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Capability</th><th>AV</th><th>EDR</th><th>XDR</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Malware detection</td><td>Core capability</td><td>Common capability</td><td>May incorporate endpoint detections</td></tr>
+            <tr><td>Endpoint telemetry</td><td>Varies</td><td>Core capability</td><td>Usually integrated from endpoint sources</td></tr>
+            <tr><td>Investigation timeline</td><td>Limited or product-dependent</td><td>Common capability</td><td>Cross-domain correlation</td></tr>
+            <tr><td>Response actions</td><td>Product-dependent</td><td>Common capability</td><td>Product-dependent, often cross-domain</td></tr>
+            <tr><td>Multiple security domains</td><td>Not its primary focus</td><td>Endpoint-focused</td><td>Core focus</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout">
+        Product capabilities differ. These are conceptual distinctions, not
+        guarantees about every vendor or deployment.
+      </div>
+    </section>
+
+    <section class="section" id="telemetry">
+      <h2>6. Endpoint telemetry and suspicious indicators</h2>
+      <p>
+        Endpoint telemetry records what happens on a device. Analysts use
+        these records to reconstruct process execution, account activity,
+        file changes and network communication.
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Telemetry type</th><th>Useful fields</th><th>Investigation question</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Process creation</td><td>Process name, path, user, parent process, command line</td><td>What launched the process and why?</td></tr>
+            <tr><td>Authentication</td><td>User, logon type, source, result, timestamp</td><td>Was access expected?</td></tr>
+            <tr><td>File activity</td><td>Path, hash, operation, process, timestamp</td><td>Was an unusual file created or modified?</td></tr>
+            <tr><td>Service activity</td><td>Service name, account, binary path, status</td><td>Was a service installed or changed unexpectedly?</td></tr>
+            <tr><td>Scheduled tasks</td><td>Task name, trigger, action, creator</td><td>Was an unexpected recurring task created?</td></tr>
+            <tr><td>Network connections</td><td>Process, local and remote address, port, protocol</td><td>Which process communicated with which destination?</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Patterns that deserve investigation</h3>
+      <ul>
+        <li>A process running from an unusual directory.</li>
+        <li>An unexpected parent-child process relationship.</li>
+        <li>A new service or scheduled task without an approved change.</li>
+        <li>Unusual privilege changes or administrative activity.</li>
+        <li>A process making unexpected outbound connections.</li>
+        <li>Endpoint protection becoming disabled or unhealthy.</li>
+        <li>Unexpected changes to security configuration.</li>
+      </ul>
+
+      <div class="callout warning">
+        These are investigation leads, not definitive indicators of compromise.
+        Validate software ownership, signatures, change approvals, normal
+        device behaviour and supporting telemetry.
+      </div>
+    </section>
+
+    <section class="section" id="lab1">
+      <h2>7. Practical Lab 1: Process activity review</h2>
+      <p>
+        <span class="tag">Synthetic dataset</span>
+        Review the process records from a fictional workstation. Filter the
+        records and identify entries that deserve further investigation.
+      </p>
+
+      <div class="lab">
+        <div class="lab-header">
+          <strong>Scenario: Unusual process execution</strong>
+          <span class="tag warning">Investigation exercise</span>
+        </div>
+        <div class="lab-body">
+          <label for="processFilter"><strong>Filter process records</strong></label><br>
+          <input class="filter-input" id="processFilter" type="search"
+                 placeholder="Try: WS-07, analyst01, powershell, approved">
+
+          <div class="controls">
+            <button class="module-button" id="processAll" type="button">Show all</button>
+            <button class="module-button secondary" id="processFlagged" type="button">Review flagged</button>
+            <button class="module-button secondary" id="processNormal" type="button">Show baseline</button>
+          </div>
+
+          <div class="output" id="processOutput" aria-live="polite"></div>
+
+          <h3>Questions</h3>
+          <ol>
+            <li>Which process records are marked for review?</li>
+            <li>What is the parent process of each flagged entry?</li>
+            <li>Which user account is associated with the activity?</li>
+            <li>What additional evidence would help determine whether the activity is legitimate?</li>
+            <li>Why is a process name alone insufficient to establish malicious behaviour?</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="lab2">
+      <h2>8. Practical Lab 2: Endpoint alert investigation</h2>
+      <p>Review the fictional alerts and classify the next investigation steps.</p>
+
+      <div class="lab">
+        <div class="lab-header">
+          <strong>Scenario: Multiple endpoint alerts</strong>
+          <span class="tag">Alert triage</span>
+        </div>
+        <div class="lab-body">
+          <pre><code>ALERT-101
+Host: WS-07
+User: analyst01
+Event: New scheduled task created
+Time: 2026-10-14T09:30:00Z
+Severity: Medium
+Status: Needs review
+
+ALERT-102
+Host: WS-07
+User: analyst01
+Event: Endpoint protection service stopped
+Time: 2026-10-14T09:34:00Z
+Severity: High
+Status: Needs review
+
+ALERT-103
+Host: WS-12
+User: user02
+Event: Approved software update
+Time: 2026-10-14T09:35:00Z
+Severity: Informational
+Status: Recorded</code></pre>
+
+          <h3>Questions</h3>
+          <ol>
+            <li>Which alert should receive the highest initial priority?</li>
+            <li>What relationship, if any, exists between ALERT-101 and ALERT-102?</li>
+            <li>What would you check about the scheduled task?</li>
+            <li>How would you verify whether stopping the protection service was authorised?</li>
+            <li>What evidence would you collect before escalating the incident?</li>
+          </ol>
+
+          <div class="callout warning">
+            Do not disable endpoint protection or modify a real scheduled task
+            as part of this exercise. All records are synthetic.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="lab3">
+      <h2>9. Practical Lab 3: Build an endpoint incident timeline</h2>
+      <p>Correlate the following synthetic records into a chronological sequence.</p>
+
+      <div class="lab">
+        <div class="lab-header">
+          <strong>Scenario: Suspicious workstation activity</strong>
+          <span class="tag">Timeline exercise</span>
+        </div>
+        <div class="lab-body">
+          <pre><code>2026-10-14T09:10:00Z AUTH user=analyst01 host=WS-07 result=success
+2026-10-14T09:12:15Z PROCESS host=WS-07 user=analyst01 name=browser.exe parent=explorer.exe
+2026-10-14T09:16:42Z FILE host=WS-07 user=analyst01 action=create path=C:\Users\analyst01\Downloads\sample.bin
+2026-10-14T09:18:01Z PROCESS host=WS-07 user=analyst01 name=sample.bin parent=browser.exe
+2026-10-14T09:20:14Z NETWORK host=WS-07 process=sample.bin destination=203.0.113.50 port=443
+2026-10-14T09:22:40Z ALERT host=WS-07 event=unusual_process_activity severity=high</code></pre>
+
+          <h3>Questions</h3>
+          <ol>
+            <li>What happened before the alert was generated?</li>
+            <li>Which file was created and where?</li>
+            <li>Which process is associated with the network connection?</li>
+            <li>What evidence would help determine the file's origin and behaviour?</li>
+            <li>What would you preserve before any containment action?</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="response">
+      <h2>10. Endpoint incident response basics</h2>
+      <p>
+        Incident response should follow the organisation's approved process.
+        Actions that affect production systems must be performed by authorised
+        personnel with appropriate approvals.
+      </p>
+
+      <ol>
+        <li><strong>Prepare:</strong> Define roles, tools, escalation paths and response procedures.</li>
+        <li><strong>Identify:</strong> Validate the alert and establish the affected device, account and scope.</li>
+        <li><strong>Preserve:</strong> Protect relevant logs and evidence, recording collection details.</li>
+        <li><strong>Contain:</strong> Apply approved measures to limit impact or spread.</li>
+        <li><strong>Eradicate:</strong> Remove confirmed causes and address the weakness.</li>
+        <li><strong>Recover:</strong> Restore the endpoint safely and validate its security state.</li>
+        <li><strong>Review:</strong> Document lessons, control gaps and preventive improvements.</li>
+      </ol>
+
+      <div class="callout warning">
+        Isolation, shutdown, memory collection and evidence acquisition can
+        affect volatile data or business operations. Follow the incident
+        response plan and obtain the required approval before acting.
+      </div>
+    </section>
+
+    <section class="section" id="report">
+      <h2>11. Endpoint investigation report</h2>
+      <p>Your report should clearly separate recorded facts from your assessment.</p>
+
+      <ol>
+        <li><strong>Case summary:</strong> What triggered the investigation?</li>
+        <li><strong>Scope:</strong> Device, account, time range and systems involved.</li>
+        <li><strong>Data sources:</strong> Endpoint alerts, process records, authentication and network events.</li>
+        <li><strong>Method:</strong> Filters, queries and review steps.</li>
+        <li><strong>Timeline:</strong> Relevant activity in chronological order.</li>
+        <li><strong>Findings:</strong> Observations supported by evidence.</li>
+        <li><strong>Assessment:</strong> Interpretation, severity and confidence.</li>
+        <li><strong>Limitations:</strong> Missing records, telemetry gaps or unavailable context.</li>
+        <li><strong>Recommendations:</strong> Authorised response and remediation steps.</li>
+        <li><strong>Evidence references:</strong> File names, hashes where appropriate and record identifiers.</li>
+      </ol>
+
+      <h3>Example finding</h3>
+      <pre><code>Observation:
+A synthetic endpoint record shows a file created in the user's
+Downloads directory, followed by process execution and an outbound
+connection associated with that process.
+
+Assessment:
+The sequence deserves investigation. The records alone do not
+establish whether the file is malicious or whether the activity
+was authorised.
+
+Next checks:
+Validate file provenance, hash, signature, parent process,
+endpoint detection details, user context and network destination.</code></pre>
+
+      <h3>Suggested portfolio structure</h3>
+      <pre><code>endpoint-security-investigation/
+├── README.md
+├── evidence/
+│   ├── synthetic-process-events.csv
+│   ├── endpoint-alerts.txt
+│   └── incident-timeline.csv
+├── analysis/
+│   ├── process-review.md
+│   └── alert-triage.md
+└── report/
+    └── endpoint-investigation-report.md</code></pre>
+
+      <p>
+        Publish only synthetic or properly authorised evidence. Remove
+        credentials, personal information, internal hostnames and sensitive
+        endpoint details before making a repository public.
+      </p>
+    </section>
+
+    <section class="section" id="quiz">
+      <h2>12. Knowledge check</h2>
+      <p>Choose one answer for each question and submit your responses.</p>
+
+      <form id="moduleQuiz">
+        <div class="quiz-question">
+          <p>1. Which of these is an endpoint?</p>
+          <label><input type="radio" name="q1" value="a"> An employee laptop</label>
+          <label><input type="radio" name="q1" value="b"> A printed policy document</label>
+          <label><input type="radio" name="q1" value="c"> A network diagram</label>
+        </div>
+
+        <div class="quiz-question">
+          <p>2. What is endpoint hardening?</p>
+          <label><input type="radio" name="q2" value="a"> Installing every available application</label>
+          <label><input type="radio" name="q2" value="b"> Reducing unnecessary exposure and insecure configuration</label>
+          <label><input type="radio" name="q2" value="c"> Disabling all monitoring</label>
+        </div>
+
+        <div class="quiz-question">
+          <p>3. What is a core EDR capability?</p>
+          <label><input type="radio" name="q3" value="a"> Replacing the operating system</label>
+          <label><input type="radio" name="q3" value="b"> Managing office documents</label>
+          <label><input type="radio" name="q3" value="c"> Collecting endpoint telemetry and supporting investigation</label>
+        </div>
+
+        <div class="quiz-question">
+          <p>4. What does least privilege mean?</p>
+          <label><input type="radio" name="q4" value="a"> Give users only the access required for their role</label>
+          <label><input type="radio" name="q4" value="b"> Give everyone administrator access</label>
+          <label><input type="radio" name="q4" value="c"> Remove all user accounts</label>
+        </div>
+
+        <div class="quiz-question">
+          <p>5. Does an endpoint alert automatically prove compromise?</p>
+          <label><input type="radio" name="q5" value="a"> Yes</label>
+          <label><input type="radio" name="q5" value="b"> No, it requires validation and context</label>
+          <label><input type="radio" name="q5" value="c"> Only on servers</label>
+        </div>
+
+        <div class="quiz-question">
+          <p>6. Which process field helps identify what launched a process?</p>
+          <label><input type="radio" name="q6" value="a"> File colour</label>
+          <label><input type="radio" name="q6" value="b"> Screen resolution</label>
+          <label><input type="radio" name="q6" value="c"> Parent process</label>
+        </div>
+
+        <div class="quiz-question">
+          <p>7. What should be done before an endpoint containment action?</p>
+          <label><input type="radio" name="q7" value="a"> Follow the approved incident process and obtain required authorisation</label>
+          <label><input type="radio" name="q7" value="b"> Delete every log file</label>
+          <label><input type="radio" name="q7" value="c"> Disable all security tools</label>
+        </div>
+
+        <div class="quiz-question">
+          <p>8. What should an investigation report distinguish?</p>
+          <label><input type="radio" name="q8" value="a"> Facts and guesses as if they were identical</label>
+          <label><input type="radio" name="q8" value="b"> Observations and interpretations</label>
+          <label><input type="radio" name="q8" value="c"> Only the analyst's opinion</label>
+        </div>
+
+        <div class="controls">
+          <button class="module-button" type="submit">Submit answers</button>
+          <button class="module-button secondary" type="reset">Reset</button>
+        </div>
+        <div class="result" id="quizResult" role="status" aria-live="polite"></div>
+      </form>
+    </section>
+
+    <section class="section" id="evidence">
+      <h2>13. Module completion checklist</h2>
+      <p>Track your own progress through the learning activities.</p>
+
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <p id="progressText">0 of 8 activities completed</p>
+
+      <ul class="progress-list">
+        <li><label><input type="checkbox" data-module-progress="1"> I can explain endpoint security fundamentals.</label></li>
+        <li><label><input type="checkbox" data-module-progress="2"> I can identify common endpoint threats.</label></li>
+        <li><label><input type="checkbox" data-module-progress="3"> I can explain practical hardening controls.</label></li>
+        <li><label><input type="checkbox" data-module-progress="4"> I understand the differences between AV, EDR and XDR.</label></li>
+        <li><label><input type="checkbox" data-module-progress="5"> I completed the synthetic process review.</label></li>
+        <li><label><input type="checkbox" data-module-progress="6"> I reviewed and prioritised the endpoint alerts.</label></li>
+        <li><label><input type="checkbox" data-module-progress="7"> I prepared an endpoint investigation timeline and report.</label></li>
+        <li><label><input type="checkbox" data-module-progress="8"> I completed and reviewed the knowledge check.</label></li>
+      </ul>
+
+      <div class="callout warning">
+        This checklist stores self-reported progress in your browser. It does
+        not independently verify technical ability or certify completion.
+      </div>
+
+      <h3>Expected submission evidence</h3>
+      <ul>
+        <li>Process activity review notes.</li>
+        <li>Endpoint alert triage with prioritisation rationale.</li>
+        <li>Chronological incident timeline.</li>
+        <li>Endpoint investigation report.</li>
+        <li>Relevant filters, queries or analysis steps.</li>
+      </ul>
+    </section>
+
+    <section class="section" id="resources">
+      <h2>14. Further learning resources</h2>
+      <ul>
+        <li><a href="https://learn.microsoft.com/en-us/windows/security/" target="_blank" rel="noopener noreferrer">Microsoft Windows security documentation</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/sysinternals/" target="_blank" rel="noopener noreferrer">Microsoft Sysinternals tools</a></li>
+        <li><a href="https://www.cisa.gov/secure-our-world" target="_blank" rel="noopener noreferrer">CISA cybersecurity guidance</a></li>
+        <li><a href="https://attack.mitre.org/" target="_blank" rel="noopener noreferrer">MITRE ATT&CK</a></li>
+        <li><a href="https://www.nist.gov/cyberframework" target="_blank" rel="noopener noreferrer">NIST Cybersecurity Framework</a></li>
+        <li><a href="https://www.cisecurity.org/cis-benchmarks" target="_blank" rel="noopener noreferrer">CIS Benchmarks</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/defender-endpoint/" target="_blank" rel="noopener noreferrer">Microsoft Defender for Endpoint documentation</a></li>
+      </ul>
+    </section>
+
+    <section class="section next-module">
+      <div>
+        <strong>Module 06 complete?</strong>
+        <p>Next: Module 07, Identity and Access Management.</p>
+      </div>
+      <a href="../07-identity-access-management/">Continue to Module 07 →</a>
+    </section>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="shell">
+    <strong>GraySentinel Cyber Defence Lab</strong>
+    <p>Proof Over Certificates · Security Skills. Shown, Not Claimed.</p>
+    <a href="../../index.html">Return to roadmap home</a>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  const processData = [
+    {
+      time: "2026-10-14T09:10:00Z",
+      host: "WS-07",
+      user: "analyst01",
+      process: "explorer.exe",
+      parent: "winlogon.exe",
+      path: "C:\\Windows\\explorer.exe",
+      classification: "baseline",
+      note: "Normal interactive session"
+    },
+    {
+      time: "2026-10-14T09:12:15Z",
+      host: "WS-07",
+      user: "analyst01",
+      process: "browser.exe",
+      parent: "explorer.exe",
+      path: "C:\\Program Files\\Browser\\browser.exe",
+      classification: "baseline",
+      note: "Approved browser location"
+    },
+    {
+      time: "2026-10-14T09:16:42Z",
+      host: "WS-07",
+      user: "analyst01",
+      process: "sample.bin",
+      parent: "browser.exe",
+      path: "C:\\Users\\analyst01\\Downloads\\sample.bin",
+      classification: "review",
+      note: "Newly created file"
+    },
+    {
+      time: "2026-10-14T09:18:01Z",
+      host: "WS-07",
+      user: "analyst01",
+      process: "sample.bin",
+      parent: "browser.exe",
+      path: "C:\\Users\\analyst01\\Downloads\\sample.bin",
+      classification: "review",
+      note: "Execution requires validation"
+    },
+    {
+      time: "2026-10-14T09:20:14Z",
+      host: "WS-07",
+      user: "analyst01",
+      process: "admin_tool.exe",
+      parent: "powershell.exe",
+      path: "C:\\Temp\\admin_tool.exe",
+      classification: "review",
+      note: "Unexpected path and process relationship"
+    },
+    {
+      time: "2026-10-14T09:22:40Z",
+      host: "WS-12",
+      user: "user02",
+      process: "word.exe",
+      parent: "explorer.exe",
+      path: "C:\\Program Files\\Office\\word.exe",
+      classification: "baseline",
+      note: "Approved application location"
+    }
+  ];
+
+  const processOutput = document.getElementById("processOutput");
+  const processFilter = document.getElementById("processFilter");
+  let processMode = "all";
+
+  function renderProcesses() {
+    if (!processOutput || !processFilter) return;
+
+    const query = processFilter.value.trim().toLowerCase();
+
+    const records = processData.filter(function (record) {
+      const modeMatches =
+        processMode === "all" || record.classification === processMode;
+
+      const searchable = Object.values(record).join(" ").toLowerCase();
+
+      return modeMatches && searchable.includes(query);
+    });
+
+    processOutput.replaceChildren();
+
+    if (!records.length) {
+      const empty = document.createElement("span");
+      empty.className = "output-line";
+      empty.textContent = "No matching records.";
+      processOutput.appendChild(empty);
+      return;
+    }
+
+    records.forEach(function (record) {
+      const line = document.createElement("span");
+
+      line.className = "output-line" +
+        (record.classification === "review" ? " alert" : "");
+
+      line.textContent =
+        record.time +
+        " | host=" + record.host +
+        " | user=" + record.user +
+        " | process=" + record.process +
+        " | parent=" + record.parent +
+        " | path=" + record.path +
+        " | " + record.note;
+
+      processOutput.appendChild(line);
+    });
+  }
+
+  if (processOutput && processFilter) {
+    processFilter.addEventListener("input", renderProcesses);
+
+    document.getElementById("processAll").addEventListener("click", function () {
+      processMode = "all";
+      renderProcesses();
+    });
+
+    document.getElementById("processFlagged").addEventListener("click", function () {
+      processMode = "review";
+      renderProcesses();
+    });
+
+    document.getElementById("processNormal").addEventListener("click", function () {
+      processMode = "baseline";
+      renderProcesses();
+    });
+
+    renderProcesses();
+  }
+
+  const answers = {
+    q1: "a",
+    q2: "b",
+    q3: "c",
+    q4: "a",
+    q5: "b",
+    q6: "c",
+    q7: "a",
+    q8: "b"
+  };
+
+  const quiz = document.getElementById("moduleQuiz");
+  const quizResult = document.getElementById("quizResult");
+
+  if (quiz && quizResult) {
+    quiz.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      let score = 0;
+      let unanswered = 0;
+
+      Object.keys(answers).forEach(function (question) {
+        const selected = quiz.querySelector(
+          'input[name="' + question + '"]:checked'
+        );
+
+        if (!selected) {
+          unanswered++;
+        } else if (selected.value === answers[question]) {
+          score++;
+        }
+      });
+
+      if (unanswered > 0) {
+        quizResult.className = "result error";
+        quizResult.textContent =
+          "Answer all questions before submitting. Unanswered: " +
+          unanswered + ".";
+        return;
+      }
+
+      quizResult.className =
+        "result " + (score >= 6 ? "success" : "error");
+
+      quizResult.textContent =
+        "Your score: " + score + "/8. " +
+        (score >= 6
+          ? "Good work. Review any incorrect answers."
+          : "Revisit the relevant sections and try again.");
+    });
+
+    quiz.addEventListener("reset", function () {
+      quizResult.textContent = "";
+      quizResult.className = "result";
+    });
+  }
+
+  const progressItems = Array.from(
+    document.querySelectorAll("[data-module-progress]")
+  );
+
+  const progressFill = document.getElementById("progressFill");
+  const progressText = document.getElementById("progressText");
+  const storageKey = "graysentinel-module-06-progress";
+
+  function updateProgress() {
+    const completed = progressItems.filter(function (item) {
+      return item.checked;
+    }).length;
+
+    const total = progressItems.length;
+    const percentage = total ? (completed / total) * 100 : 0;
+
+    if (progressFill) progressFill.style.width = percentage + "%";
+
+    if (progressText) {
+      progressText.textContent =
+        completed + " of " + total + " activities completed";
+    }
+
+    try {
+      localStorage.setItem(
+        storageKey,
+        JSON.stringify(
+          progressItems.map(function (item) {
+            return item.checked;
+          })
+        )
+      );
+    } catch (error) {
+      // Progress remains usable for the current page session.
+    }
+  }
+
+  try {
+    const saved = JSON.parse(localStorage.getItem(storageKey) || "null");
+
+    if (Array.isArray(saved)) {
+      progressItems.forEach(function (item, index) {
+        item.checked = saved[index] === true;
+      });
+    }
+  } catch (error) {
+    // Continue without persisted progress.
+  }
+
+  progressItems.forEach(function (item) {
+    item.addEventListener("change", updateProgress);
+  });
+
+  updateProgress();
+})();
+</script>
+
+</body>
+</html>
