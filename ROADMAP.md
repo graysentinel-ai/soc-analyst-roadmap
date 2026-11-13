@@ -1,951 +1,450 @@
+# GraySentinel SOC Analyst Learning Roadmap
 
-# GraySentinel SOC Analyst Roadmap
+**From Cybersecurity Foundations to Practical Defensive Security**
 
-**Security Skills. Shown, Not Claimed.**
-
-A structured, practical learning roadmap for developing foundational and intermediate Security Operations Centre (SOC) capabilities.
-
-Maintained by **GraySentinel Cyber Defence Lab**.
+**Philosophy: Proof Over Certificates.**
 
 ---
 
-# 1. About This Roadmap
+## 1. Roadmap Overview
 
-A Security Operations Centre (SOC) helps an organisation monitor its digital environment, identify suspicious activity, investigate security alerts and coordinate incident response.
+The GraySentinel SOC Analyst Roadmap provides a structured learning journey for individuals who want to develop practical cybersecurity and defensive security capabilities.
 
-A SOC Analyst works with security events, logs, network activity, endpoint information and security monitoring tools to understand potential threats.
+The roadmap progresses through eight learning modules, supported by practical exercises, technical investigations, assessments and portfolio development.
 
-This roadmap provides a structured learning sequence for people who want to understand defensive cybersecurity and develop practical SOC investigation skills.
+The objective is not simply to complete learning material.
 
-The roadmap moves through eight learning modules:
+The objective is to demonstrate what you understand, what you can execute and what evidence supports your work.
 
-1. Networking Foundations
-2. Operating Systems
-3. Security Fundamentals
-4. Log Analysis
-5. SOC Operations
-6. SIEM Fundamentals
-7. Incident Response
-8. Detection Engineering
+### Learning Framework
 
-The objective is not simply to finish topics.
-
-The objective is to understand concepts, perform safe exercises, document evidence and explain technical decisions.
+**Learn → Practise → Investigate → Document → Validate → Build Your Portfolio**
 
 ---
 
-# 2. Who Should Follow This Roadmap?
+## 2. Roadmap Structure
 
-This roadmap is designed for:
+The learning journey is divided into four stages.
 
-- Students interested in cybersecurity.
-- Recent graduates exploring SOC Analyst roles.
-- Beginners entering defensive security.
-- IT support and networking professionals transitioning into cybersecurity.
-- Security learners strengthening their Blue Team fundamentals.
-- Working professionals who want to understand SOC workflows.
-
-## Recommended prerequisites
-
-No previous SOC employment is required.
-
-However, learners should be comfortable using a computer, browsing technical documentation and following basic instructions.
-
-Basic familiarity with computers and networking is useful but can be developed during the roadmap.
-
----
-
-# 3. Learning Paths
-
-The roadmap supports three learning paths.
-
-## Path A: Foundation
-
-**Audience:** Beginners.
-
-Focus areas:
-
-- Networking basics.
-- Linux and Windows fundamentals.
-- Basic security concepts.
-- Understanding logs.
-- Introduction to SOC operations.
-
-Expected outcome:
-
-The learner should be able to explain basic networking and operating system concepts and understand what common security events represent.
-
-## Path B: Practitioner
-
-**Audience:** Learners with foundational knowledge.
-
-Focus areas:
-
-- Event analysis.
-- Authentication investigations.
-- Alert triage.
-- SIEM searches.
-- Incident documentation.
-- Basic detection logic.
-
-Expected outcome:
-
-The learner should be able to investigate controlled sample events, explain findings and document a repeatable investigation process.
-
-## Path C: Builder
-
-**Audience:** Learners with stronger technical foundations.
-
-Focus areas:
-
-- Detection engineering.
-- Detection rule development.
-- Event correlation.
-- Investigation automation.
-- Testing and validation.
-- Technical documentation.
-
-Expected outcome:
-
-The learner should be able to build, test and document defensive security content in a controlled environment.
-
-These paths are learning recommendations, not professional qualification levels.
-
----
-
-# 4. Complete Learning Sequence
-
-| Module | Topic | Main Learning Outcome |
+| Stage | Focus | Modules |
 |---|---|---|
-| 01 | Networking Foundations | Understand network communication |
-| 02 | Operating Systems | Understand Linux and Windows |
-| 03 | Security Fundamentals | Understand threats and defensive concepts |
-| 04 | Log Analysis | Interpret security events |
-| 05 | SOC Operations | Understand monitoring and alert triage |
-| 06 | SIEM Fundamentals | Understand security monitoring platforms |
-| 07 | Incident Response | Investigate and document incidents |
-| 08 | Detection Engineering | Create and validate detection logic |
+| Stage 01 | Technical Foundations | 01–02 |
+| Stage 02 | Security Knowledge | 03–04 |
+| Stage 03 | Defensive Security | 05–06 |
+| Stage 04 | Access and Detection | 07–08 |
+
+Each stage builds on the knowledge and capabilities developed in the previous stage.
 
 ---
 
-# 5. Module 01: Networking Foundations
+## 3. Stage 01: Technical Foundations
 
-## Objective
+**Objective:** Understand how computer systems communicate and operate.
 
-Understand how devices communicate and how network traffic can provide useful information during security investigations.
+### Module 01: Networking Foundations
 
-## Topics
+Directory: `modules/01-networking/`
 
-### 5.1 Networking Concepts
+Learning areas:
 
-- What is a computer network?
-- LAN, WAN and internet.
-- Client-server communication.
-- IP addresses.
-- Public and private IP addresses.
-- MAC addresses.
-- Network gateways.
-
-### 5.2 Networking Models
-
+- Networking fundamentals.
+- TCP/IP architecture.
 - OSI model.
-- TCP/IP model.
-- Encapsulation.
-- Network layers and their responsibilities.
+- IP addressing and subnetting.
+- DNS and DHCP.
+- Common network protocols.
+- Ports and services.
+- Basic network traffic analysis.
 
-### 5.3 Common Protocols
+Expected capability:
 
-- TCP.
-- UDP.
-- HTTP.
-- HTTPS.
-- DNS.
-- DHCP.
-- SSH.
-- SMTP.
-- FTP and SFTP.
+Understand basic network communication and interpret common network activity.
 
-### 5.4 Ports and Services
+### Module 02: Operating Systems
 
-- What is a port?
-- Common service ports.
-- Listening services.
-- Connection states.
-- Basic firewall concepts.
+Directory: `modules/02-operating-systems/`
 
-### 5.5 Network Traffic
+Learning areas:
 
-- Packet structure.
-- Source and destination addresses.
-- Source and destination ports.
-- TCP handshake.
-- DNS queries.
-- Basic packet inspection.
-
-## Practical Exercises
-
-1. Identify your device's local IP configuration.
-2. Inspect DNS resolution for a permitted domain.
-3. Examine a sample TCP connection.
-4. Identify common protocols in a supplied packet capture.
-5. Document the difference between TCP and UDP.
-
-## Evidence to Produce
-
-- Networking fundamentals notes.
-- Protocol reference sheet.
-- Packet analysis worksheet.
-- Screenshot or exported evidence from an authorised lab.
-
-## Completion Check
-
-The learner should be able to explain how a device communicates with another system and identify basic network information in a packet capture.
-
----
-
-# 6. Module 02: Operating Systems
-
-## Objective
-
-Understand the operating system components and events that SOC Analysts commonly investigate.
-
-## Part A: Linux Fundamentals
-
-### Topics
-
-- Linux distributions.
-- Filesystem structure.
-- Basic terminal commands.
-- Users and groups.
-- File permissions.
-- Processes.
-- Services.
-- System logs.
-- Package management.
-- SSH fundamentals.
-
-### Commands to Understand
-
-- `pwd`
-- `ls`
-- `cd`
-- `cat`
-- `less`
-- `grep`
-- `find`
-- `ps`
-- `top`
-- `who`
-- `id`
-- `chmod`
-- `chown`
-- `systemctl`
-- `journalctl`
-
-## Part B: Windows Fundamentals
-
-### Topics
-
-- Windows architecture basics.
-- Local users and groups.
+- Linux fundamentals.
+- Windows fundamentals.
+- Users and permissions.
 - Processes and services.
-- Windows Event Viewer.
-- Windows Defender.
-- PowerShell fundamentals.
-- Event channels.
-- Security event logging.
+- File systems.
+- System administration.
+- Operating system events.
+- Basic command-line operations.
 
-### Important Event Concepts
+Expected capability:
 
-- Logon activity.
-- Account management.
-- Process creation.
-- Service activity.
-- Security policy changes.
-
-## Practical Exercises
-
-1. Inspect running Linux processes.
-2. Identify active system services.
-3. Explore Linux authentication logs.
-4. Open Windows Event Viewer.
-5. Identify selected Windows Security events.
-6. Document the difference between a process and a service.
-
-## Evidence to Produce
-
-- Linux command reference.
-- Windows event exploration notes.
-- Process investigation worksheet.
-- Sample log observations.
-
-## Completion Check
-
-The learner should be able to navigate basic Linux and Windows environments and identify where relevant system events are recorded.
+Understand how operating systems function and identify important system-level information.
 
 ---
 
-# 7. Module 03: Security Fundamentals
+## 4. Stage 02: Security Knowledge
 
-## Objective
+**Objective:** Understand common security problems and learn how to investigate security-related information.
 
-Understand the security principles and common attack patterns that form the foundation of defensive security operations.
+### Module 03: Security Fundamentals
 
-## Topics
+Directory: `modules/03-security-fundamentals/`
 
-### 7.1 Core Security Principles
+Learning areas:
 
-- Confidentiality.
-- Integrity.
-- Availability.
-- Authentication.
-- Authorisation.
-- Accountability.
-- Least privilege.
-- Defence in depth.
-
-### 7.2 Common Security Threats
-
-- Phishing.
-- Credential theft.
-- Password attacks.
-- Malware.
-- Ransomware.
-- Denial of Service.
-- Unauthorised access.
-- Privilege escalation.
-- Data exfiltration.
-
-### 7.3 Security Concepts
-
-- Vulnerability.
-- Threat.
-- Risk.
-- Exploit.
-- Indicator of Compromise.
-- Attack surface.
-- Security control.
-- Security incident.
-
-### 7.4 Threat Intelligence Fundamentals
-
+- Information security principles.
+- Confidentiality, Integrity and Availability.
+- Threats and vulnerabilities.
+- Common attack types.
+- Security controls.
+- Risk fundamentals.
 - Indicators of Compromise.
-- Indicators of Attack.
-- IP addresses and domains.
-- File hashes.
-- URLs.
-- Basic threat context.
-- MITRE ATT&CK framework.
+- Defensive security principles.
 
-## Practical Exercises
+Expected capability:
 
-1. Classify a set of fictional security scenarios.
-2. Identify potential indicators in a sample incident.
-3. Map selected attack behaviours to relevant MITRE ATT&CK techniques.
-4. Explain the difference between a vulnerability and a threat.
-5. Prepare a basic threat observation report.
+Understand common cybersecurity threats and the fundamentals of protecting systems and information.
 
-## Evidence to Produce
+### Module 04: Log Analysis
 
-- Security terminology reference.
-- Threat classification worksheet.
-- IOC analysis report.
-- MITRE ATT&CK mapping notes.
+Directory: `modules/04-log-analysis/`
 
-## Completion Check
+Learning areas:
 
-The learner should be able to recognise common threat patterns and explain why an observed activity may require investigation.
-
----
-
-# 8. Module 04: Log Analysis
-
-## Objective
-
-Understand how logs record system and security activity and how analysts use event data during investigations.
-
-## Topics
-
-### 8.1 Log Fundamentals
-
-- What is a log?
-- Log sources.
-- Event records.
-- Timestamps.
-- Hostnames.
-- User identities.
-- Source and destination addresses.
-- Event identifiers.
-- Log severity.
-
-### 8.2 Windows Logs
-
-- Security logs.
-- System logs.
-- Application logs.
+- Log fundamentals.
+- Windows event logs.
+- Linux system logs.
 - Authentication events.
-- Account activity.
-- Process-related events.
-
-### 8.3 Linux Logs
-
-- Authentication logs.
-- System logs.
-- Kernel messages.
-- Service logs.
-- SSH-related events.
-- Journal entries.
-
-### 8.4 Investigation Techniques
-
-- Event filtering.
-- Timestamp analysis.
-- User activity analysis.
-- Source IP analysis.
+- Event timestamps.
+- Log filtering and searching.
 - Event correlation.
-- Identifying unusual patterns.
-- Recognising missing context.
+- Investigation timelines.
 
-## Practical Exercises
+Expected capability:
 
-1. Analyse a supplied authentication event dataset.
-2. Identify repeated failed login attempts.
-3. Examine successful logins following failed attempts.
-4. Identify unusual login timing in a fictional scenario.
-5. Build a simple event timeline.
-6. Explain which additional evidence would help confirm a hypothesis.
-
-## Evidence to Produce
-
-- Log analysis worksheet.
-- Authentication investigation report.
-- Event timeline.
-- Documented investigation findings.
-
-## Completion Check
-
-The learner should be able to read sample log records, extract relevant fields and explain what the available evidence does and does not establish.
+Read security events, identify unusual activity and document investigation findings.
 
 ---
 
-# 9. Module 05: SOC Operations
+## 5. Stage 03: Defensive Security
 
-## Objective
+**Objective:** Understand how organizations protect networks and endpoints.
 
-Understand how a SOC team monitors systems, evaluates alerts, investigates suspicious activity and escalates incidents.
+### Module 05: Network Security
 
-## Topics
+Directory: `modules/05-network-security/`
 
-### 9.1 SOC Fundamentals
+Learning areas:
 
-- What is a SOC?
-- SOC objectives.
-- SOC monitoring.
-- Security monitoring lifecycle.
-- SOC Analyst responsibilities.
-- Tier 1, Tier 2 and Tier 3 concepts.
-
-### 9.2 Alert Management
-
-- Alert generation.
-- Alert classification.
-- Alert severity.
-- Alert prioritisation.
-- False positives.
-- Duplicate alerts.
-- Escalation.
-
-### 9.3 Investigation Workflow
-
-- Understand the alert.
-- Identify affected assets.
-- Establish event context.
-- Collect supporting evidence.
-- Validate or reject hypotheses.
-- Record findings.
-- Escalate when necessary.
-
-### 9.4 SOC Documentation
-
-- Investigation notes.
-- Case records.
-- Escalation reports.
-- Shift handover notes.
-- Incident summaries.
-
-## Practical Exercises
-
-1. Review a fictional SOC alert.
-2. Classify alert severity using a supplied policy.
-3. Identify relevant evidence sources.
-4. Investigate a simulated authentication alert.
-5. Prepare a structured escalation note.
-6. Document why an alert may be a false positive.
-
-## Evidence to Produce
-
-- Alert triage worksheet.
-- Investigation notes.
-- Escalation report.
-- SOC shift handover document.
-
-## Completion Check
-
-The learner should be able to describe a basic alert triage workflow and communicate investigation findings clearly.
-
----
-
-# 10. Module 06: SIEM Fundamentals
-
-## Objective
-
-Understand how Security Information and Event Management platforms collect, organise, search and analyse security events.
-
-## Topics
-
-### 10.1 SIEM Concepts
-
-- What is SIEM?
-- Log collection.
-- Data ingestion.
-- Parsing.
-- Field extraction.
-- Normalisation.
-- Correlation.
-- Alert generation.
-
-### 10.2 SIEM Architecture
-
-- Data sources.
-- Forwarders and agents.
-- Collectors.
-- Indexing.
-- Search.
-- Dashboards.
-- Alerts.
-
-### 10.3 Search and Investigation
-
-- Search fundamentals.
-- Field-based filtering.
-- Time-range selection.
-- Aggregation.
-- Event correlation.
-- Search result interpretation.
-
-### 10.4 Security Monitoring
-
-- Authentication monitoring.
-- Endpoint monitoring.
+- Network security fundamentals.
+- Firewall concepts.
+- Network segmentation.
+- Packet inspection.
 - Network monitoring.
-- Suspicious activity detection.
-- Dashboard interpretation.
+- Intrusion detection concepts.
+- Secure network configuration.
+- Network threat investigation.
 
-### 10.5 SIEM Platforms
+Expected capability:
 
-Learners may explore platforms such as:
+Understand network security controls and investigate suspicious network activity.
 
-- Splunk.
-- Wazuh.
-- Microsoft Sentinel.
-- Elastic Security.
+### Module 06: Endpoint Security
 
-Platform-specific functionality and licensing may differ.
+Directory: `modules/06-endpoint-security/`
 
-## Practical Exercises
+Learning areas:
 
-1. Explore a local or authorised SIEM environment.
-2. Identify available data sources.
-3. Search for authentication events.
-4. Filter events by user or host.
-5. Create a basic monitoring dashboard.
-6. Document a simple alert investigation.
+- Endpoint security fundamentals.
+- Endpoint protection.
+- Process monitoring.
+- Windows and Linux endpoint events.
+- Suspicious process activity.
+- Endpoint detection concepts.
+- Malware behaviour fundamentals.
+- Endpoint investigation.
 
-## Evidence to Produce
+Expected capability:
 
-- SIEM environment documentation.
-- Search query collection.
-- Dashboard screenshots.
-- Alert investigation report.
-
-## Completion Check
-
-The learner should understand the purpose of a SIEM and be able to perform basic searches in an authorised training environment.
+Understand endpoint activity and identify behaviour that may require security investigation.
 
 ---
 
-# 11. Module 07: Incident Response
+## 6. Stage 04: Access and Detection
 
-## Objective
+**Objective:** Develop knowledge of identity security and security detection development.
 
-Understand the fundamentals of investigating security incidents and documenting evidence in a structured manner.
+### Module 07: Identity & Access Management
 
-## Topics
+Directory: `modules/07-identity-access-management/`
 
-### 11.1 Incident Response Fundamentals
+Learning areas:
 
-- What is a security incident?
-- Incident identification.
-- Initial analysis.
-- Containment concepts.
-- Eradication concepts.
-- Recovery.
-- Lessons learned.
+- Identity fundamentals.
+- Authentication and authorization.
+- Access control models.
+- User lifecycle management.
+- Multi-factor authentication.
+- Privileged access management.
+- Identity security risks.
+- Access reviews and auditing.
 
-### 11.2 Investigation Process
+Expected capability:
 
-- Understand the incident scope.
-- Identify affected systems.
-- Establish a timeline.
-- Correlate available evidence.
-- Record investigative hypotheses.
-- Document findings.
-- Identify limitations.
+Understand how identities and permissions are managed and identify common access-related security risks.
 
-### 11.3 Digital Evidence
+### Module 08: Detection Engineering
 
-- Evidence sources.
-- Evidence integrity.
-- File hashes.
-- Timestamp handling.
-- Chain of custody concepts.
-- Safe evidence storage.
+Directory: `modules/08-detection-engineering/`
 
-### 11.4 Incident Reporting
+Learning areas:
 
-- Executive summary.
-- Incident description.
-- Timeline.
-- Evidence.
-- Impact assessment.
-- Response actions.
-- Recommendations.
+- Detection engineering fundamentals.
+- Security telemetry.
+- Detection development lifecycle.
+- MITRE ATT&CK mapping.
+- Sigma detection rules.
+- SIEM query development.
+- False-positive analysis.
+- Detection validation and documentation.
 
-## Practical Exercises
+Expected capability:
 
-1. Review a fictional incident scenario.
-2. Create an incident timeline.
-3. Correlate supplied endpoint and authentication events.
-4. Identify evidence gaps.
-5. Prepare an incident investigation report.
-6. Write practical defensive recommendations.
-
-## Evidence to Produce
-
-- Incident timeline.
-- Investigation worksheet.
-- Evidence register.
-- Final incident report.
-
-## Completion Check
-
-The learner should be able to organise supplied evidence into a clear investigation narrative and distinguish confirmed facts from assumptions.
+Develop, test, explain and document basic security detection logic.
 
 ---
 
-# 12. Module 08: Detection Engineering
+## 7. Practical Learning and Lab Execution
 
-## Objective
+Learning concepts should be supported by practical execution.
 
-Understand how defensive detection logic is developed, tested, evaluated and improved.
+The Labs directory provides the foundation for hands-on exercises.
 
-## Topics
+Directory: `labs/`
 
-### 12.1 Detection Fundamentals
+Every practical exercise should define:
 
-- What is a detection rule?
-- Detection objectives.
-- Event conditions.
-- Detection logic.
-- Data dependencies.
-- Alert context.
+1. Scenario and security context.
+2. Learning objective.
+3. Required tools and environment.
+4. Execution instructions.
+5. Expected observations.
+6. Evidence requirements.
+7. Evaluation criteria.
 
-### 12.2 Detection Development
+### Practical Learning Workflow
 
-- Identify the behaviour to detect.
-- Identify relevant telemetry.
-- Define detection conditions.
-- Write detection logic.
-- Validate expected matches.
-- Evaluate false positives.
-- Document limitations.
+| Step | Activity | Outcome |
+|---|---|---|
+| 01 | Understand the scenario | Problem identification |
+| 02 | Prepare the environment | Ready-to-use lab |
+| 03 | Execute the exercise | Practical experience |
+| 04 | Analyse observations | Technical understanding |
+| 05 | Capture evidence | Verifiable artifacts |
+| 06 | Document findings | Investigation report |
+| 07 | Review results | Identified improvements |
 
-### 12.3 Sigma Fundamentals
-
-- Sigma rule structure.
-- Log sources.
-- Detection selections.
-- Conditions.
-- Metadata.
-- Rule validation.
-- Rule maintenance.
-
-### 12.4 Detection Quality
-
-- Detection coverage.
-- False positives.
-- False negatives.
-- Rule tuning.
-- Testing.
-- Documentation.
-
-## Practical Exercises
-
-1. Understand an existing Sigma rule.
-2. Identify its log source and detection conditions.
-3. Create a basic rule for a controlled scenario.
-4. Test the rule using safe sample events.
-5. Record expected and unexpected results.
-6. Document tuning recommendations.
-
-## Evidence to Produce
-
-- Detection rule.
-- Test dataset.
-- Validation notes.
-- Detection documentation.
-- Known limitations.
-
-## Completion Check
-
-The learner should be able to explain detection logic, identify its data dependencies and demonstrate how it was tested.
+Practical exercises must use authorized systems, isolated environments or synthetic datasets.
 
 ---
 
-# 13. Practical Portfolio Projects
+## 8. Portfolio Development
 
-The following projects help learners combine concepts from multiple modules.
+A technical portfolio should demonstrate practical work rather than simply list completed courses.
 
-## Project 01: Authentication Event Investigation
+As learners progress, they should build projects demonstrating their knowledge.
 
-**Objective:** Investigate a fictional authentication dataset.
+### Suggested Portfolio Projects
 
-Expected deliverables:
+These are proposed project directions. Individual project instructions and directories will be developed separately.
 
-- Dataset description.
-- Investigation methodology.
-- Relevant event records.
-- Event timeline.
-- Findings.
-- Limitations.
-- Final report.
+| No. | Project | Related Skills |
+|---|---|---|
+| 01 | Network Traffic Analysis | Networking and packet analysis |
+| 02 | Operating System Investigation | Linux and Windows |
+| 03 | Security Log Investigation | Log analysis |
+| 04 | Network Security Review | Network defence |
+| 05 | Endpoint Activity Investigation | Endpoint monitoring |
+| 06 | Identity Access Review | IAM and access control |
+| 07 | SIEM Detection Development | SIEM queries |
+| 08 | Detection Rule Validation | Sigma and detection engineering |
 
-## Project 02: Suspicious Process Analysis
+### Portfolio Evidence
 
-**Objective:** Review safe sample endpoint telemetry.
+Each project should contain relevant artifacts such as:
 
-Expected deliverables:
+- Source files and scripts.
+- Sanitized datasets.
+- Configuration files.
+- Investigation notes.
+- Detection rules.
+- Query results.
+- Screenshots with explanations.
+- Testing documentation.
+- Final technical reports.
 
-- Process observations.
-- Relevant event fields.
-- Investigation hypotheses.
-- Supporting evidence.
-- Final findings.
+### Suggested Portfolio Structure
 
-## Project 03: Detection Rule Development
+```text
+cybersecurity-portfolio/
+│
+├── README.md
+│
+├── 01-network-analysis/
+│   ├── README.md
+│   ├── evidence/
+│   └── report.md
+│
+├── 02-system-investigation/
+│   ├── README.md
+│   ├── evidence/
+│   └── report.md
+│
+├── 03-log-investigation/
+│   ├── README.md
+│   ├── datasets/
+│   └── report.md
+│
+├── 04-network-security/
+│
+├── 05-endpoint-investigation/
+│
+├── 06-identity-access-review/
+│
+├── 07-siem-detection/
+│
+└── 08-detection-validation/
+```
 
-**Objective:** Develop and test a defensive detection rule.
-
-Expected deliverables:
-
-- Detection objective.
-- Rule source.
-- Test events.
-- Expected results.
-- Actual results.
-- False-positive observations.
-- Limitations.
-
-## Project 04: SOC Investigation Report
-
-**Objective:** Prepare an investigation report from a supplied fictional incident.
-
-Expected deliverables:
-
-- Incident summary.
-- Scope.
-- Timeline.
-- Evidence register.
-- Investigation findings.
-- Recommendations.
-- Final report.
-
-All project scenarios must use synthetic, sanitised or otherwise authorised data.
+This is a suggested portfolio organization, not an existing directory structure in this repository.
 
 ---
 
-# 14. Evidence and Documentation Standard
+## 9. Assessment and Skill Validation
 
-Practical work should be documented in a way that another learner or reviewer can understand and reproduce.
+Knowledge assessments help evaluate conceptual understanding.
 
-Every major practical submission should include:
+Practical submissions help evaluate execution and technical reasoning.
 
-| Evidence Element | What to Document |
+Both are important.
+
+### Assessment Areas
+
+| Area | Evaluation Focus |
 |---|---|
-| Objective | What you intended to investigate |
-| Environment | Lab and tool information |
-| Methodology | Steps performed |
-| Evidence | Logs, outputs and observations |
-| Analysis | What the evidence indicates |
-| Findings | Conclusions supported by evidence |
-| Limitations | What could not be established |
-| Recommendations | Relevant defensive improvements |
+| Technical Understanding | Understanding of core concepts |
+| Practical Execution | Ability to perform assigned activities |
+| Investigation | Ability to interpret technical evidence |
+| Problem Solving | Ability to identify and explain issues |
+| Documentation | Quality and clarity of reports |
+| Evidence Quality | Authenticity and reproducibility |
 
-Screenshots alone are not sufficient evidence.
+### Completion Criteria
 
-The learner should explain the method, reasoning and results.
+A learner should demonstrate:
 
-Never publish credentials, private logs, customer information or confidential data.
+- Understanding of the module objectives.
+- Completion of required exercises.
+- Relevant supporting evidence.
+- Ability to explain the methodology.
+- Understanding of findings and limitations.
+- Completion of applicable assessments.
+
+Completing a module or passing a knowledge quiz alone does not establish practical competency.
 
 ---
 
-# 15. Suggested Assessment Approach
+## 10. Recommended Learning Progress
 
-Learning can be reviewed across five dimensions.
+Follow this sequence:
 
-| Dimension | What Is Evaluated |
+| Milestone | Required Work |
 |---|---|
-| Technical Knowledge | Understanding of security concepts |
-| Evidence Quality | Relevance and reproducibility of evidence |
-| Logical Understanding | Ability to explain technical reasoning |
-| Problem Solving | Ability to investigate and resolve problems |
-| Communication | Quality of documentation and explanation |
+| Milestone 01 | Complete Networking Foundations |
+| Milestone 02 | Complete Operating Systems |
+| Milestone 03 | Complete Security Fundamentals |
+| Milestone 04 | Complete Log Analysis |
+| Milestone 05 | Complete Network Security |
+| Milestone 06 | Complete Endpoint Security |
+| Milestone 07 | Complete Identity & Access Management |
+| Milestone 08 | Complete Detection Engineering |
+| Milestone 09 | Execute relevant practical labs |
+| Milestone 10 | Build and document portfolio projects |
+| Milestone 11 | Review assessments and practical evidence |
 
-A learning assessment should distinguish between:
+Progress should be based on completed work and reviewed evidence rather than time spent reading.
 
-- What the learner knows.
-- What the learner can demonstrate.
-- What evidence supports the conclusion.
-- What requires further practice.
-
-Completing the roadmap does not automatically establish job readiness.
-
----
-
-# 16. Recommended Learning Habits
-
-- Study concepts before attempting complex exercises.
-- Practise regularly in safe environments.
-- Maintain a technical notebook.
-- Document mistakes and corrections.
-- Read official product documentation.
-- Verify information before using it.
-- Explain practical work in your own words.
-- Review previous investigations.
-- Keep portfolio repositories organised.
-- Never claim work you did not perform.
+No fixed completion duration or employment outcome is guaranteed.
 
 ---
 
-# 17. Safety and Authorisation
+## 11. Recommended Learning Resources
 
-Cybersecurity learning must be conducted responsibly.
+Use official documentation and reputable resources alongside the modules.
 
-All practical activity must be limited to:
+- [MITRE ATT&CK](https://attack.mitre.org/)
+- [OWASP](https://owasp.org/)
+- [NIST Cybersecurity Framework](https://www.nist.gov/cyberframework)
+- [Wireshark Documentation](https://www.wireshark.org/docs/)
+- [Microsoft Learn](https://learn.microsoft.com/)
+- [Sigma](https://sigmahq.io/)
+- [Linux Kernel Documentation](https://docs.kernel.org/)
 
-- Systems owned by the learner.
-- Isolated local environments.
-- Intentionally vulnerable training environments.
-- Systems covered by explicit written authorisation.
-
-Do not:
-
-- Scan unauthorised public systems.
-- Access third-party accounts.
-- Collect private information without permission.
-- Deploy malware against real systems.
-- Publish credentials or sensitive evidence.
-- Use training exercises as justification for unauthorised activity.
-
-When a lab requires special permission or scope, document that scope before beginning.
+Additional references are maintained in [RESOURCES.md](./RESOURCES.md).
 
 ---
 
-# 18. Recommended Official Resources
+## 12. Responsible Learning and Security
 
-Use maintained documentation and primary references wherever possible.
+All practical cybersecurity activities must be performed responsibly.
 
-## Networking
+- Work only on systems you own or have explicit authorization to assess.
+- Use isolated and controlled lab environments.
+- Do not access unauthorized systems or information.
+- Never publish credentials, API keys or private data.
+- Follow the defined scope of every exercise.
+- Handle security evidence carefully.
+- Report discovered vulnerabilities responsibly.
 
-- Cisco Skills for All: https://skillsforall.com/
-- Cloudflare Learning Center: https://www.cloudflare.com/learning/
-
-## Operating Systems
-
-- Linux Manual Pages: https://man7.org/linux/man-pages/
-- Microsoft Learn: https://learn.microsoft.com/
-
-## Security Fundamentals
-
-- NIST: https://www.nist.gov/cybersecurity
-- CISA: https://www.cisa.gov/
-- MITRE ATT&CK: https://attack.mitre.org/
-
-## SIEM and Detection
-
-- Splunk Documentation: https://docs.splunk.com/
-- Wazuh Documentation: https://documentation.wazuh.com/
-- Sigma: https://sigmahq.io/
-
-Check the current version and licence of each external resource before using it.
+Read the [Security Policy](./SECURITY.md) for reporting procedures.
 
 ---
 
-# 19. How to Use This Repository
+## 13. Repository Navigation
 
-1. Start with the learning module appropriate to your knowledge.
-2. Read the learning objectives.
-3. Review the recommended resources.
-4. Complete the practical exercises.
-5. Record your evidence.
-6. Complete the relevant assessment.
-7. Create or improve a portfolio artifact.
-8. Review your work and identify gaps.
-
-Module-specific content, exercises and assessment materials are organised in the repository directories.
+| Resource | Location |
+|---|---|
+| Main Introduction | [README.md](./README.md) |
+| Learning Modules | [modules/README.md](./modules/README.md) |
+| Practical Labs | [labs/README.md](./labs/README.md) |
+| Learning Resources | [RESOURCES.md](./RESOURCES.md) |
+| Contribution Guidelines | [CONTRIBUTING.md](./CONTRIBUTING.md) |
+| Code of Conduct | [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) |
+| Security Policy | [SECURITY.md](./SECURITY.md) |
 
 ---
 
-# 20. About GraySentinel
+## 14. About GraySentinel
 
 **GraySentinel Cyber Defence Lab**
 
-Philosophy: Proof Over Certificates.
+**Philosophy: Proof Over Certificates.**
 
-Mission: Build practical, verifiable cybersecurity capability through learning, execution and evidence.
+GraySentinel focuses on practical cybersecurity capability, evidence-based evaluation and transparent skill validation.
+
+We believe that technical capability should be demonstrated through actual work, verifiable evidence and the ability to explain technical decisions.
 
 Website: https://cyberdefencelab.co.in
 
-Programmes: https://cyberdefencelab.co.in/tracks
+Explore Programmes: https://cyberdefencelab.co.in/tracks
 
 Free Skill Check: https://form.svhrt.com/69ce8645001e39939d471236
 
 Proof Score: https://cyberdefencelab.co.in/proof-score
 
-Talent & Contributor Network:
-https://surveyheart.com/form/69c44a4912230713173b9ba7
-
----
-
-# 21. Contribution
-
-Contributors can help improve:
-
-- Learning documentation.
-- Practical exercises.
-- Safe lab scenarios.
-- Detection examples.
-- Assessment questions.
-- Technical research.
-- Portfolio templates.
-- Documentation quality.
-
-Read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting a contribution.
-
-All contributions are subject to review.
-
 ---
 
 **Learn Together. Build Together. Prove Together.**
 
-© 2026 GraySentinel Cyber Defence Lab.
+*GraySentinel Cyber Defence Lab*
+
+*Practical Cybersecurity. Verifiable Capability.*
