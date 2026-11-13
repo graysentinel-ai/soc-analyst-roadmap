@@ -1,0 +1,155 @@
+
+[
+  {
+    "timestamp": "2026-10-12T08:10:15Z",
+    "hostname": "WS-ANALYST-01",
+    "username": "analyst01",
+    "event_type": "process_start",
+    "process_id": 1200,
+    "process_name": "explorer.exe",
+    "executable_path": "C:\\Windows\\explorer.exe",
+    "parent_process": "winlogon.exe",
+    "command_line": "explorer.exe",
+    "status": "success"
+  },
+  {
+    "timestamp": "2026-10-12T08:12:30Z",
+    "hostname": "WS-ANALYST-01",
+    "username": "analyst01",
+    "event_type": "process_start",
+    "process_id": 1420,
+    "process_name": "chrome.exe",
+    "executable_path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "parent_process": "explorer.exe",
+    "command_line": "chrome.exe",
+    "status": "success"
+  },
+  {
+    "timestamp": "2026-10-12T08:15:42Z",
+    "hostname": "WS-ANALYST-01",
+    "username": "analyst01",
+    "event_type": "process_start",
+    "process_id": 1550,
+    "process_name": "powershell.exe",
+    "executable_path": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "parent_process": "explorer.exe",
+    "command_line": "powershell.exe -NoProfile",
+    "status": "success"
+  },
+  {
+    "timestamp": "2026-10-12T08:16:05Z",
+    "hostname": "WS-ANALYST-01",
+    "username": "analyst01",
+    "event_type": "process_start",
+    "process_id": 1580,
+    "process_name": "cmd.exe",
+    "executable_path": "C:\\Windows\\System32\\cmd.exe",
+    "parent_process": "powershell.exe",
+    "command_line": "cmd.exe /c whoami",
+    "status": "success"
+  },
+  {
+    "timestamp": "2026-10-12T08:20:11Z",
+    "hostname": "WS-ANALYST-01",
+    "username": "analyst01",
+    "event_type": "process_start",
+    "process_id": 1620,
+    "process_name": "notepad.exe",
+    "executable_path": "C:\\Windows\\System32\\notepad.exe",
+    "parent_process": "explorer.exe",
+    "command_line": "notepad.exe",
+    "status": "success"
+  },
+  {
+    "timestamp": "2026-10-12T08:25:34Z",
+    "hostname": "WS-ANALYST-01",
+    "username": "analyst01",
+    "event_type": "process_start",
+    "process_id": 1710,
+    "process_name": "powershell.exe",
+    "executable_path": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "parent_process": "winword.exe",
+    "command_line": "powershell.exe -EncodedCommand [REDACTED]",
+    "status": "success"
+  },
+  {
+    "timestamp": "2026-10-12T08:26:02Z",
+    "hostname": "WS-ANALYST-01",
+    "username": "analyst01",
+    "event_type": "file_create",
+    "process_id": 1710,
+    "process_name": "powershell.exe",
+    "file_path": "C:\\Users\\analyst01\\AppData\\Local\\Temp\\update-check.tmp",
+    "status": "success"
+  },
+  {
+    "timestamp": "2026-10-12T08:30:45Z",
+    "hostname": "WS-ANALYST-01",
+    "username": "SYSTEM",
+    "event_type": "process_start",
+    "process_id": 1800,
+    "process_name": "svchost.exe",
+    "executable_path": "C:\\Windows\\System32\\svchost.exe",
+    "parent_process": "services.exe",
+    "command_line": "svchost.exe -k netsvcs",
+    "status": "success"
+  },
+  {
+    "timestamp": "2026-10-12T08:35:20Z",
+    "hostname": "WS-ANALYST-02",
+    "username": "analyst02",
+    "event_type": "process_start",
+    "process_id": 2100,
+    "process_name": "explorer.exe",
+    "executable_path": "C:\\Windows\\explorer.exe",
+    "parent_process": "winlogon.exe",
+    "command_line": "explorer.exe",
+    "status": "success"
+  },
+  {
+    "timestamp": "2026-10-12T08:37:10Z",
+    "hostname": "WS-ANALYST-02",
+    "username": "analyst02",
+    "event_type": "process_start",
+    "process_id": 2250,
+    "process_name": "wscript.exe",
+    "executable_path": "C:\\Windows\\System32\\wscript.exe",
+    "parent_process": "explorer.exe",
+    "command_line": "wscript.exe C:\\Users\\analyst02\\Downloads\\invoice.vbs",
+    "status": "success"
+  },
+  {
+    "timestamp": "2026-10-12T08:38:05Z",
+    "hostname": "WS-ANALYST-02",
+    "username": "analyst02",
+    "event_type": "file_create",
+    "process_id": 2250,
+    "process_name": "wscript.exe",
+    "file_path": "C:\\Users\\analyst02\\AppData\\Local\\Temp\\invoice.tmp",
+    "status": "success"
+  },
+  {
+    "timestamp": "2026-10-12T08:42:18Z",
+    "hostname": "WS-ANALYST-02",
+    "username": "analyst02",
+    "event_type": "process_start",
+    "process_id": 2310,
+    "process_name": "taskmgr.exe",
+    "executable_path": "C:\\Windows\\System32\\taskmgr.exe",
+    "parent_process": "explorer.exe",
+    "command_line": "taskmgr.exe",
+    "status": "success"
+  },
+  {
+    "timestamp": "2026-10-12T08:50:00Z",
+    "hostname": "WS-ANALYST-02",
+    "username": "SYSTEM",
+    "event_type": "process_start",
+    "process_id": 2400,
+    "process_name": "services.exe",
+    "executable_path": "C:\\Windows\\System32\\services.exe",
+    "parent_process": "wininit.exe",
+    "command_line": "services.exe",
+    "status": "success"
+  }
+]
